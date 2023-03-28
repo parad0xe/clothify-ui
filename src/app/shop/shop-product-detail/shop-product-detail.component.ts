@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router"
 import ProductDto, { ProductAttributDto } from "../productDto"
 import { Products } from "../products.mock"
+import { ProductService } from "../product.service"
 
 
 @Component({
@@ -11,20 +12,19 @@ import { Products } from "../products.mock"
 })
 export class ShopProductDetailComponent implements OnInit {
     product: ProductDto | undefined
-    sizeAttrs: ProductAttributDto[] | undefined
-    colorAttrs: ProductAttributDto[] | undefined
 
-    constructor(private route: ActivatedRoute, private router: Router) {}
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        public productService: ProductService
+    ) {}
 
     ngOnInit(): void {
         const id: number = +(this.route.snapshot.paramMap.get('id') ?? -1)
 
-        this.product = Products.find(p => p.id === id)
+        this.product = this.productService.getProductById(id)
 
-        if(this.product) {
-            this.sizeAttrs = this.product.productAttributs.filter(a => a.category.name === "Taille")
-            this.colorAttrs = this.product.productAttributs.filter(a => a.category.name === "Couleur")
-        } else {
+        if(!this.product) {
             this.router.navigate(['/error-404'])
         }
     }

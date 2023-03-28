@@ -24,7 +24,7 @@
                 <div class="input-field col">
                     <select>
                         <option value="" selected>Sélectionnez la taille</option>
-                        <option *ngFor="let attr of sizeAttrs" [value]="attr.value">{{attr.name}}</option>
+                        <option *ngFor="let attr of productService.getProductAttrsByCategoryName(product, 'Taille')" [value]="attr.value">{{attr.name}}</option>
                     </select>
                     <label>Taille</label>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="input-field col">
                     <select>
                         <option value="" selected>Sélectionnez la couleur</option>
-                        <option *ngFor="let attr of colorAttrs" [value]="attr.value">{{attr.name}}</option>
+                        <option *ngFor="let attr of productService.getProductAttrsByCategoryName(product, 'Couleur')" [value]="attr.value">{{attr.name}}</option>
                     </select>
                     <label>Couleur</label>
                 </div>

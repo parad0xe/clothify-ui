@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import ProductDto from "../productDto"
-import { Products } from "../products.mock"
+import { ProductService } from "../product.service"
 
 
 @Component({
@@ -11,7 +11,9 @@ import { Products } from "../products.mock"
 export class ShopProductListComponent implements OnInit {
     products: ProductDto[]
 
+    constructor(public productService: ProductService) {}
+
     ngOnInit() {
-        this.products = Products
+        this.products = this.productService.getProducts()
     }
 }

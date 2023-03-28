@@ -4,7 +4,7 @@ export const Products: ProductDto[] = [
     {
         id: 1,
         name: "product 1",
-        price: 10,
+        price: 10.00,
         description: "lorem",
         weight: 0.12,
         available: true,
@@ -22,49 +22,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 1",
-                value: "Taille::value 1"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 2",
-                value: "Taille::value 2"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 3",
-                value: "Taille::value 3"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 1",
-                value: "Couleur::value 1"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 2",
-                value: "Couleur::value 2"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 3",
-                value: "Couleur::value 3"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 2,
         name: "product 2",
-        price: 11,
+        price: 11.00,
         description: "lorem",
         weight: 0.13,
         available: true,
@@ -82,49 +96,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 2",
-                value: "Taille::value 2"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 3",
-                value: "Taille::value 3"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 4",
-                value: "Taille::value 4"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 2",
-                value: "Couleur::value 2"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 3",
-                value: "Couleur::value 3"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 4",
-                value: "Couleur::value 4"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 3,
         name: "product 3",
-        price: 12,
+        price: 12.00,
         description: "lorem",
         weight: 0.14,
         available: true,
@@ -142,49 +170,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 3",
-                value: "Taille::value 3"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 4",
-                value: "Taille::value 4"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 5",
-                value: "Taille::value 5"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 3",
-                value: "Couleur::value 3"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 4",
-                value: "Couleur::value 4"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 5",
-                value: "Couleur::value 5"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 4,
         name: "product 4",
-        price: 13,
+        price: 13.00,
         description: "lorem",
         weight: 0.15,
         available: true,
@@ -202,49 +244,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 4",
-                value: "Taille::value 4"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 5",
-                value: "Taille::value 5"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 6",
-                value: "Taille::value 6"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 4",
-                value: "Couleur::value 4"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 5",
-                value: "Couleur::value 5"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 6",
-                value: "Couleur::value 6"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 5,
         name: "product 5",
-        price: 14,
+        price: 14.00,
         description: "lorem",
         weight: 0.16,
         available: true,
@@ -262,49 +318,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 5",
-                value: "Taille::value 5"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 6",
-                value: "Taille::value 6"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 7",
-                value: "Taille::value 7"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 5",
-                value: "Couleur::value 5"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 6",
-                value: "Couleur::value 6"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 7",
-                value: "Couleur::value 7"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 6,
         name: "product 6",
-        price: 15,
+        price: 15.00,
         description: "lorem",
         weight: 0.17,
         available: true,
@@ -322,49 +392,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 6",
-                value: "Taille::value 6"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 7",
-                value: "Taille::value 7"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 8",
-                value: "Taille::value 8"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 6",
-                value: "Couleur::value 6"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 7",
-                value: "Couleur::value 7"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 8",
-                value: "Couleur::value 8"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 7,
         name: "product 7",
-        price: 16,
+        price: 16.00,
         description: "lorem",
         weight: 0.18,
         available: true,
@@ -382,49 +466,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 7",
-                value: "Taille::value 7"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 8",
-                value: "Taille::value 8"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 9",
-                value: "Taille::value 9"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 7",
-                value: "Couleur::value 7"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 8",
-                value: "Couleur::value 8"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 9",
-                value: "Couleur::value 9"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 8,
         name: "product 8",
-        price: 17,
+        price: 17.00,
         description: "lorem",
         weight: 0.19,
         available: true,
@@ -442,49 +540,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 8",
-                value: "Taille::value 8"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 9",
-                value: "Taille::value 9"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 10",
-                value: "Taille::value 10"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 8",
-                value: "Couleur::value 8"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 9",
-                value: "Couleur::value 9"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 10",
-                value: "Couleur::value 10"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 9,
         name: "product 9",
-        price: 18,
+        price: 18.00,
         description: "lorem",
         weight: 0.20,
         available: true,
@@ -502,49 +614,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 9",
-                value: "Taille::value 9"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 10",
-                value: "Taille::value 10"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 11",
-                value: "Taille::value 11"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 9",
-                value: "Couleur::value 9"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 10",
-                value: "Couleur::value 10"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 11",
-                value: "Couleur::value 11"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 10,
         name: "product 10",
-        price: 19,
+        price: 19.00,
         description: "lorem",
         weight: 0.21,
         available: true,
@@ -562,49 +688,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 10",
-                value: "Taille::value 10"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 11",
-                value: "Taille::value 11"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 12",
-                value: "Taille::value 12"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 10",
-                value: "Couleur::value 10"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 11",
-                value: "Couleur::value 11"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 12",
-                value: "Couleur::value 12"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 11,
         name: "product 11",
-        price: 20,
+        price: 20.00,
         description: "lorem",
         weight: 0.22,
         available: true,
@@ -622,49 +762,63 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 11",
-                value: "Taille::value 11"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 12",
-                value: "Taille::value 12"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 13",
-                value: "Taille::value 13"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 11",
-                value: "Couleur::value 11"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 12",
-                value: "Couleur::value 12"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 13",
-                value: "Couleur::value 13"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },{
         id: 12,
         name: "product 12",
-        price: 21,
+        price: 21.00,
         description: "lorem",
         weight: 0.23,
         available: true,
@@ -682,43 +836,57 @@ export const Products: ProductDto[] = [
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 12",
-                value: "Taille::value 12"
+                name: "S",
+                value: "S"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 13",
-                value: "Taille::value 13"
+                name: "M",
+                value: "M"
             },
             {
                 category: {
                     name: "Taille"
                 },
-                name: "Taille::name 14",
-                value: "Taille::value 14"
+                name: "L",
+                value: "L"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XL",
+                value: "XL"
+            },
+            {
+                category: {
+                    name: "Taille"
+                },
+                name: "XXL",
+                value: "XXL"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 12",
-                value: "Couleur::value 12"
+                name: "Rouge",
+                value: "#fd5555"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 13",
-                value: "Couleur::value 13"
+                name: "Bleu",
+                value: "#55c2fd"
             },
             {
                 category: {
                     name: "Couleur"
                 },
-                name: "Couleur::name 14",
-                value: "Couleur::value 14"
+                name: "Jaune",
+                value: "#fddb55"
             },
         ]
     },
