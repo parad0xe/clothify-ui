@@ -1,0 +1,6 @@
+@import "variables";
+
+$color-ok-rating: $rating-star-color !default;
+$color-positive-rating: $rating-star-color !default;
+$color-default-rating: $rating-star-color !default;
+@import 'css-star-rating/scss/star-rating';

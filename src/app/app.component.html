@@ -1,0 +1,38 @@
+<nav class="nav-extended">
+    <div class="nav-wrapper px-lg-4">
+        <a href="" class="app__logo brand-logo">{{ title }}</a>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right">
+            <li class="app__user">
+                <a href="">
+                    <img src="assets/images/icons/person.png" alt="">
+                    <span class="d-none d-lg-inline ps-lg-2">Nom Utilisateur</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="nav-content">
+        <ul class="tabs tabs-transparent d-flex links">
+            <li class="tab"><a routerLinkActive="active" routerLink="/accueil">Accueil</a></li>
+            <li class="tab"><a routerLinkActive="active" routerLink="/shop">Magasin</a></li>
+            <li class="spacer"></li>
+            <li class="pe-lg-4">
+                <a href="" class="cart__bag">
+                    <div>
+                        <img src="assets/images/icons/shopping-bag.png" alt="">
+                        <span class="bag__counter">0</span>
+                    </div>
+                    <span class="cart__total ps-2">0.00</span> EUR
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<ul class="sidenav" id="nav-mobile">
+    <li routerLinkActive="active"><a routerLink="/accueil">Accueil</a></li>
+    <li routerLinkActive="active"><a routerLink="/shop">Magasin</a></li>
+</ul>
+
+<router-outlet></router-outlet>

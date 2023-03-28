@@ -1,0 +1,30 @@
+.select-wrapper {
+    * {
+        color: var(--dark) !important;
+    }
+
+    .select-dropdown {
+        border-bottom: 1px solid var(--dark)
+    }
+}
+
+.table {
+    border: 1px solid var(--grey-light);
+
+    tr td {
+        padding: 15px 0;
+    }
+    &.striped tr:nth-child(odd) {
+        background-color: var(--grey-light) !important;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+@for $i from 1 through 6 {
+    h#{$i} {
+        font-size: var(--fz-#{$i});
+    }
+}

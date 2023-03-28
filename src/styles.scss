@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --primary: #0C1228;
+    --secondary: #2cd4f3;
+    --tertiary: #af782f;
+    --default: #868aa7;
+    --primary-linear: linear-gradient(120deg, #0C1228 0%, rgba(12, 18, 40, 0.58) 100%);
+    --secondary-linear: linear-gradient(120deg, #2cd4f3 0%, rgba(44, 212, 243, 0.31) 100%);
+
+    --white: #FFFFFF;
+    --grey-extralight-plus: #F9F9F9;
+    --grey-extralight: #F3F3F3;
+    --grey-light: #D6D6D6;
+    --grey: #B8B8B8;
+    --grey-dark: #787b7c;
+    --black-extralight: #747784;
+    --black-light: #4b4c52;
+    --black: #0C1228;
+    --dark: #2D2D2E;
+
+    --success: #2faf2f;
+    --error: #af2f2f;
+    --warning: #af782f;
+    --info: #2f6faf;
+
+    --fz-1: 5.875rem;
+    --fz-2: 3.688rem;
+    --fz-3: 2.938rem;
+    --fz-4: 2.063rem;
+    --fz-5: 1.5rem;
+    --fz-6: 1.25rem;
+
+    --fz-text-large: 1.5rem;
+    --fz-text-medium: 1rem;
+    --fz-text-small: 0.875rem;
+}
+
+@import "stylecheets/variables";
+@import 'stylecheets/externals';
+@import "stylecheets/default";
+@import "stylecheets/utils";
+@import "stylecheets/button";
+@import "stylecheets/card";
+@import "stylecheets/nav";
+
+* {
+    font-family: 'Inter', serif;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
