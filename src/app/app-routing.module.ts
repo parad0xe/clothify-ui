@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ErrorPageNotFoundComponent } from "./error-page-not-found/error-page-not-found.component"
+import { PageErrorNotFoundComponent } from "./pages/page-error-not-found/page-error-not-found.component"
 
 const routes: Routes = [
     { path: 'home', redirectTo: 'shop' },
     { path: '', redirectTo: 'home', pathMatch: "full" },
-    { path: 'error-404', component: ErrorPageNotFoundComponent },
-    { path: '**', component: ErrorPageNotFoundComponent }
+    { path: 'error-404', component: PageErrorNotFoundComponent },
+    { path: '**', component: PageErrorNotFoundComponent }
 ];
 
 

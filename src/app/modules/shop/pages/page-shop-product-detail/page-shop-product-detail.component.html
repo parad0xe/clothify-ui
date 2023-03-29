@@ -1,4 +1,4 @@
-<div class="container-fluid g-0" *ngIf="product else product404">
+<div class="container-fluid g-0" *ngIf="product else noproduct">
     <div class="row">
         <div class="col-md-6 d-flex justify-content-center">
             <img id="image" class="img-fluid" [src]="product.imageUrl" alt="">
@@ -14,7 +14,7 @@
 
             <div class="d-flex align-items-center justify-content-between fw-bold">
                 <div class="text-tertiary fs-text-large">{{ product.price }} EUR</div>
-                <div class="fs-text-small text-success" *ngIf="product.available else unavailable">En stock</div>
+                <div class="fs-text-small text-success" *ngIf="product.isAvailable else unavailable">En stock</div>
                 <ng-template #unavailable>
                     <div class="text-small text-error">En stock</div>
                 </ng-template>
@@ -96,6 +96,6 @@
     </div>
 </div>
 
-<ng-template #product404>
-    Aucun Produit.
+<ng-template #noproduct>
+    <app-fragment-loader></app-fragment-loader>
 </ng-template>

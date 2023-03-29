@@ -3,18 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from "@angular/forms";
-import { ErrorPageNotFoundComponent } from './error-page-not-found/error-page-not-found.component'
-import { ShopModule } from "./shop/shop.module"
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { PageErrorNotFoundComponent } from './pages/page-error-not-found/page-error-not-found.component'
+import { ShopModule } from "./modules/shop/shop.module"
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        ErrorPageNotFoundComponent
+        PageErrorNotFoundComponent
     ],
     imports: [
         BrowserModule,
+        FormsModule,
+	    HttpClientModule,
         ShopModule,
         AppRoutingModule,
         ReactiveFormsModule

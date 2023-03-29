@@ -1,0 +1,76 @@
+.--form {
+    .--radio-group {
+        display: flex;
+        gap: 5px;
+
+        label {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        $circle-size: 30px;
+        $circle-top-left: -5px;
+        input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+
+            & + span {
+                transition: none;
+                cursor: pointer;
+                height: $circle-size;
+                width: $circle-size;
+                line-height: $circle-size;
+                border-radius: $circle-size;
+                padding-left: 0;
+                text-align: center;
+                color: var(--black);
+                font-size: var(--fz-text-small);
+
+                &:before, &:after {
+                    display: none;
+                }
+            }
+
+            &:hover + span {
+                background: var(--grey-light);
+            }
+
+            &:checked + span:before {
+                content: '';
+                display: inline-block;
+                position: absolute;
+                height: calc($circle-size + 2px);
+                width: calc($circle-size + 2px);
+                top: $circle-top-left;
+                left: $circle-top-left;
+                border: 2px solid var(--black-light);
+            }
+        }
+
+        &.--radio-color {
+            $size: 21px;
+            margin-top: 5px;
+            gap: 15px;
+
+            input[type="radio"] {
+                & + span {
+                    height: $size;
+                    width: $size;
+                    line-height: $size;
+                    border-radius: $size;
+                }
+
+                &:checked + span:before {
+                    $border-size: 10px;
+
+                    height: calc($size + $border-size);
+                    width: calc($size + $border-size);
+                    top: calc($circle-top-left - $border-size / 2 + 1px);
+                    left: calc($circle-top-left - $border-size / 2 + 1px);
+                }
+            }
+        }
+    }
+}

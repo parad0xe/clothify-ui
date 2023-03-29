@@ -1,0 +1,35 @@
+<div class="container p-4" *ngIf="products.length > 0 else noproducts">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xxl-3 g-4">
+        <div *ngFor="let product of products" class="col">
+            <div class="--card">
+                <a href="/shop/product/{{product.id}}" class="card-header" [attr.data-text]="product.brand.name">
+                    <img [src]="product.imageUrl" alt="">
+                    <span *ngIf="product.isNew" class="tag">NEW</span>
+                </a>
+
+                <div class="card-body">
+                    <div class="branding d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="fs-text-large">{{product.brand.name}}</div>
+                            <div class="fs-text-small text-grey fw-500" *ngIf="product.collection">{{product.collection.name}}</div>
+                        </div>
+
+                        <div class="me-3 d-flex flex-column align-items-end">
+                            <div class="fs-text-large text-tertiary">{{product.price.toFixed(2)}} EUR</div>
+                            <div class="d-flex align-items-center">
+                                <star-rating class="d-inline-block" [showHalfStars]="true" [step]="0.5" [rating]="productService.getMeanRating(product)" [readOnly]="true"></star-rating>
+                                <span class="d-inline-block">({{product.productRating.length}})</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <app-fragment-easy-add-product [product]="product"></app-fragment-easy-add-product>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #noproducts>
+    <app-fragment-loader></app-fragment-loader>
+</ng-template>
