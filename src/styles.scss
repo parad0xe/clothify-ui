@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 :root {
     --primary: #0C1228;
     --secondary: #2cd4f3;
@@ -34,17 +36,24 @@
     --fz-text-small: 0.875rem;
 }
 
-@import "stylecheets/variables";
+@import "stylecheets/externals/bootstrap/bootstrap-grid.min.css";
+@import "stylecheets/externals/bootstrap/bootstrap-utilities.min.css";
+
 @import 'stylecheets/externals';
+@import "stylecheets/variables";
 @import "stylecheets/default";
+@import "stylecheets/theme";
 @import "stylecheets/utils";
-@import "stylecheets/button";
+@import "stylecheets/header";
 @import "stylecheets/card";
-@import "stylecheets/nav";
+@import "stylecheets/button";
 @import "stylecheets/form";
 
+@include mat.all-component-themes($clothify-ui-theme);
+
 * {
-    font-family: 'Inter', serif;
+    outline: none;
+    box-sizing: border-box;
 
     a {
         text-decoration: none;
@@ -56,6 +65,7 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
+    font-family: 'Inter', "Helvetica Neue", sans-serif;
 }
 
 main {
@@ -63,4 +73,3 @@ main {
     height: 100%;
     width: 100%;
 }
-

@@ -16,31 +16,11 @@
                 <div class="text-tertiary fs-text-large">{{ product.price }} EUR</div>
                 <div class="fs-text-small text-success" *ngIf="product.isAvailable else unavailable">En stock</div>
                 <ng-template #unavailable>
-                    <div class="text-small text-error">En stock</div>
+                    <div class="text-small text-error">Hors stock</div>
                 </ng-template>
             </div>
 
-            <form action="" class="--form d-flex flex-column mt-4 gap-2 py-4">
-                <div class="input-field col">
-                    <select>
-                        <option value="" selected>Sélectionnez la taille</option>
-                        <option *ngFor="let attr of productService.getProductAttrsByCategoryName(product, 'Taille')" [value]="attr.value">{{attr.name}}</option>
-                    </select>
-                    <label>Taille</label>
-                </div>
-
-                <div class="input-field col">
-                    <select>
-                        <option value="" selected>Sélectionnez la couleur</option>
-                        <option *ngFor="let attr of productService.getProductAttrsByCategoryName(product, 'Couleur')" [value]="attr.value">{{attr.name}}</option>
-                    </select>
-                    <label>Couleur</label>
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="--btn --btn-primary">Ajouter au panier</button>
-                </div>
-            </form>
+            <app-add-product [product]="product" mode="page"></app-add-product>
         </div>
     </div>
 
@@ -62,33 +42,16 @@
                     </div>
                 </div>
                 <div class="col-md-9 px-4 mt-4 mt-md-0">
-                    <table class="table striped">
-                        <tbody>
-                            <tr>
-                                <td class="d-flex">
-                                    <div class="col fw-bold">Marque:</div>
-                                    <div class="col">{{ product.brand.name }}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="d-flex">
-                                    <div class="col fw-bold">Categorie:</div>
-                                    <div class="col">{{ product.category.name }}</div>
-                                </td>
-                            </tr>
-                            <tr *ngIf="product.collection">
-                                <td class="d-flex">
-                                    <div class="col fw-bold">Collection:</div>
-                                    <div class="col">{{ product.collection.name }}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="d-flex">
-                                    <div class="col fw-bold">Poids:</div>
-                                    <div class="col">{{ product.weight }} Kg</div>
-                                </td>
-                            </tr>
-                        </tbody>
+                    <table mat-table [dataSource]="specificationsData" class="mat-elevation-z8">
+                        <ng-container matColumnDef="specificationName">
+                            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="specificationValue">
+                            <td mat-cell *matCellDef="let element">{{element.value}}</td>
+                        </ng-container>
+
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                 </div>
             </div>
@@ -97,5 +60,5 @@
 </div>
 
 <ng-template #noproduct>
-    <app-fragment-loader></app-fragment-loader>
+    <app-loader></app-loader>
 </ng-template>

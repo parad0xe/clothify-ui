@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-fragment-loader',
+  selector: 'app-loader',
   template: `
       <div class="app__loader" data-duration="200">
           <div class="lds-ellipsis">
@@ -12,8 +12,8 @@ import { Component } from '@angular/core';
           </div>
       </div>
   `,
-	styleUrls: ['./fragment-loader.component.scss']
+	styleUrls: ['./loader.component.scss']
 })
-export class FragmentLoaderComponent {
+export class LoaderComponent {
 
 }

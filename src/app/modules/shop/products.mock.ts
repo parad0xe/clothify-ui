@@ -1,6 +1,6 @@
-import ProductDto from "../../../dto/productDto"
+import ProductModel from "../../shared/models/product.model"
 
-export const Products: ProductDto[] = [
+export const Products: ProductModel[] = [
     {
         id: 1,
         name: "product 1",

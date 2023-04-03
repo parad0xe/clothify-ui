@@ -1,40 +1,41 @@
-<nav class="nav-extended">
-    <div class="nav-wrapper px-lg-4">
-        <a href="" class="app__logo brand-logo">{{ title }}</a>
-        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <ul class="right">
-            <li class="app__user">
-                <a href="">
-                    <img src="assets/images/icons/person.png" alt="">
-                    <span class="d-none d-lg-inline ps-lg-2">Nom Utilisateur</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+<mat-drawer-container autosize hasBackdrop="true" class="h-100">
+    <mat-drawer #drawer class="drawer" mode="over">
+        Drawer
+    </mat-drawer>
 
-    <div class="nav-content">
-        <ul class="tabs tabs-transparent d-flex links">
-            <li class="tab"><a routerLinkActive="active" routerLink="/accueil">Accueil</a></li>
-            <li class="tab"><a routerLinkActive="active" routerLink="/shop">Magasin</a></li>
-            <li class="spacer"></li>
-            <li class="pe-lg-4">
-                <a href="" class="cart__bag">
+    <mat-toolbar class="header">
+        <mat-toolbar-row>
+            <button mat-icon-button (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>{{ title }}</span>
+            <span class="spacer"></span>
+            <a mat-button class="app__user" href="{{routeProvider.get('user:account')}}">
+                <mat-icon >person</mat-icon>
+                <span class="d-none d-lg-inline ps-lg-2">Nom Utilisateur</span>
+            </a>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row>
+            <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+                <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('app:home')}}">Accueil</a>
+                <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('shop:product:list')}}">Magasin</a>
+                <span class="spacer"></span>
+                <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('app:cart:detail')}}" class="cart__bag">
                     <div>
-                        <img src="assets/images/icons/shopping-bag.png" alt="">
-                        <span class="bag__counter">0</span>
+                        <mat-icon>shopping_bag</mat-icon>
+                        <span class="bag__counter">{{cartService.getTotalProductNumber()}}</span>
                     </div>
-                    <span class="cart__total ps-2">0.00</span> EUR
+                    <span class="cart__total ps-2 me-1">{{cartService.getTotal() | number: '1.2'}}</span> EUR
                 </a>
-            </li>
-        </ul>
-    </div>
-</nav>
+            </nav>
+            <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+        </mat-toolbar-row>
+    </mat-toolbar>
 
-<ul class="sidenav" id="nav-mobile">
-    <li routerLinkActive="active"><a routerLink="/accueil">Accueil</a></li>
-    <li routerLinkActive="active"><a routerLink="/shop">Magasin</a></li>
-</ul>
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</mat-drawer-container>
 
-<main>
-    <router-outlet></router-outlet>
-</main>
+

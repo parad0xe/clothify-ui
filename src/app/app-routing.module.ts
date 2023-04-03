@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { PageErrorNotFoundComponent } from "./pages/page-error-not-found/page-error-not-found.component"
-
-const routes: Routes = [
-    { path: 'home', redirectTo: 'shop' },
-    { path: '', redirectTo: 'home', pathMatch: "full" },
-    { path: 'error-404', component: PageErrorNotFoundComponent },
-    { path: '**', component: PageErrorNotFoundComponent }
-];
+import { RouterModule } from '@angular/router';
+import AppRoutesWrapper from "./app.routes"
+import { RouteProviderService } from "./shared/services/route-provider.service"
 
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+	imports: [RouterModule.forRoot(AppRoutesWrapper.toRoutes())],
+	exports: [RouterModule]
 })
 export class AppRoutingModule {
+	constructor(private routeProvider: RouteProviderService) {
+		this.routeProvider.add(AppRoutesWrapper)
+	}
 }

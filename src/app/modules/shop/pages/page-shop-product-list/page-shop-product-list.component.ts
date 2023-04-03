@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import ProductDto from "../../../../../dto/productDto"
-import { ProductService } from "../../product.service"
+import ProductModel from "../../../../shared/models/product.model"
+import { ProductService } from "../../../../shared/services/api-resources/product.service"
+import { RouteProviderService } from "../../../../shared/services/route-provider.service"
+import { CartService } from "../../../../shared/services/api-resources/cart.service"
 
 
 @Component({
@@ -9,12 +11,16 @@ import { ProductService } from "../../product.service"
 	styles: []
 })
 export class PageShopProductListComponent implements OnInit {
-	products: ProductDto[] = []
+	products: ProductModel[] = []
 
-	constructor(public productService: ProductService) {}
+	constructor(
+		protected productService: ProductService,
+		protected cartService: CartService,
+		protected routeProvider: RouteProviderService
+	) {}
 
 	ngOnInit() {
-		this.productService.getProducts()
+		this.productService.all()
 			.subscribe((products) => this.products = products)
 	}
 }

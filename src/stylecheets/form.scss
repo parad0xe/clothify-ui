@@ -10,8 +10,8 @@
             align-items: center;
         }
 
-        $circle-size: 30px;
-        $circle-top-left: -5px;
+        $circle-size: 33px;
+        $circle-top-left: -3px;
         input[type="radio"] {
             position: absolute;
             opacity: 0;
@@ -41,6 +41,7 @@
                 content: '';
                 display: inline-block;
                 position: absolute;
+                border-radius: 50%;
                 height: calc($circle-size + 2px);
                 width: calc($circle-size + 2px);
                 top: $circle-top-left;

@@ -1,4 +1,4 @@
-export interface HydraList<T> {
+export interface HydraListInterface<T> {
   'hydra:totalItems': number;
   'hydra:member': T[];
 }

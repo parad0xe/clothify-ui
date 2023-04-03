@@ -1,19 +1,27 @@
-import { Component } from '@angular/core';
-import M from 'materialize-css';
+import { Component, OnInit } from '@angular/core';
+import { RouteProviderService } from "./shared/services/route-provider.service"
+import { CartService } from "./shared/services/api-resources/cart.service"
+import CartModel from "./shared/models/cart.model"
 
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styles: []
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styles: []
 })
-export class AppComponent {
-    title = 'Clothify';
+export class AppComponent implements OnInit {
+	title = 'Clothify';
 
-    constructor() {
-        document.addEventListener('DOMContentLoaded', function () {
-            M.Sidenav.init(document.querySelectorAll('.sidenav'), {});
-            M.FormSelect.init(document.querySelectorAll('select'), {});
-        });
-    }
+	cart: CartModel = new CartModel()
+
+	constructor(
+		protected cartService: CartService,
+		protected routeProvider: RouteProviderService
+	) {}
+
+	ngOnInit() {
+		this.cartService.cartObserver.subscribe((cart) => {
+			this.cart = cart
+		})
+	}
 }

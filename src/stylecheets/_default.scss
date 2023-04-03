@@ -28,3 +28,26 @@ h1, h2, h3, h4, h5, h6 {
         font-size: var(--fz-#{$i});
     }
 }
+
+.mat-drawer-content {
+    overflow-x: hidden !important;
+}
+.drawer {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    min-width: 300px;
+}
+
+.mdc-data-table__table {
+    min-width: 0 !important;
+}
+
+.sticky-lg-top {
+    position: sticky !important;
+}
+
+.top-20 {
+    top: 20px;
+}
