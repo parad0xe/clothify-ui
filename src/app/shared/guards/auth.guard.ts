@@ -17,7 +17,7 @@ export class AuthGuardService {
 			}
 		})
 
-		router.navigate([routeProvider.get('app:login')])
+		router.navigate([routeProvider.get('auth:login')])
 		return false
 	}
 }

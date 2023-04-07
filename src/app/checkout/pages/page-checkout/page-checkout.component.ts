@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms"
 import { map, Observable, startWith } from "rxjs"
 import { ICreateOrderRequest, IOnApproveCallbackActions, IPayPalConfig, ITransactionItem } from "ngx-paypal"
-import { CartResource } from "../../shared/services/api-resources/cart.resource"
+import { CartResource } from "../../../shared/services/api-resources/cart.resource"
 import { MatStepper } from "@angular/material/stepper"
-import { UserResource } from "../../shared/services/api-resources/user.resource"
-import AddressModel from "../../shared/models/address.model"
-import { CartService } from "../../shared/services/cart.service"
+import { UserResource } from "../../../shared/services/api-resources/user.resource"
+import AddressModel from "../../../shared/models/address.model"
+import { CartService } from "../../../shared/services/cart.service"
 import { ToastrService } from "ngx-toastr"
 import { Router } from "@angular/router"
-import { RouteProviderService } from "../../shared/services/route-provider.service"
+import { RouteProviderService } from "../../../shared/services/route-provider.service"
 
 
 @Component({

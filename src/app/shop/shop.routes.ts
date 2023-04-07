@@ -1,7 +1,7 @@
-import RoutesWrapperAbstract, { RoutesWrapperType } from "../../shared/abstracts/routes-wrapper.abstract"
+import RoutesWrapperAbstract, { RoutesWrapperType } from "../shared/abstracts/routes-wrapper.abstract"
 import { PageShopProductListComponent } from "./pages/page-shop-product-list/page-shop-product-list.component"
 import { PageShopProductDetailComponent } from "./pages/page-shop-product-detail/page-shop-product-detail.component"
-import { AuthGuard } from "../../shared/guards/auth.guard"
+import { AuthGuard } from "../shared/guards/auth.guard"
 
 export default new class ShopRoutesWrapper extends RoutesWrapperAbstract {
 	routes: RoutesWrapperType = {

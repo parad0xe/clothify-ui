@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router"
 import { FormsModule } from "@angular/forms";
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { LoaderComponent } from './components/loader/loader.component'
-import { RouteProviderService } from "../../shared/services/route-provider.service"
+import { RouteProviderService } from "../shared/services/route-provider.service"
 import ShopRoutesWrapper from "./shop.routes"
 import { MatSelectModule } from "@angular/material/select"
 import { MatButtonModule } from "@angular/material/button"

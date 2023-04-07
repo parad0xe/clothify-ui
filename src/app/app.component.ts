@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteProviderService } from "./shared/services/route-provider.service"
 import { CartService } from "./shared/services/cart.service"
-import CartModel from "./shared/models/cart.model"
 
 
 @Component({

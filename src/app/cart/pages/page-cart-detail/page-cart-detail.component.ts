@@ -1,9 +1,8 @@
-import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { CartResource } from "../../shared/services/api-resources/cart.resource"
-import CartItemModel from "../../shared/models/cartItem.model"
-import { RouteProviderService } from "../../shared/services/route-provider.service"
+import { Component, OnInit, ViewChild } from '@angular/core';
+import CartItemModel from "../../../shared/models/cartItem.model"
+import { RouteProviderService } from "../../../shared/services/route-provider.service"
 import { MatTable } from "@angular/material/table"
-import { CartService } from "../../shared/services/cart.service"
+import { CartService } from "../../../shared/services/cart.service"
 
 
 @Component({
@@ -20,7 +19,7 @@ export class PageCartDetailComponent implements OnInit {
 	dataSource: CartItemModel[]
 	displayedColumns = ['counter', 'image', 'actions', 'price', 'action:remove']
 
-	@ViewChild(MatTable, {static: false}) table: MatTable<CartItemModel>;
+	@ViewChild(MatTable, { static: false }) table: MatTable<CartItemModel>;
 
 	constructor(
 		private _cartService: CartService,
@@ -34,7 +33,7 @@ export class PageCartDetailComponent implements OnInit {
 		this.cartService.cart$.subscribe((payload) => {
 			this.dataSource = payload.cart.items
 
-			if(this.table) {
+			if (this.table) {
 				this.table.renderRows()
 			}
 		})

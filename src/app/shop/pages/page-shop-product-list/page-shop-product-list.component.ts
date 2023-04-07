@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import ProductModel from "../../../../shared/models/product.model"
-import { RouteProviderService } from "../../../../shared/services/route-provider.service"
-import { ProductService } from "../../../../shared/services/product.service"
-import { CartService } from "../../../../shared/services/cart.service"
+import ProductModel from "../../../shared/models/product.model"
+import { RouteProviderService } from "../../../shared/services/route-provider.service"
+import { ProductService } from "../../../shared/services/product.service"
+import { CartService } from "../../../shared/services/cart.service"
 import { map, Observable } from "rxjs"
 
 

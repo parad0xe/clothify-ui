@@ -21,7 +21,7 @@
                 <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('app:home')}}">Accueil</a>
                 <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('shop:product:list')}}">Magasin</a>
                 <span class="spacer"></span>
-                <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('app:cart:detail')}}" class="cart__bag">
+                <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('cart:detail')}}" class="cart__bag">
                     <div>
                         <mat-icon>shopping_bag</mat-icon>
                         <span class="bag__counter">{{(cartService.cart$ | async)?.totalItems()}}</span>

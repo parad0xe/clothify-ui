@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../shared/services/auth.service"
+import { AuthService } from "../../../shared/services/auth.service"
 import { Router } from "@angular/router"
-import { RouteProviderService } from "../../shared/services/route-provider.service"
-import { AlertColorType } from "../../shared/components/alert/alert.component"
+import { RouteProviderService } from "../../../shared/services/route-provider.service"
+import { AlertColorType } from "../../../shared/modules/custom-components/components/alert/alert.component"
 import { ToastrService } from "ngx-toastr"
 
 

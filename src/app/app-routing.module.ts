@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import AppRoutesWrapper from "./app.routes"
 import { RouteProviderService } from "./shared/services/route-provider.service"
+import { AppRoutesWrapper } from "./app.routes"
 
 
 @NgModule({
