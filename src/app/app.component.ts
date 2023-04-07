@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteProviderService } from "./shared/services/route-provider.service"
-import { CartService } from "./shared/services/api-resources/cart.service"
+import { CartService } from "./shared/services/cart.service"
 import CartModel from "./shared/models/cart.model"
 
 
@@ -10,18 +10,18 @@ import CartModel from "./shared/models/cart.model"
 	styles: []
 })
 export class AppComponent implements OnInit {
+	cartService: CartService
+	routeProvider: RouteProviderService
+
 	title = 'Clothify';
 
-	cart: CartModel = new CartModel()
-
 	constructor(
-		protected cartService: CartService,
-		protected routeProvider: RouteProviderService
-	) {}
-
-	ngOnInit() {
-		this.cartService.cartObserver.subscribe((cart) => {
-			this.cart = cart
-		})
+		private _cartService: CartService,
+		private _routeProviderService: RouteProviderService
+	) {
+		this.cartService = _cartService
+		this.routeProvider = _routeProviderService
 	}
+
+	ngOnInit() {}
 }

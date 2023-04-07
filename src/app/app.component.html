@@ -10,7 +10,7 @@
             </button>
             <span>{{ title }}</span>
             <span class="spacer"></span>
-            <a mat-button class="app__user" href="{{routeProvider.get('user:account')}}">
+            <a mat-button class="app__user" routerLink="{{routeProvider.get('user:account')}}">
                 <mat-icon >person</mat-icon>
                 <span class="d-none d-lg-inline ps-lg-2">Nom Utilisateur</span>
             </a>
@@ -24,9 +24,9 @@
                 <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('app:cart:detail')}}" class="cart__bag">
                     <div>
                         <mat-icon>shopping_bag</mat-icon>
-                        <span class="bag__counter">{{cartService.getTotalProductNumber()}}</span>
+                        <span class="bag__counter">{{(cartService.cart$ | async)?.totalItems()}}</span>
                     </div>
-                    <span class="cart__total ps-2 me-1">{{cartService.getTotal() | number: '1.2'}}</span> EUR
+                    <span class="cart__total ps-2 me-1">{{(cartService.cart$ | async)?.total() | number: '1.2'}}</span> EUR
                 </a>
             </nav>
             <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

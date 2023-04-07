@@ -17,13 +17,24 @@ import { MatTabsModule } from "@angular/material/tabs"
 import { MatSidenavModule } from "@angular/material/sidenav"
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApiService } from "./shared/services/api.service"
-import { ProductService } from "./shared/services/api-resources/product.service";
+import { ProductResource } from "./shared/services/api-resources/product.resource";
 import { PageCartDetailComponent } from './pages/page-cart-detail/page-cart-detail.component';
 import { MatListModule } from "@angular/material/list"
 import { MatTableModule } from "@angular/material/table";
 import { AsTypePipe } from './shared/pipes/as-type.pipe'
 import { MatCardModule } from "@angular/material/card"
-import { MatInputModule } from "@angular/material/input"
+import { MatInputModule } from "@angular/material/input";
+import { PageCheckoutComponent } from './pages/page-checkout/page-checkout.component'
+import { MatStepperModule } from "@angular/material/stepper"
+import { MatAutocompleteModule } from "@angular/material/autocomplete"
+import { NgxPayPalModule } from "ngx-paypal"
+import { UserResource } from "./shared/services/api-resources/user.resource"
+import { AuthGuardService } from "./shared/guards/auth.guard";
+import { PageLoginComponent } from './pages/page-login/page-login.component'
+import { CartService } from "./shared/services/cart.service"
+import { ProductService } from "./shared/services/product.service";
+import { AlertComponent } from './shared/components/alert/alert.component'
+import { ToastrModule } from "ngx-toastr"
 
 
 @NgModule({
@@ -32,7 +43,10 @@ import { MatInputModule } from "@angular/material/input"
 		PageErrorNotFoundComponent,
 		PageHomeComponent,
 		PageCartDetailComponent,
-  AsTypePipe
+		AsTypePipe,
+		PageCheckoutComponent,
+  PageLoginComponent,
+  AlertComponent
 	],
 	imports: [
 		BrowserModule,
@@ -42,6 +56,15 @@ import { MatInputModule } from "@angular/material/input"
 		AppRoutingModule,
 		ReactiveFormsModule,
 		BrowserAnimationsModule,
+		ToastrModule.forRoot({
+			closeButton: false,
+			newestOnTop: true,
+			positionClass: "toast-top-full-width",
+			preventDuplicates: true,
+			timeOut: 2000,
+			extendedTimeOut: 5000,
+			easeTime: 0
+		}),
 		MatToolbarModule,
 		MatIconModule,
 		MatButtonModule,
@@ -51,9 +74,20 @@ import { MatInputModule } from "@angular/material/input"
 		MatListModule,
 		MatTableModule,
 		MatCardModule,
-		MatInputModule
+		MatInputModule,
+		MatStepperModule,
+		MatAutocompleteModule,
+		NgxPayPalModule
 	],
-	providers: [RouteProviderService, ApiService, ProductService],
+	providers: [
+		RouteProviderService,
+		ApiService,
+		CartService,
+		ProductService,
+		ProductResource,
+		UserResource,
+		AuthGuardService
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
