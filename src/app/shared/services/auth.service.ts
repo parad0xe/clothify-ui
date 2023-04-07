@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { delay, Observable, of, Subject, tap } from "rxjs"
-import UserModel from "../models/user.model"
+import UserModel from "../../core/models/user.model"
 
 
 @Injectable({

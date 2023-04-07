@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, debounce, delay, first, map, Observable, of, switchMap, take, tap, timer } from "rxjs"
 import { MatSnackBar } from "@angular/material/snack-bar"
-import CartModel from "../models/cart.model"
+import CartModel from "../../core/models/cart.model"
 import { StorageService } from "./storage.service"
-import ProductAttributModel from "../models/productAttribut.model"
-import CartItemModel from "../models/cartItem.model"
-import ProductModel from "../models/product.model"
+import ProductAttributModel from "../../core/models/productAttribut.model"
+import CartItemModel from "../../core/models/cartItem.model"
+import ProductModel from "../../core/models/product.model"
 import { AuthService } from "./auth.service"
 
 type CartPayload = {

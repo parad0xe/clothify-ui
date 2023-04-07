@@ -4,44 +4,64 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { PageErrorNotFoundComponent } from './pages/page-error-not-found/page-error-not-found.component'
-import { ShopModule } from "./shop/shop.module"
+import { PageErrorNotFoundComponent } from './features/errors/pages/page-error-not-found/page-error-not-found.component'
 import { HttpClientModule } from "@angular/common/http";
-import { PageHomeComponent } from './pages/page-home/page-home.component';
+import { PageHomeComponent } from './features/home/pages/page-home/page-home.component';
 import { RouteProviderService } from "./shared/services/route-provider.service";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ApiService } from "./shared/services/api.service"
-import { ProductResource } from "./shared/services/api-resources/product.resource";
-import { UserResource } from "./shared/services/api-resources/user.resource"
+import { ProductResource } from "./shared/api/resources/product.resource";
+import { UserResource } from "./shared/api/resources/user.resource"
 import { AuthGuardService } from "./shared/guards/auth.guard";
 import { CartService } from "./shared/services/cart.service"
 import { ProductService } from "./shared/services/product.service";
 import { ToastrModule } from "ngx-toastr"
-import { AuthModule } from "./auth/auth.module"
-import { CartModule } from "./cart/cart.module"
-import { CheckoutModule } from "./checkout/checkout.module"
 import { MatTabsModule } from "@angular/material/tabs"
 import { MatIconModule } from "@angular/material/icon"
 import { MatToolbarModule } from "@angular/material/toolbar"
 import { MatSidenavModule } from "@angular/material/sidenav"
 import { MatButtonModule } from "@angular/material/button"
 import { MatSnackBarModule } from "@angular/material/snack-bar"
+import { PageLoginComponent } from "./features/auth/pages/page-login/page-login.component"
+import { PageCartDetailComponent } from "./features/cart/pages/page-cart-detail/page-cart-detail.component"
+import { PageCheckoutComponent } from "./features/checkout/pages/page-checkout/page-checkout.component"
+import { PageShopProductListComponent } from "./features/shop/pages/page-shop-product-list/page-shop-product-list.component"
+import { PageShopProductDetailComponent } from "./features/shop/pages/page-shop-product-detail/page-shop-product-detail.component"
+import { AddProductComponent } from "./features/shop/components/add-product/add-product.component"
+import { LoaderComponent } from "./features/shop/components/loader/loader.component"
+import { MatInputModule } from "@angular/material/input"
+import { MatTableModule } from "@angular/material/table"
+import { AsTypePipe } from "./shared/pipes/as-type.pipe"
+import { MatCardModule } from "@angular/material/card"
+import { MatListModule } from "@angular/material/list"
+import { MatStepperModule } from "@angular/material/stepper"
+import { NgxPayPalModule } from "ngx-paypal"
+import { MatAutocompleteModule } from "@angular/material/autocomplete"
+import { MatBadgeModule } from "@angular/material/badge"
+import { MatSelectModule } from "@angular/material/select"
+import { StarRatingModule } from "angular-star-rating"
+import { AlertComponent } from "./shared/components/alert/alert.component"
 
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		PageErrorNotFoundComponent,
-		PageHomeComponent
+		PageHomeComponent,
+		PageLoginComponent,
+		PageCartDetailComponent,
+		PageCheckoutComponent,
+		PageShopProductListComponent,
+		PageShopProductDetailComponent,
+		AddProductComponent,
+		LoaderComponent,
+		AlertComponent,
+		AsTypePipe
 	],
 	imports: [
 		BrowserModule,
 		FormsModule,
 		HttpClientModule,
-		ShopModule,
-		AuthModule,
-		CartModule,
-		CheckoutModule,
 		AppRoutingModule,
 		ReactiveFormsModule,
 		BrowserAnimationsModule,
@@ -59,7 +79,17 @@ import { MatSnackBarModule } from "@angular/material/snack-bar"
 		MatToolbarModule,
 		MatSidenavModule,
 		MatButtonModule,
-		MatSnackBarModule
+		MatSnackBarModule,
+		MatInputModule,
+		MatTableModule,
+		MatCardModule,
+		MatListModule,
+		MatStepperModule,
+		NgxPayPalModule,
+		MatAutocompleteModule,
+		MatBadgeModule,
+		MatSelectModule,
+		StarRatingModule.forRoot()
 	],
 	providers: [
 		RouteProviderService,

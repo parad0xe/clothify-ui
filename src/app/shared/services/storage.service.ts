@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import StorageInterface from "../interfaces/storage.interface"
+import StorageInterface from "../../core/interfaces/storage.interface"
 
 
 @Injectable({
