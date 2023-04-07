@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
-import { CartService } from "../../shared/services/api-resources/cart.service"
-import CartProductModel from "../../shared/models/cartProduct.model"
+import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { CartResource } from "../../shared/services/api-resources/cart.resource"
+import CartItemModel from "../../shared/models/cartItem.model"
 import { RouteProviderService } from "../../shared/services/route-provider.service"
 import { MatTable } from "@angular/material/table"
+import { CartService } from "../../shared/services/cart.service"
 
 
 @Component({
@@ -10,38 +11,44 @@ import { MatTable } from "@angular/material/table"
 	templateUrl: './page-cart-detail.component.html',
 	styleUrls: ['./page-cart-detail.component.scss']
 })
-export class PageCartDetailComponent {
-	CartProductModel: typeof CartProductModel = CartProductModel
+export class PageCartDetailComponent implements OnInit {
+	cartService: CartService
+	routeProvider: RouteProviderService
 
-	dataSource: CartProductModel[]
+	CartItemModel: typeof CartItemModel = CartItemModel
+
+	dataSource: CartItemModel[]
 	displayedColumns = ['counter', 'image', 'actions', 'price', 'action:remove']
 
-	@ViewChild(MatTable) table: MatTable<CartProductModel>;
+	@ViewChild(MatTable, {static: false}) table: MatTable<CartItemModel>;
 
 	constructor(
-		protected cartService: CartService,
-		protected routeProvider: RouteProviderService
+		private _cartService: CartService,
+		private _routeProvider: RouteProviderService
 	) {
-		this.cartService.cartObserver.subscribe((cart) => {
-			this.dataSource = cart.cartProducts
+		this.cartService = _cartService
+		this.routeProvider = _routeProvider
+	}
+
+	ngOnInit() {
+		this.cartService.cart$.subscribe((payload) => {
+			this.dataSource = payload.cart.items
+
+			if(this.table) {
+				this.table.renderRows()
+			}
 		})
-
-		this.cartService.cartListener.subscribe((cart) => {
-			this.dataSource = cart.cartProducts
-		})
 	}
 
-	increaseItemQuantity(cartItem: CartProductModel) {
-		this.cartService.add(cartItem.product, cartItem.productAttributs)
+	increaseItemQuantity(cartItem: CartItemModel) {
+		this._cartService.add(cartItem.product, cartItem.productAttributs)
 	}
 
-	decreaseItemQuantity(cartItem: CartProductModel) {
-		this.cartService.decrease(cartItem.product)
-		this.table.renderRows()
+	decreaseItemQuantity(cartItem: CartItemModel) {
+		this._cartService.decrease(cartItem.product)
 	}
 
-	removeItem(cartItem: CartProductModel) {
-		this.cartService.remove(cartItem.product)
-		this.table.renderRows()
+	removeItem(cartItem: CartItemModel) {
+		this._cartService.remove(cartItem.product)
 	}
 }
