@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router"
 import ProductModel from "../../../../shared/models/product.model"
-import { ProductService } from "../../../../shared/services/api-resources/product.service"
+import { ProductService } from "../../../../shared/services/product.service"
 
 
 @Component({
@@ -17,26 +17,25 @@ export class PageShopProductDetailComponent implements OnInit {
 	displayedColumns: string[] = ['specificationName', 'specificationValue'];
 
 	constructor(
-		private route: ActivatedRoute,
-		public productService: ProductService
+		private _route: ActivatedRoute,
+		private _productService: ProductService
 	) {}
 
 	ngOnInit(): void {
-		const id: number = +(this.route.snapshot.paramMap.get('id') ?? -1)
+		const id: number = +(this._route.snapshot.paramMap.get('id') ?? -1)
 
-		this.productService.get(id)
-			.subscribe((product) => {
-				if (product === undefined)
-					return
+		this._productService.get(id).subscribe((product) => {
+			if (product === undefined)
+				return
 
-				this.product = product
+			this.product = product
 
-				this.specificationsData = [
-					{ name: "Marque", value: product?.brand.name },
-					{ name: "Catégorie", value: product?.category.name },
-					{ name: "Collection", value: product?.collection.name },
-					{ name: "Poids", value: `${product?.weight} kg` }
-				]
-			})
+			this.specificationsData = [
+				{ name: "Marque", value: product?.brand.name },
+				{ name: "Catégorie", value: product?.category.name },
+				{ name: "Collection", value: product?.collection.name },
+				{ name: "Poids", value: `${product?.weight} kg` }
+			]
+		})
 	}
 }

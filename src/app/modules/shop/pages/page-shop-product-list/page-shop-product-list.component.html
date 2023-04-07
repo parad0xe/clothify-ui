@@ -1,14 +1,14 @@
 <div class="p-4" *ngIf="products.length > 0 else noproducts">
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4">
         <div *ngFor="let product of products" class="col">
-            <div [matBadgeHidden]="cartService.getQuantityOf(product) === 0"
+            <div [matBadgeHidden]="!(cartService.cart$ | async)?.hasQuantity(product)"
                  class="--card"
-                 matBadge="{{cartService.getQuantityOf(product)}}"
+                 matBadge="{{(cartService.cart$ | async)?.getQuantity(product)}}"
                  matBadgeColor="accent"
                  matBadgePosition="above after"
                  matBadgeSize="medium">
 
-                <a href="{{routeProvider.get('shop:product:detail', {id: product.id})}}" class="card-header" [attr.data-text]="product.brand.name">
+                <a [routerLink]="routeProvider.get('shop:product:detail', {id: product.id})" class="card-header" [attr.data-text]="product.brand.name">
                     <img [src]="product.imageUrl" alt="">
                     <span *ngIf="product.isNew" class="tag">NEW</span>
                 </a>
