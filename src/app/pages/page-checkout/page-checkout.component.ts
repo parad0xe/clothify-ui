@@ -7,6 +7,9 @@ import { MatStepper } from "@angular/material/stepper"
 import { UserResource } from "../../shared/services/api-resources/user.resource"
 import AddressModel from "../../shared/models/address.model"
 import { CartService } from "../../shared/services/cart.service"
+import { ToastrService } from "ngx-toastr"
+import { Router } from "@angular/router"
+import { RouteProviderService } from "../../shared/services/route-provider.service"
 
 
 @Component({
@@ -50,7 +53,10 @@ export class PageCheckoutComponent implements OnInit {
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _cartService: CartService,
-		private _userService: UserResource
+		private _userService: UserResource,
+		private _router: Router,
+		private _routerProvider: RouteProviderService,
+		private _toastr: ToastrService
 	) {}
 
 	ngOnInit() {
@@ -168,6 +174,12 @@ export class PageCheckoutComponent implements OnInit {
 					});
 				},
 				onClientAuthorization: (data) => {
+					this._toastr.success(`Commande ${data.id} confirmé.`, "", {
+						timeOut: 0,
+						extendedTimeOut: 0
+					})
+					this._cartService.clear()
+					this._router.navigate([this._routerProvider.get('app:home')])
 					console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
 					// this.showSuccess = true;
 				},

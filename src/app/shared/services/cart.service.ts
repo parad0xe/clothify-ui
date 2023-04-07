@@ -99,8 +99,7 @@ export class CartService {
 				this.payload.cart.items[itemIndex].quantity++
 			}
 
-			this.cartSubject.next(this.payload)
-			this.storage.save(this.STORAGE_KEY, this.payload.cart)
+			this.save()
 
 			this.snackBar.open('Produit ajouté avec succès', 'OK', {
 				horizontalPosition: "center",
@@ -123,8 +122,7 @@ export class CartService {
 				this.payload.cart.items = this.payload.cart.items.filter(item => item.product.id !== product.id)
 			}
 
-			this.cartSubject.next(this.payload)
-			this.storage.save(this.STORAGE_KEY, this.payload.cart)
+			this.save()
 
 			this.snackBar.open('Produit mis à jour avec succès', 'OK', {
 				horizontalPosition: "center",
@@ -143,8 +141,7 @@ export class CartService {
 
 			this.payload.cart.items = this.payload.cart.items.filter(item => item.product.id !== product.id)
 
-			this.cartSubject.next(this.payload)
-			this.storage.save(this.STORAGE_KEY, this.payload.cart)
+			this.save()
 
 			this.snackBar.open('Produit retiré avec succès', 'OK', {
 				horizontalPosition: "center",
@@ -152,5 +149,15 @@ export class CartService {
 				duration: 5000
 			});
 		})
+	}
+
+	clear() {
+		this.payload.cart = new CartModel()
+		this.save()
+	}
+
+	private save() {
+		this.cartSubject.next(this.payload)
+		this.storage.save(this.STORAGE_KEY, this.payload.cart)
 	}
 }
