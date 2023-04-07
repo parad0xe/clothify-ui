@@ -5,7 +5,7 @@ import AbstractApiResource from "../../abstracts/api-resource.abstract"
 
 
 @Injectable()
-export class ProductService extends AbstractApiResource<ProductModel> {
+export class ProductResource extends AbstractApiResource<ProductModel> {
 	protected model = ProductModel
 
 	getProductAttrsByCategoryName(product: ProductModel, name: string): ProductAttributModel[] {
