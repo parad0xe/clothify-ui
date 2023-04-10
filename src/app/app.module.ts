@@ -5,13 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PageErrorNotFoundComponent } from './features/errors/pages/page-error-not-found/page-error-not-found.component'
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { PageHomeComponent } from './features/home/pages/page-home/page-home.component';
 import { RouteProviderService } from "./shared/services/route-provider.service";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ApiService } from "./shared/services/api.service"
-import { ProductResource } from "./shared/api/resources/product.resource";
-import { UserResource } from "./shared/api/resources/user.resource"
+import { ProductResource } from "./shared/resources/product.resource";
+import { UserResource } from "./shared/resources/user.resource"
 import { AuthGuardService } from "./shared/guards/auth.guard";
 import { CartService } from "./shared/services/cart.service"
 import { ProductService } from "./shared/services/product.service";
@@ -41,6 +41,9 @@ import { MatBadgeModule } from "@angular/material/badge"
 import { MatSelectModule } from "@angular/material/select"
 import { StarRatingModule } from "angular-star-rating"
 import { AlertComponent } from "./shared/components/alert/alert.component"
+import { StorageService } from "./shared/services/storage.service"
+import { TokenStorageService } from "./shared/services/token-storage.service"
+import { AuthInterceptor } from "./shared/interceptors/auth.interceptor"
 
 
 @NgModule({
@@ -97,8 +100,11 @@ import { AlertComponent } from "./shared/components/alert/alert.component"
 		CartService,
 		ProductService,
 		ProductResource,
+		StorageService,
+		TokenStorageService,
 		UserResource,
-		AuthGuardService
+		AuthGuardService,
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]
 })

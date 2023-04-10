@@ -8,6 +8,7 @@ import AbstractModel from "../../core/abstracts/model.abstract"
 export class ApiService {
 	private readonly base = {
 		url: "https://localhost:8000",
+		login: "https://localhost:8000/api/login",
 		entrypoint: "/api"
 	}
 
@@ -26,5 +27,17 @@ export class ApiService {
 
 	getUrlOf(model: (typeof AbstractModel), id?: number): string {
 		return `${this.base.url}${this.getIriOf(model, id)}`
+	}
+
+	getBaseUrl(): string {
+		return this.base.url
+	}
+
+	getEntrypoint(): string {
+		return this.base.entrypoint
+	}
+
+	getLoginUrl(): string {
+		return this.base.login
 	}
 }

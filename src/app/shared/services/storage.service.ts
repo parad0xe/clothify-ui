@@ -18,6 +18,10 @@ export class StorageService implements StorageInterface<Storage> {
 		this.getStorage().setItem(storeKey, JSON.stringify(data))
 	}
 
+	remove(storeKey: string) {
+		this.getStorage().removeItem(storeKey)
+	}
+
 	getStorage(): Storage {
 		return localStorage
 	}

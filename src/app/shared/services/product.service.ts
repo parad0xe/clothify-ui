@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductResource } from "../api/resources/product.resource"
+import { ProductResource } from "../resources/product.resource"
 import { Observable, of } from "rxjs"
 import ProductModel from "../../core/models/product.model"
 import ProductAttributModel from "../../core/models/productAttribut.model"

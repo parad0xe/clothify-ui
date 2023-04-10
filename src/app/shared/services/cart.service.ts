@@ -62,8 +62,8 @@ export class CartService {
 		private storage: StorageService,
 		private auth: AuthService
 	) {
-		this.auth.loginEvent.subscribe((isLoggedIn) => {
-			if (isLoggedIn) {
+		this.auth.user$.subscribe((user) => {
+			if (user) {
 				let cartData = this.storage.get(this.STORAGE_KEY)
 
 				const cart = (cartData !== null)

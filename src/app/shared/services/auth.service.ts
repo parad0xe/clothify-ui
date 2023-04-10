@@ -1,40 +1,74 @@
 import { Injectable } from '@angular/core';
-import { delay, Observable, of, Subject, tap } from "rxjs"
+import { BehaviorSubject, catchError, map, Observable, of, shareReplay, Subject, tap } from "rxjs"
 import UserModel from "../../core/models/user.model"
+import { UserService } from "./user.service"
+import { HttpClient } from "@angular/common/http"
+import { ApiService } from "./api.service"
+import moment from "moment"
+import { StorageService } from "./storage.service"
+import { TokenStorageService, UserToken } from "./token-storage.service"
+
+export type LoginResponse = {
+	token: string,
+	expiresAt: string
+}
 
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
-	user: UserModel
+	private userSubject: BehaviorSubject<UserModel | null> = new BehaviorSubject<UserModel | null>(null);
+	public user$: Observable<UserModel | null> = this.userSubject.asObservable();
 
-	isLoggedIn: boolean = false
 	redirectUrl?: string
 
-	loginEvent: Subject<boolean> = new Subject<boolean>()
-
-	constructor() { }
-
-	login(email: string, password: string): Observable<boolean> {
-		const isLoggedIn = (email === 'app@demo.com' && password === "app")
-
-		if(isLoggedIn) {
-			this.user = (new UserModel()).load({
-				email: email,
-				firstname: "john",
-				lastname: "doe",
-			})
+	constructor(
+		private http: HttpClient,
+		private userService: UserService,
+		private api: ApiService,
+		private storage: StorageService,
+		private tokenStorage: TokenStorageService
+	) {
+		if(this.tokenStorage.isValid()) {
+			this.userSubject.next(this.tokenStorage.getUser())
 		}
+	}
 
-		return of(isLoggedIn).pipe(
-			delay(1000),
-			tap(isLoggedIn => this.isLoggedIn = isLoggedIn),
-			tap(isLoggedIn => this.loginEvent.next(isLoggedIn)),
+	login(email: string, password: string): Observable<UserModel | null> {
+		return this.http.post<LoginResponse>(this.api.getLoginUrl(), {
+			username: email,
+			password: password
+		}).pipe(
+			map((res) => {
+				const userToken: UserToken = {
+					token: res.token,
+					expiresAt: res.expiresAt,
+					user: (new UserModel()).load({
+						email: email
+					})
+				}
+
+				this.tokenStorage.setToken(userToken);
+				this.userSubject.next(userToken.user)
+				return userToken.user
+			}),
+			catchError((error, data) => {
+				return of(null)
+			})
 		)
 	}
 
 	logout() {
-		this.isLoggedIn = false
+		this.tokenStorage.removeToken()
+		this.userSubject.next(null)
+	}
+
+	get isLoggedIn(): boolean {
+		return this.tokenStorage.isValid()
+	}
+
+	get isLoggedOut(): boolean {
+		return !this.isLoggedIn;
 	}
 }

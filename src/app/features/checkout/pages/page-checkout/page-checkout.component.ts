@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms"
 import { map, Observable, startWith } from "rxjs"
 import { ICreateOrderRequest, IOnApproveCallbackActions, IPayPalConfig, ITransactionItem } from "ngx-paypal"
-import { CartResource } from "../../../../shared/api/resources/cart.resource"
-import { MatStepper } from "@angular/material/stepper"
-import { UserResource } from "../../../../shared/api/resources/user.resource"
 import AddressModel from "../../../../core/models/address.model"
 import { CartService } from "../../../../shared/services/cart.service"
 import { ToastrService } from "ngx-toastr"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
+import { UserService } from "../../../../shared/services/user.service"
+import UserModel from "../../../../core/models/user.model"
 
 
 @Component({
@@ -18,6 +17,8 @@ import { RouteProviderService } from "../../../../shared/services/route-provider
 	styleUrls: ['./page-checkout.component.scss']
 })
 export class PageCheckoutComponent implements OnInit {
+	user: UserModel
+
 	countries: string[] = [
 		'France',
 		'Allemagne',
@@ -53,14 +54,17 @@ export class PageCheckoutComponent implements OnInit {
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _cartService: CartService,
-		private _userService: UserResource,
+		private _userService: UserService,
 		private _router: Router,
 		private _routerProvider: RouteProviderService,
 		private _toastr: ToastrService
 	) {}
 
 	ngOnInit() {
-		this.initPaypalConfig()
+		this._userService.user$.subscribe((user) => {
+			if(user) this.user = user
+			this.initPaypalConfig()
+		})
 
 		this.deliveryCountryOptions = this.userDeliveryFormGroup.get('country')!.valueChanges.pipe(
 			startWith(''),
@@ -139,13 +143,13 @@ export class PageCheckoutComponent implements OnInit {
 						},
 						shipping: {
 							address: {
-								address_line_1: this._userService.user.billingAddress.address,
-								postal_code: this._userService.user.billingAddress.postalCode,
+								address_line_1: this.user.billingAddress.address,
+								postal_code: this.user.billingAddress.postalCode,
 								country_code: 'FR',
-								admin_area_2: this._userService.user.billingAddress.city
+								admin_area_2: this.user.billingAddress.city
 							},
 							name: {
-								full_name: this._userService.user.lastname + this._userService.user.firstname
+								full_name: this.user.lastname + this.user.firstname
 							}
 						},
 						items: payload.cart.items.map((item): ITransactionItem => {
