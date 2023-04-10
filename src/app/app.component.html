@@ -10,10 +10,15 @@
             </button>
             <span>{{ title }}</span>
             <span class="spacer"></span>
-            <a mat-button class="app__user" routerLink="{{routeProvider.get('user:account')}}">
+            <a mat-button class="app__user">
                 <mat-icon >person</mat-icon>
-                <span class="d-none d-lg-inline ps-lg-2">Nom Utilisateur</span>
+                <span class="d-none d-lg-inline ps-lg-2" *ngIf="user" [matMenuTriggerFor]="menu">{{user.firstname | titlecase}} {{user.lastname | titlecase}}</span>
+                <span class="d-none d-lg-inline ps-lg-2" *ngIf="!user" [matMenuTriggerFor]="menu">Invité</span>
             </a>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="authService.isLoggedIn" (click)="authService.logout()">Déconnexion</button>
+                <button mat-menu-item *ngIf="!authService.isLoggedIn" routerLink="{{routeProvider.get('auth:login')}}">Me connecter</button>
+            </mat-menu>
         </mat-toolbar-row>
 
         <mat-toolbar-row>

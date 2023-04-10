@@ -76,6 +76,8 @@ export class CartService {
 					this.payload.cart = cart
 					this.cartSubject.next(this.payload)
 				})
+			} else {
+				this.clear()
 			}
 		})
 	}

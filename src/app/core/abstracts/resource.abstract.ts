@@ -7,7 +7,7 @@ import { Injectable } from "@angular/core"
 import { ToastrService } from "ngx-toastr"
 
 @Injectable()
-export default abstract class AbstractResource<T extends AbstractModel> {
+export default abstract class AbstractResource<T extends AbstractModel<any>> {
 	protected abstract model: new () => T
 
 	constructor(

@@ -3,7 +3,7 @@ import AddressModel from "./address.model"
 import { Type } from "class-transformer"
 
 
-export default class UserModel extends AbstractModel {
+export default class UserModel extends AbstractModel<UserModel> {
 	firstname: string
 	lastname: string
 	email: string

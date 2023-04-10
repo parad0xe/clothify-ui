@@ -1,9 +1,9 @@
 import { plainToClassFromExist } from "class-transformer"
 
-export default abstract class AbstractModel {
+export default abstract class AbstractModel<T> {
 	id: number
 
-	load(data: object): this {
+	load(data: Partial<{ [K in keyof T]: T[K]; }>): this {
 		return plainToClassFromExist(this, data)
 	}
 }

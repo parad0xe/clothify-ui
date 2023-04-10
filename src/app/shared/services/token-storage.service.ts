@@ -3,6 +3,7 @@ import StorageInterface from "../../core/interfaces/storage.interface"
 import { StorageService } from "./storage.service"
 import UserModel from "../../core/models/user.model"
 import moment from "moment/moment"
+import { BehaviorSubject, Observable, Subject } from "rxjs"
 
 export type UserToken = {
 	token: string,
@@ -15,13 +16,23 @@ export type UserToken = {
 	providedIn: 'root'
 })
 export class TokenStorageService extends StorageService {
-	TOKEN_KEY = "storage:token"
+	private TOKEN_KEY = "storage:token"
 
-	constructor() { super() }
+	private userTokenSubject = new BehaviorSubject<UserToken | null>(null)
+	userToken$ = this.userTokenSubject.asObservable()
+
+	constructor() {
+		super()
+
+		const userToken = this.getUserToken()
+
+		this.userTokenSubject.next(userToken)
+	}
 
 	setToken(userToken: UserToken): void {
-		this.remove(this.TOKEN_KEY);
-		this.save(this.TOKEN_KEY, userToken);
+		this.remove(this.TOKEN_KEY)
+		this.save(this.TOKEN_KEY, userToken)
+		this.userTokenSubject.next(userToken)
 	}
 
 	getToken(): string | null {
@@ -52,8 +63,11 @@ export class TokenStorageService extends StorageService {
 		if(userToken) {
 			userToken.user = user
 			this.save(this.TOKEN_KEY, userToken)
+			this.userTokenSubject.next(userToken)
 			return
 		}
+
+		this.userTokenSubject.next(null)
 	}
 
 	isValid(): boolean {
@@ -68,6 +82,7 @@ export class TokenStorageService extends StorageService {
 
 	removeToken(): void {
 		this.remove(this.TOKEN_KEY)
+		this.userTokenSubject.next(null)
 	}
 
 	private getUserToken(): UserToken | null {

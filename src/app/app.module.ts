@@ -44,6 +44,7 @@ import { AlertComponent } from "./shared/components/alert/alert.component"
 import { StorageService } from "./shared/services/storage.service"
 import { TokenStorageService } from "./shared/services/token-storage.service"
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor"
+import { MatMenuModule } from "@angular/material/menu"
 
 
 @NgModule({
@@ -92,7 +93,8 @@ import { AuthInterceptor } from "./shared/interceptors/auth.interceptor"
 		MatAutocompleteModule,
 		MatBadgeModule,
 		MatSelectModule,
-		StarRatingModule.forRoot()
+		StarRatingModule.forRoot(),
+		MatMenuModule
 	],
 	providers: [
 		RouteProviderService,

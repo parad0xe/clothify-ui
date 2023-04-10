@@ -6,7 +6,7 @@ import { Type } from "class-transformer"
 import ProductBrandModel from "./productBrand.model"
 
 
-export default class CartItemModel extends AbstractModel {
+export default class CartItemModel extends AbstractModel<CartItemModel> {
 	quantity: number = 0
 
 	@Type(() => ProductModel)

@@ -8,7 +8,7 @@ import ProductAttributModel from "./productAttribut.model"
 import { Type } from "class-transformer"
 
 
-export default class ProductModel extends AbstractModel {
+export default class ProductModel extends AbstractModel<ProductModel> {
 	name: string
 	description: string
 	price: number

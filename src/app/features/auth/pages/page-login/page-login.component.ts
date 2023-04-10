@@ -37,7 +37,7 @@ export class PageLoginComponent implements OnInit {
 		this.auth.login(this.email, this.password).subscribe((user) => {
 			this.toastr.clear()
 			if (user) {
-				this.toastr.success(`Bienvenue`)
+				this.toastr.success(`Bienvenue ${user.firstname} ${user.lastname}`)
 
 				const redirectUrl = (this.auth.redirectUrl !== undefined)
 					? this.auth.redirectUrl

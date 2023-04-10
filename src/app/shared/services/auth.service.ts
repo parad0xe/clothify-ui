@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, shareReplay, Subject, tap } from "rxjs"
+import { BehaviorSubject, catchError, map, Observable, of } from "rxjs"
 import UserModel from "../../core/models/user.model"
 import { UserService } from "./user.service"
 import { HttpClient } from "@angular/common/http"
 import { ApiService } from "./api.service"
-import moment from "moment"
 import { StorageService } from "./storage.service"
 import { TokenStorageService, UserToken } from "./token-storage.service"
 
 export type LoginResponse = {
+	firstname: string,
+	lastname: string,
 	token: string,
 	expiresAt: string
 }
@@ -30,7 +31,7 @@ export class AuthService {
 		private storage: StorageService,
 		private tokenStorage: TokenStorageService
 	) {
-		if(this.tokenStorage.isValid()) {
+		if (this.tokenStorage.isValid()) {
 			this.userSubject.next(this.tokenStorage.getUser())
 		}
 	}
@@ -45,7 +46,9 @@ export class AuthService {
 					token: res.token,
 					expiresAt: res.expiresAt,
 					user: (new UserModel()).load({
-						email: email
+						email: email,
+						firstname: res.firstname,
+						lastname: res.lastname,
 					})
 				}
 
