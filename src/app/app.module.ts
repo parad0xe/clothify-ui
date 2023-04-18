@@ -45,6 +45,7 @@ import { StorageService } from "./shared/services/storage.service"
 import { TokenStorageService } from "./shared/services/token-storage.service"
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor"
 import { MatMenuModule } from "@angular/material/menu"
+import { OrderService } from "./shared/services/order.service"
 
 
 @NgModule({
@@ -102,6 +103,7 @@ import { MatMenuModule } from "@angular/material/menu"
 		CartService,
 		ProductService,
 		ProductResource,
+		OrderService,
 		StorageService,
 		TokenStorageService,
 		UserResource,

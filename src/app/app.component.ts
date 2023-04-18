@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteProviderService } from "./shared/services/route-provider.service"
-import { CartService } from "./shared/services/cart.service"
+import { CartPayload, CartService } from "./shared/services/cart.service"
 import { TokenStorageService } from "./shared/services/token-storage.service"
 import UserModel from "./core/models/user.model"
 import { AuthService } from "./shared/services/auth.service"
@@ -12,13 +12,13 @@ import { AuthService } from "./shared/services/auth.service"
 	styles: []
 })
 export class AppComponent implements OnInit {
-	cartService: CartService
 	routeProvider: RouteProviderService
 	authService: AuthService
 
 	title = 'Clothify';
 
 	user: UserModel | null
+	cartPayload: CartPayload
 
 	constructor(
 		private _cartService: CartService,
@@ -26,14 +26,17 @@ export class AppComponent implements OnInit {
 		private _tokenStorage: TokenStorageService,
 		private _authService: AuthService,
 	) {
-		this.cartService = _cartService
 		this.routeProvider = _routeProviderService
 		this.authService = _authService
-	}
 
-	ngOnInit() {
 		this._tokenStorage.userToken$.subscribe((userToken) => {
 			this.user = (userToken) ? userToken.user : null
 		})
+
+		this._cartService.cart$.subscribe((payload) => {
+			this.cartPayload = payload
+		})
 	}
+
+	ngOnInit() {}
 }

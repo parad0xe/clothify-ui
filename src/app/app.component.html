@@ -10,10 +10,10 @@
             </button>
             <span>{{ title }}</span>
             <span class="spacer"></span>
-            <a mat-button class="app__user">
+            <a mat-button class="app__user" [matMenuTriggerFor]="menu">
                 <mat-icon >person</mat-icon>
-                <span class="d-none d-lg-inline ps-lg-2" *ngIf="user" [matMenuTriggerFor]="menu">{{user.firstname | titlecase}} {{user.lastname | titlecase}}</span>
-                <span class="d-none d-lg-inline ps-lg-2" *ngIf="!user" [matMenuTriggerFor]="menu">Invité</span>
+                <span class="d-none d-lg-inline ps-lg-2" *ngIf="user">{{user.firstname | titlecase}} {{user.lastname | titlecase}}</span>
+                <span class="d-none d-lg-inline ps-lg-2" *ngIf="!user">Invité</span>
             </a>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item *ngIf="authService.isLoggedIn" (click)="authService.logout()">Déconnexion</button>
@@ -29,9 +29,9 @@
                 <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('cart:detail')}}" class="cart__bag">
                     <div>
                         <mat-icon>shopping_bag</mat-icon>
-                        <span class="bag__counter">{{(cartService.cart$ | async)?.totalItems()}}</span>
+                        <span class="bag__counter">{{this.cartPayload.getTotalItemNumber()}}</span>
                     </div>
-                    <span class="cart__total ps-2 me-1">{{(cartService.cart$ | async)?.total() | number: '1.2'}}</span> EUR
+                    <span class="cart__total ps-2 me-1">{{this.cartPayload.getTotalPrice() | number: '1.2'}}</span> EUR
                 </a>
             </nav>
             <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
