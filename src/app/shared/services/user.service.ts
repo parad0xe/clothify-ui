@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import UserModel from "../../core/models/user.model"
-import { BehaviorSubject, Observable, of } from "rxjs"
 import { StorageService } from "./storage.service"
 import { UserResource } from "../resources/user.resource"
-import AddressModel from "../../core/models/address.model"
+import { AuthService } from "./auth.service"
+import { ToastrService } from "ngx-toastr"
+import { TokenStorageService } from "./token-storage.service"
+import { BehaviorSubject, Observable } from "rxjs"
 
 type UserData = {
 	firstname: string
@@ -12,56 +14,46 @@ type UserData = {
 	phone: string
 }
 
+
 @Injectable({
 	providedIn: 'root'
 })
 export class UserService {
-	private USER_STORAGE_KEY = "storage:user"
-
-	private user: UserModel = new UserModel()
 	private userSubject: BehaviorSubject<UserModel | null> = new BehaviorSubject<UserModel | null>(null)
-
 	user$: Observable<UserModel | null> = this.userSubject.asObservable()
 
 	constructor(
-		private storage: StorageService
+		private storage: StorageService,
+		private userResource: UserResource,
+		private tokenStorage: TokenStorageService,
+		private auth: AuthService,
+		private toastr: ToastrService
 	) {
-		let userData = this.storage.get(this.USER_STORAGE_KEY)
-
-		// this.user = (userData !== null)
-		// 	? (new UserModel()).load(userData)
-		// 	: new UserModel()
-
-		// of(this.user).subscribe((user) => {
-		// 	this.userSubject.next(user)
-		// })
+		this.tokenStorage.userToken$.subscribe((userToken) => {
+			if (userToken) {
+				this.userResource.get(userToken.user.id).subscribe((user) => {
+					this.userSubject.next(user ?? null)
+				})
+			}
+		})
 	}
 
-	loggin(user: UserModel) {
-		this.user = user
-		this.save()
-	}
+	updatePartialUser(partialUser: UserModel) {
+		if (!this.auth.isLoggedIn) {
+			this.toastr.error("Utilisateur non connecté")
+			return
+		}
 
-	setUserData(data: UserData) {
-		this.user.firstname = data.firstname
-		this.user.lastname = data.lastname
-		this.user.email = data.email
-		this.user.phone = data.phone
-		this.save()
-	}
+		const userToken = this.tokenStorage.getUser()
 
-	setDeliveryAddress(address: AddressModel) {
-		this.user.deliveryAddress = address
-		this.save()
-	}
-
-	setBillingAddress(address: AddressModel) {
-		this.user.billingAddress = address
-		this.save()
-	}
-
-	private save() {
-		this.storage.save(this.USER_STORAGE_KEY, this.user)
-		this.userSubject.next(this.user)
+		if (userToken) {
+			this.userResource.patch(userToken.id, partialUser).subscribe((user) => {
+				if (user) {
+					this.tokenStorage.setUser(user)
+					this.userSubject.next(user)
+					this.toastr.success("Utilisateur mis à jour avec succès")
+				}
+			})
+		}
 	}
 }

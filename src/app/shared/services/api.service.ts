@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import AbstractModel from "../../core/abstracts/model.abstract"
+import AbstractModel from "../../core/http/model.abstract"
 
 
 @Injectable({

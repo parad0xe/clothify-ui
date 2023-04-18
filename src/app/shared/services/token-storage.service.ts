@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import StorageInterface from "../../core/interfaces/storage.interface"
 import { StorageService } from "./storage.service"
 import UserModel from "../../core/models/user.model"
-import moment from "moment/moment"
-import { BehaviorSubject, Observable, Subject } from "rxjs"
+import { BehaviorSubject } from "rxjs"
+import dayjs from "dayjs"
 
 export type UserToken = {
 	token: string,
@@ -24,8 +23,11 @@ export class TokenStorageService extends StorageService {
 	constructor() {
 		super()
 
-		const userToken = this.getUserToken()
+		if (!this.isValid()) {
+			this.removeToken()
+		}
 
+		const userToken = this.getUserToken()
 		this.userTokenSubject.next(userToken)
 	}
 
@@ -38,7 +40,7 @@ export class TokenStorageService extends StorageService {
 	getToken(): string | null {
 		const userToken: UserToken | null = this.getUserToken()
 
-		if(userToken) {
+		if (userToken) {
 			return userToken.token
 		}
 
@@ -48,7 +50,7 @@ export class TokenStorageService extends StorageService {
 	getUser(): UserModel | null {
 		const userToken: UserToken | null = this.getUserToken()
 
-		if(userToken) {
+		if (userToken) {
 			return userToken.user
 		}
 
@@ -60,8 +62,8 @@ export class TokenStorageService extends StorageService {
 	setUser(user: UserModel): void {
 		const userToken = this.getUserToken()
 
-		if(userToken) {
-			userToken.user = user
+		if (userToken) {
+			userToken.user = user.toLocalStorage()
 			this.save(this.TOKEN_KEY, userToken)
 			this.userTokenSubject.next(userToken)
 			return
@@ -73,8 +75,8 @@ export class TokenStorageService extends StorageService {
 	isValid(): boolean {
 		const userToken: UserToken = (this.get(this.TOKEN_KEY) as UserToken);
 
-		if(userToken) {
-			return moment().isBefore(moment(userToken.expiresAt));
+		if (userToken) {
+			return dayjs(dayjs()).isSameOrBefore(userToken.expiresAt)
 		}
 
 		return false
@@ -88,7 +90,7 @@ export class TokenStorageService extends StorageService {
 	private getUserToken(): UserToken | null {
 		const userToken: UserToken = (this.get(this.TOKEN_KEY) as UserToken);
 
-		if(userToken) {
+		if (userToken) {
 			userToken.user = (new UserModel()).load(userToken.user)
 			return userToken
 		}
