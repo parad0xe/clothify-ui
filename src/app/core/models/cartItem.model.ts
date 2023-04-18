@@ -1,4 +1,4 @@
-import AbstractModel from "../abstracts/model.abstract"
+import AbstractModel from "../http/model.abstract"
 import UserModel from "./user.model"
 import ProductModel from "./product.model"
 import ProductAttributModel from "./productAttribut.model"
