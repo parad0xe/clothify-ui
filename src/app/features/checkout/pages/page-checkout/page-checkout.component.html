@@ -1,6 +1,6 @@
-<div class="container-fluid">
-    <mat-stepper linear #stepper>
-        <mat-step [stepControl]="userDataFormGroup" [editable]="true">
+<div class="container-fluid h-100">
+    <mat-stepper selectedIndex="0" orientation="vertical" linear #stepper class="h-100">
+        <mat-step label="userData" [stepControl]="userDataFormGroup" [editable]="true">
             <form [formGroup]="userDataFormGroup" (ngSubmit)="OnSubmitUserDataForm()">
                 <ng-template matStepLabel>Information personnel</ng-template>
 
@@ -46,7 +46,7 @@
             </form>
         </mat-step>
 
-        <mat-step [stepControl]="userDeliveryFormGroup" [editable]="true">
+        <mat-step label="deliveryData" [stepControl]="userDeliveryFormGroup" [editable]="true">
             <form [formGroup]="userDeliveryFormGroup" (ngSubmit)="OnSubmitUserDeliveryForm()">
                 <ng-template matStepLabel>Information de livraison</ng-template>
 
@@ -100,7 +100,7 @@
             </form>
         </mat-step>
 
-        <mat-step [stepControl]="userBillingFormGroup" [editable]="true">
+        <mat-step label="billingData" [stepControl]="userBillingFormGroup" [editable]="true">
             <form [formGroup]="userBillingFormGroup" (ngSubmit)="OnSubmitUserBillingForm()">
                 <ng-template matStepLabel>Information de facturation</ng-template>
 
@@ -154,7 +154,62 @@
             </form>
         </mat-step>
 
-        <mat-step [editable]="true">
+        <mat-step label="summary" [editable]="true">
+            <ng-template matStepLabel>Récapitulatif</ng-template>
+
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Information Personnel</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-6">Prénom: {{userDataFormGroup.controls.firstname.value}}</div>
+                        <div class="col-md-6">Nom: {{userDataFormGroup.controls.lastname.value}}</div>
+                        <div class="col-md-6">Email: {{userDataFormGroup.controls.email.value}}</div>
+                        <div class="col-md-6">Téléphone: {{userDataFormGroup.controls.phone.value}}</div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Information de livraison</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-6">Adresse: {{userDeliveryFormGroup.controls.address.value}}</div>
+                        <div class="col-md-6">Pays: {{userDeliveryFormGroup.controls.country.value}}</div>
+                        <div class="col-md-6">Ville: {{userDeliveryFormGroup.controls.city.value}}</div>
+                        <div class="col-md-6">Code postal: {{userDeliveryFormGroup.controls.postal_code.value}}</div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Information de facturation</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-6">Adresse: {{userBillingFormGroup.controls.address.value}}</div>
+                        <div class="col-md-6">Pays: {{userBillingFormGroup.controls.country.value}}</div>
+                        <div class="col-md-6">Ville: {{userBillingFormGroup.controls.city.value}}</div>
+                        <div class="col-md-6">Code postal: {{userBillingFormGroup.controls.postal_code.value}}</div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <button mat-raised-button color="primary" *ngIf="auth.isLoggedIn" (click)="updateUserInfo()">Sauvegarder les informations ?</button>
+
+            <div>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step [editable]="true" label="checkout">
             <ng-template matStepLabel>Paiement</ng-template>
 
             <ngx-paypal [config]="paypalConfig"></ngx-paypal>
@@ -164,7 +219,7 @@
             </div>
         </mat-step>
 
-        <mat-step>
+        <mat-step label="orderComplete">
             <ng-template matStepLabel>Done</ng-template>
             <p>You are now done.</p>
             <div>

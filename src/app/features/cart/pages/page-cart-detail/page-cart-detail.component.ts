@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import CartItemModel from "../../../../core/models/cartItem.model"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import { MatTable } from "@angular/material/table"
-import { CartService } from "../../../../shared/services/cart.service"
+import { CartPayload, CartService } from "../../../../shared/services/cart.service"
 
 
 @Component({
@@ -11,10 +11,11 @@ import { CartService } from "../../../../shared/services/cart.service"
 	styleUrls: ['./page-cart-detail.component.scss']
 })
 export class PageCartDetailComponent implements OnInit {
-	cartService: CartService
 	routeProvider: RouteProviderService
 
 	CartItemModel: typeof CartItemModel = CartItemModel
+
+	cartPayload: CartPayload
 
 	dataSource: CartItemModel[]
 	displayedColumns = ['counter', 'image', 'actions', 'price', 'action:remove']
@@ -25,12 +26,10 @@ export class PageCartDetailComponent implements OnInit {
 		private _cartService: CartService,
 		private _routeProvider: RouteProviderService
 	) {
-		this.cartService = _cartService
 		this.routeProvider = _routeProvider
-	}
 
-	ngOnInit() {
-		this.cartService.cart$.subscribe((payload) => {
+		this._cartService.cart$.subscribe((payload) => {
+			this.cartPayload = payload
 			this.dataSource = payload.cart.items
 
 			if (this.table) {
@@ -38,6 +37,8 @@ export class PageCartDetailComponent implements OnInit {
 			}
 		})
 	}
+
+	ngOnInit() {}
 
 	increaseItemQuantity(cartItem: CartItemModel) {
 		this._cartService.add(cartItem.product, cartItem.productAttributs)

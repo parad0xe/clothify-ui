@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms"
 import { map, Observable, startWith } from "rxjs"
 import { ICreateOrderRequest, IOnApproveCallbackActions, IPayPalConfig, ITransactionItem } from "ngx-paypal"
@@ -9,6 +9,10 @@ import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import { UserService } from "../../../../shared/services/user.service"
 import UserModel from "../../../../core/models/user.model"
+import { AuthService } from "../../../../shared/services/auth.service"
+import { TokenStorageService } from "../../../../shared/services/token-storage.service"
+import { MatStep, MatStepper } from "@angular/material/stepper"
+import { OrderService } from "../../../../shared/services/order.service"
 
 
 @Component({
@@ -16,8 +20,12 @@ import UserModel from "../../../../core/models/user.model"
 	templateUrl: './page-checkout.component.html',
 	styleUrls: ['./page-checkout.component.scss']
 })
-export class PageCheckoutComponent implements OnInit {
-	user: UserModel
+export class PageCheckoutComponent implements OnInit, AfterViewInit {
+	auth: AuthService
+
+	@ViewChild(MatStepper) stepper: MatStepper
+
+	partialUser: UserModel = new UserModel()
 
 	countries: string[] = [
 		'France',
@@ -26,21 +34,21 @@ export class PageCheckoutComponent implements OnInit {
 	]
 
 	userDataFormGroup = this._formBuilder.group({
-		firstname: ['john', Validators.required],
-		lastname: ['doe', Validators.required],
-		email: ['app@demo.com', Validators.required],
-		phone: ['0011223344', Validators.required]
+		firstname: ['', Validators.required],
+		lastname: ['', Validators.required],
+		email: ['', Validators.required],
+		phone: ['', Validators.required]
 	});
 
 	userDeliveryFormGroup = this._formBuilder.group({
-		address: ['11 rue de la pelouse', Validators.required],
+		address: ['11 rue de la pelouse_', Validators.required],
 		postal_code: ['15000', Validators.required],
 		city: ['Lille', Validators.required],
 		country: ['France', Validators.required]
 	});
 
 	userBillingFormGroup = this._formBuilder.group({
-		address: ['11 rue de la pelouse', Validators.required],
+		address: ['11 rue de la pelouse_', Validators.required],
 		postal_code: ['15000', Validators.required],
 		city: ['Lille', Validators.required],
 		country: ['France', Validators.required]
@@ -57,15 +65,42 @@ export class PageCheckoutComponent implements OnInit {
 		private _userService: UserService,
 		private _router: Router,
 		private _routerProvider: RouteProviderService,
-		private _toastr: ToastrService
-	) {}
+		private _tokenStorage: TokenStorageService,
+		private _toastr: ToastrService,
+		private _auth: AuthService,
+		private _orderService: OrderService
+	) {
+		this.auth = _auth
+
+		this._userService.user$.subscribe((user) => {
+			if(user) {
+				this.partialUser = user
+
+				this.userDataFormGroup.setValue({
+					firstname: user.firstname,
+					lastname: user.lastname,
+					email: user.email,
+					phone: user.phone
+				})
+
+				this.userBillingFormGroup.setValue({
+					address: user.billingAddress.address,
+					postal_code: user.billingAddress.postalCode,
+					city: user.billingAddress.city,
+					country: user.billingAddress.country
+				})
+
+				this.userDeliveryFormGroup.setValue({
+					address: user.deliveryAddress.address,
+					postal_code: user.deliveryAddress.postalCode,
+					city: user.deliveryAddress.city,
+					country: user.deliveryAddress.country
+				})
+			}
+		})
+	}
 
 	ngOnInit() {
-		this._userService.user$.subscribe((user) => {
-			if(user) this.user = user
-			this.initPaypalConfig()
-		})
-
 		this.deliveryCountryOptions = this.userDeliveryFormGroup.get('country')!.valueChanges.pipe(
 			startWith(''),
 			map(country => (country ? this._filterCountry(country) : this.countries.slice()))
@@ -77,49 +112,57 @@ export class PageCheckoutComponent implements OnInit {
 		)
 	}
 
+	ngAfterViewInit() {
+		this.stepper.selectionChange.subscribe((selection) => {
+			if(selection.selectedStep.label === "checkout") {
+				this.initPaypalConfig()
+			}
+		})
+	}
+
 	OnSubmitUserDataForm() {
 		if (!this.userDataFormGroup.valid) {
 			return
 		}
+	}
+	OnSubmitUserDeliveryForm() {
+		if (!this.userDataFormGroup.valid) {
+			return
+		}
+	}
+	OnSubmitUserBillingForm() {
+		if (!this.userDataFormGroup.valid) {
+			return
+		}
+	}
 
-		this._userService.setUserData({
+	updateUserInfo() {
+		this.partialUser = this.partialUser.load({
 			firstname: this.userDataFormGroup.controls.firstname.value ?? "",
 			lastname: this.userDataFormGroup.controls.lastname.value ?? "",
 			email: this.userDataFormGroup.controls.email.value ?? "",
 			phone: this.userDataFormGroup.controls.phone.value ?? ""
 		})
-	}
 
-	OnSubmitUserDeliveryForm() {
-		if (!this.userDataFormGroup.valid) {
-			return
-		}
-
-		this._userService.setDeliveryAddress(
-			(new AddressModel).load({
+		this.partialUser = this.partialUser.load({
+			deliveryAddress: (new AddressModel).load({
 				address: this.userDeliveryFormGroup.controls.address.value ?? "",
 				postalCode: this.userDeliveryFormGroup.controls.postal_code.value ?? "",
 				city: this.userDeliveryFormGroup.controls.city.value ?? "",
 				country: this.userDeliveryFormGroup.controls.country.value ?? ""
 			})
-		)
-	}
+		})
 
-	OnSubmitUserBillingForm() {
-		if (!this.userDataFormGroup.valid) {
-			return
-		}
-
-		this._userService.setBillingAddress(
-			(new AddressModel).load({
-				address: this.userDeliveryFormGroup.controls.address.value ?? "",
-				postalCode: this.userDeliveryFormGroup.controls.postal_code.value ?? "",
-				city: this.userDeliveryFormGroup.controls.city.value ?? "",
-				country: this.userDeliveryFormGroup.controls.country.value ?? ""
+		this.partialUser = this.partialUser.load({
+			billingAddress: (new AddressModel).load({
+				address: this.userBillingFormGroup.controls.address.value ?? "",
+				postalCode: this.userBillingFormGroup.controls.postal_code.value ?? "",
+				city: this.userBillingFormGroup.controls.city.value ?? "",
+				country: this.userBillingFormGroup.controls.country.value ?? ""
 			})
-		)
+		})
 
-		this.initPaypalConfig()
+		this._userService.updatePartialUser(this.partialUser)
 	}
 
 	private async initPaypalConfig() {
@@ -133,23 +176,23 @@ export class PageCheckoutComponent implements OnInit {
 						description: "Commande Clothify",
 						amount: {
 							currency_code: 'EUR',
-							value: payload.total().toString(),
+							value: payload.getTotalPrice().toString(),
 							breakdown: {
 								item_total: {
 									currency_code: 'EUR',
-									value: payload.total().toString()
+									value:payload.getTotalPrice().toString()
 								}
 							}
 						},
 						shipping: {
 							address: {
-								address_line_1: this.user.billingAddress.address,
-								postal_code: this.user.billingAddress.postalCode,
+								address_line_1: this.partialUser.billingAddress.address,
+								postal_code: this.partialUser.billingAddress.postalCode,
 								country_code: 'FR',
-								admin_area_2: this.user.billingAddress.city
+								admin_area_2: this.partialUser.billingAddress.city
 							},
 							name: {
-								full_name: this.user.lastname + this.user.firstname
+								full_name: this.partialUser.lastname + this.partialUser.firstname
 							}
 						},
 						items: payload.cart.items.map((item): ITransactionItem => {
@@ -172,20 +215,16 @@ export class PageCheckoutComponent implements OnInit {
 					label: 'paypal',
 					layout: 'vertical'
 				},
-				onApprove: (data, actions: IOnApproveCallbackActions) => {
-					actions.order.get().then((details: object) => {
-						console.log('onApprove - you can get full order details inside onApprove: ', details);
-					});
-				},
+				onApprove: (data, actions: IOnApproveCallbackActions) => {},
 				onClientAuthorization: (data) => {
-					this._toastr.success(`Commande ${data.id} confirmé.`, "", {
-						timeOut: 0,
-						extendedTimeOut: 0
+					this._orderService.createOrder(this.partialUser, payload, data.id).subscribe((order) => {
+						this._toastr.success(`Commande ${data.id} confirmé.`, "", {
+							timeOut: 0,
+							extendedTimeOut: 0
+						})
+						this._cartService.clear()
+						this._router.navigate([this._routerProvider.get('app:home')])
 					})
-					this._cartService.clear()
-					this._router.navigate([this._routerProvider.get('app:home')])
-					console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-					// this.showSuccess = true;
 				},
 				onCancel: (data, actions) => {
 					console.log('OnCancel', data, actions);

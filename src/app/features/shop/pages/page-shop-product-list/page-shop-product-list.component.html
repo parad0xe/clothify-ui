@@ -1,9 +1,9 @@
 <div class="p-4" *ngIf="products.length > 0 else noproducts">
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4">
         <div *ngFor="let product of products" class="col">
-            <div [matBadgeHidden]="!(cartService.cart$ | async)?.hasQuantity(product)"
+            <div [matBadgeHidden]="!cartPayload.hasItemQuantity(product)"
                  class="--card"
-                 matBadge="{{(cartService.cart$ | async)?.getQuantity(product)}}"
+                 matBadge="{{cartPayload.getItemQuantity(product)}}"
                  matBadgeColor="accent"
                  matBadgePosition="above after"
                  matBadgeSize="medium">

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import ProductModel from "../../../../core/models/product.model"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import { ProductService } from "../../../../shared/services/product.service"
-import { CartService } from "../../../../shared/services/cart.service"
-import { map, Observable } from "rxjs"
+import { CartPayload, CartService } from "../../../../shared/services/cart.service"
 
 
 @Component({
@@ -13,8 +12,9 @@ import { map, Observable } from "rxjs"
 })
 export class PageShopProductListComponent implements OnInit {
 	productService: ProductService
-	cartService: CartService
 	routeProvider: RouteProviderService
+
+	cartPayload: CartPayload
 
 	products: ProductModel[] = []
 
@@ -24,8 +24,11 @@ export class PageShopProductListComponent implements OnInit {
 		private _routeProvider: RouteProviderService
 	) {
 		this.productService = _productService
-		this.cartService = _cartService
 		this.routeProvider = _routeProvider
+
+		this._cartService.cart$.subscribe((payload) => {
+			this.cartPayload = payload
+		})
 	}
 
 	ngOnInit() {
