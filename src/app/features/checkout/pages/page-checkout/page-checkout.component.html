@@ -1,230 +1,91 @@
 <div class="container-fluid h-100">
-    <mat-stepper selectedIndex="0" orientation="vertical" linear #stepper class="h-100">
-        <mat-step label="userData" [stepControl]="userDataFormGroup" [editable]="true">
-            <form [formGroup]="userDataFormGroup" (ngSubmit)="OnSubmitUserDataForm()">
-                <ng-template matStepLabel>Information personnel</ng-template>
+    <mat-stepper (selectionChange)="onStepChanged($event)" orientation="vertical" linear #stepper class="h-100">
+        <mat-step label="userData" [editable]="true" #userDataStep>
+            <ng-template matStepLabel>Information personnel</ng-template>
 
-                <div class="row">
-                    <h5 class="col-md-12">Information Personnel</h5>
+            <app-user-data-form-step
+                    [(user)]="user"
+                    title="Information Personnel"
+                    (valid)="onValidateStep(userDataStep.label, $event)">
+            </app-user-data-form-step>
 
-                    <div class="col-md-12 mt-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Prénom</mat-label>
-                                    <input matInput formControlName="firstname" required>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Nom</mat-label>
-                                    <input matInput formControlName="lastname" required>
-                                </mat-form-field>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Email</mat-label>
-                                    <input matInput formControlName="email" required>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Téléphone</mat-label>
-                                    <input matInput formControlName="phone" required>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
+            <div>
+                <button mat-button
+                        [disabled]="!stepsValidity[userDataStep.label]"
+                        matStepperNext>
+                    Next
+                </button>
+            </div>
         </mat-step>
 
-        <mat-step label="deliveryData" [stepControl]="userDeliveryFormGroup" [editable]="true">
-            <form [formGroup]="userDeliveryFormGroup" (ngSubmit)="OnSubmitUserDeliveryForm()">
-                <ng-template matStepLabel>Information de livraison</ng-template>
+        <mat-step label="deliveryData" #deliveryDataStep [editable]="true">
+            <ng-template matStepLabel>Information de livraison</ng-template>
 
-                <div class="row">
-                    <h5 class="col-md-12">Information de livraison</h5>
+            <app-delivery-data-form-step
+                    [(user)]="user"
+                    title="Information de livraison"
+                    (valid)="onValidateStep(deliveryDataStep.label, $event)">
+            </app-delivery-data-form-step>
 
-                    <div class="col-md-12 mt-4">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Rue / Adresse</mat-label>
-                                    <input matInput formControlName="address" required>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Code postal</mat-label>
-                                    <input matInput formControlName="postal_code" required>
-                                </mat-form-field>
-                            </div>
-                            <div class="col">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Ville</mat-label>
-                                    <input matInput formControlName="city" required>
-                                </mat-form-field>
-                            </div>
-                            <div class="col">
-                                <mat-form-field class="example-full-width" appearance="fill">
-                                    <mat-label>Pays</mat-label>
-                                    <input type="text"
-                                           placeholder="Pick one"
-                                           aria-label="Pays"
-                                           matInput
-                                           formControlName="country"
-                                           [matAutocomplete]="delivery_country_auto">
-                                    <mat-autocomplete autoActiveFirstOption #delivery_country_auto="matAutocomplete">
-                                        <mat-option *ngFor="let option of deliveryCountryOptions | async" [value]="option">
-                                            {{option}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
+            <div>
+                <button mat-button
+                        [disabled]="!stepsValidity[deliveryDataStep.label]"
+                        matStepperNext>
+                    Next
+                </button>
+            </div>
         </mat-step>
 
-        <mat-step label="billingData" [stepControl]="userBillingFormGroup" [editable]="true">
-            <form [formGroup]="userBillingFormGroup" (ngSubmit)="OnSubmitUserBillingForm()">
-                <ng-template matStepLabel>Information de facturation</ng-template>
+        <mat-step label="billingData" #billingDataStep [editable]="true">
+            <ng-template matStepLabel>Information de facturation</ng-template>
 
-                <div class="row">
-                    <h5 class="col-md-12">Information de facturation</h5>
+            <app-billing-data-form-step
+                    [(user)]="user"
+                    title="Information de facturation"
+                    (valid)="onValidateStep(billingDataStep.label, $event)">
+            </app-billing-data-form-step>
 
-                    <div class="col-md-12 mt-4">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Rue / Adresse</mat-label>
-                                    <input matInput formControlName="address" required>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Code postal</mat-label>
-                                    <input matInput formControlName="postal_code" required>
-                                </mat-form-field>
-                            </div>
-                            <div class="col">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Ville</mat-label>
-                                    <input matInput formControlName="city" required>
-                                </mat-form-field>
-                            </div>
-                            <div class="col">
-                                <mat-form-field class="example-full-width" appearance="fill">
-                                    <mat-label>Pays</mat-label>
-                                    <input type="text"
-                                           placeholder="Pick one"
-                                           aria-label="Pays"
-                                           matInput
-                                           formControlName="country"
-                                           [matAutocomplete]="billing_country_auto">
-                                    <mat-autocomplete autoActiveFirstOption #billing_country_auto="matAutocomplete">
-                                        <mat-option *ngFor="let option of billingCountryOptions | async" [value]="option">
-                                            {{option}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
+            <div>
+                <button mat-button
+                        [disabled]="!stepsValidity[billingDataStep.label]"
+                        matStepperNext>
+                    Next
+                </button>
+            </div>
         </mat-step>
 
-        <mat-step label="summary" [editable]="true">
+        <mat-step label="orderSummary" [editable]="true">
             <ng-template matStepLabel>Récapitulatif</ng-template>
 
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Information Personnel</mat-card-title>
-                </mat-card-header>
-
-                <mat-card-content>
-                    <div class="row">
-                        <div class="col-md-6">Prénom: {{userDataFormGroup.controls.firstname.value}}</div>
-                        <div class="col-md-6">Nom: {{userDataFormGroup.controls.lastname.value}}</div>
-                        <div class="col-md-6">Email: {{userDataFormGroup.controls.email.value}}</div>
-                        <div class="col-md-6">Téléphone: {{userDataFormGroup.controls.phone.value}}</div>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Information de livraison</mat-card-title>
-                </mat-card-header>
-
-                <mat-card-content>
-                    <div class="row">
-                        <div class="col-md-6">Adresse: {{userDeliveryFormGroup.controls.address.value}}</div>
-                        <div class="col-md-6">Pays: {{userDeliveryFormGroup.controls.country.value}}</div>
-                        <div class="col-md-6">Ville: {{userDeliveryFormGroup.controls.city.value}}</div>
-                        <div class="col-md-6">Code postal: {{userDeliveryFormGroup.controls.postal_code.value}}</div>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Information de facturation</mat-card-title>
-                </mat-card-header>
-
-                <mat-card-content>
-                    <div class="row">
-                        <div class="col-md-6">Adresse: {{userBillingFormGroup.controls.address.value}}</div>
-                        <div class="col-md-6">Pays: {{userBillingFormGroup.controls.country.value}}</div>
-                        <div class="col-md-6">Ville: {{userBillingFormGroup.controls.city.value}}</div>
-                        <div class="col-md-6">Code postal: {{userBillingFormGroup.controls.postal_code.value}}</div>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-
-            <button mat-raised-button color="primary" *ngIf="auth.isLoggedIn" (click)="updateUserInfo()">Sauvegarder les informations ?</button>
+            <app-order-summary-step [user]="user"></app-order-summary-step>
 
             <div>
                 <button mat-button matStepperNext>Next</button>
             </div>
         </mat-step>
 
-        <mat-step [editable]="true" label="checkout">
+        <mat-step label="payment" #paymentStep [editable]="true">
             <ng-template matStepLabel>Paiement</ng-template>
 
-            <ngx-paypal [config]="paypalConfig"></ngx-paypal>
-
-            <div>
-                <button mat-button matStepperNext>Next</button>
-            </div>
+            <app-payment-step
+                    [label]="paymentStep.label"
+                    [activeLabel]="activeLabel"
+                    [user]="user"
+                    (orderComplete)="onOrderComplete($event)">
+            </app-payment-step>
         </mat-step>
 
-        <mat-step label="orderComplete">
+        <mat-step label="orderComplete" #orderCompmleteStep>
             <ng-template matStepLabel>Done</ng-template>
-            <p>You are now done.</p>
+
+            <app-order-success-step
+                    [label]="orderCompmleteStep.label"
+                    [activeLabel]="activeLabel"
+                    [order]="order">
+            </app-order-success-step>
+
             <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+                <button mat-button (click)="onShop()">go Shop</button>
             </div>
         </mat-step>
     </mat-stepper>
