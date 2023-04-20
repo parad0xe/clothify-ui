@@ -18,9 +18,9 @@ export default class UserModel extends AbstractModel<UserModel> {
 
 	@Expose({ groups: ['patch'] })
 	@Type(() => AddressModel)
-	deliveryAddress: AddressModel
+	deliveryAddress: AddressModel = new AddressModel()
 
 	@Expose({ groups: ['patch'] })
 	@Type(() => AddressModel)
-	billingAddress: AddressModel
+	billingAddress: AddressModel = new AddressModel()
 }

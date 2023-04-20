@@ -1,4 +1,3 @@
-
 import AbstractModel from "../http/model.abstract"
 import ProductBrandModel from "./productBrand.model"
 import ProductRatingModel from "./productRating.model"

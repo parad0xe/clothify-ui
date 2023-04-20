@@ -1,7 +1,6 @@
 import AbstractModel from "../http/model.abstract"
 import ProductAttributCategoryModel from "./productAttributCategory.model"
 import { Type } from "class-transformer"
-import ProductBrandModel from "./productBrand.model"
 
 
 export default class ProductAttributModel extends AbstractModel<ProductAttributModel> {
