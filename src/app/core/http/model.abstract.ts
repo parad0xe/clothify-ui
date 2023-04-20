@@ -2,7 +2,7 @@ import { Expose, instanceToPlain, plainToClassFromExist } from "class-transforme
 import UserModel from "../models/user.model"
 
 export default abstract class AbstractModel<T> {
-	@Expose({groups: ['store']})
+	@Expose({ groups: ['store'] })
 	id: number
 
 	load(data: Partial<{ [K in keyof T]: T[K]; }>): this {
