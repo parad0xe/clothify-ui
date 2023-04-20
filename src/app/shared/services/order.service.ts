@@ -16,8 +16,8 @@ import ProductAttributModel from "../../core/models/productAttribut.model"
 export class OrderService {
 
 	constructor(
-		private orderResource: OrderResource,
-		private api: ApiService
+		private _orderResource: OrderResource,
+		private _api: ApiService
 	) { }
 
 	createOrder(user: UserModel, payload: CartPayload, reference: string): Observable<OrderModel | undefined> {
@@ -25,20 +25,20 @@ export class OrderService {
 			totalCost: payload.getTotalPrice(),
 			paymentMethod: 'PAYPAL',
 			shippingAddress: user.deliveryAddress,
-			user: this.api.getIriOf(UserModel, user.id),
+			user: this._api.getIriOf(UserModel, user.id),
 			reference: reference,
 			orderItems: payload.cart.items.map((item) => {
 				return (new OrderItemModel()).load({
 					totalCost: payload.getTotalItemPrice(item),
-					product: this.api.getIriOf(ProductModel, item.product.id),
+					product: this._api.getIriOf(ProductModel, item.product.id),
 					quantity: item.quantity,
 					productAttributs: item.productAttributs.map((attr) => {
-						return this.api.getIriOf(ProductAttributModel, attr.id)
+						return this._api.getIriOf(ProductAttributModel, attr.id)
 					})
 				})
 			})
 		})
 
-		return this.orderResource.post(order)
+		return this._orderResource.post(order)
 	}
 }

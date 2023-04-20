@@ -11,8 +11,6 @@ import { CartPayload, CartService } from "../../../../shared/services/cart.servi
 	styleUrls: ['./page-cart-detail.component.scss']
 })
 export class PageCartDetailComponent implements OnInit {
-	routeProvider: RouteProviderService
-
 	CartItemModel: typeof CartItemModel = CartItemModel
 
 	cartPayload: CartPayload
@@ -20,14 +18,12 @@ export class PageCartDetailComponent implements OnInit {
 	dataSource: CartItemModel[]
 	displayedColumns = ['counter', 'image', 'actions', 'price', 'action:remove']
 
-	@ViewChild(MatTable, { static: false }) table: MatTable<CartItemModel>;
+	@ViewChild(MatTable) table: MatTable<CartItemModel>;
 
 	constructor(
-		private _cartService: CartService,
-		private _routeProvider: RouteProviderService
+		public routeProvider: RouteProviderService,
+		private _cartService: CartService
 	) {
-		this.routeProvider = _routeProvider
-
 		this._cartService.cart$.subscribe((payload) => {
 			this.cartPayload = payload
 			this.dataSource = payload.cart.items

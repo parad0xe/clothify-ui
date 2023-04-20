@@ -28,7 +28,7 @@ import { PageCheckoutComponent } from "./features/checkout/pages/page-checkout/p
 import { PageShopProductListComponent } from "./features/shop/pages/page-shop-product-list/page-shop-product-list.component"
 import { PageShopProductDetailComponent } from "./features/shop/pages/page-shop-product-detail/page-shop-product-detail.component"
 import { AddProductComponent } from "./features/shop/components/add-product/add-product.component"
-import { LoaderComponent } from "./features/shop/components/loader/loader.component"
+import { LoaderComponent } from "./shared/components/loader/loader.component"
 import { MatInputModule } from "@angular/material/input"
 import { MatTableModule } from "@angular/material/table"
 import { AsTypePipe } from "./shared/pipes/as-type.pipe"
@@ -45,7 +45,13 @@ import { StorageService } from "./shared/services/storage.service"
 import { TokenStorageService } from "./shared/services/token-storage.service"
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor"
 import { MatMenuModule } from "@angular/material/menu"
-import { OrderService } from "./shared/services/order.service"
+import { OrderService } from "./shared/services/order.service";
+import { UserDataFormStepComponent } from './features/checkout/steps/user-data-form-step/user-data-form-step.component';
+import { DeliveryDataFormStepComponent } from './features/checkout/steps/delivery-data-form-step/delivery-data-form-step.component';
+import { BillingDataFormStepComponent } from './features/checkout/steps/billing-data-form-step/billing-data-form-step.component';
+import { OrderSummaryStepComponent } from './features/checkout/steps/order-summary-step/order-summary-step.component';
+import { PaymentStepComponent } from './features/checkout/steps/payment-step/payment-step.component';
+import { OrderSuccessStepComponent } from './features/checkout/steps/order-success-step/order-success-step.component';
 
 
 @NgModule({
@@ -61,7 +67,13 @@ import { OrderService } from "./shared/services/order.service"
 		AddProductComponent,
 		LoaderComponent,
 		AlertComponent,
-		AsTypePipe
+		AsTypePipe,
+		UserDataFormStepComponent,
+		DeliveryDataFormStepComponent,
+		BillingDataFormStepComponent,
+		OrderSummaryStepComponent,
+		PaymentStepComponent,
+		OrderSuccessStepComponent
 	],
 	imports: [
 		BrowserModule,

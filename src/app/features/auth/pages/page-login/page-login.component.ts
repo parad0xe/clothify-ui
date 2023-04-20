@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from "../../../../shared/services/auth.service"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import { AlertColorType } from "../../../../shared/components/alert/alert.component"
 import { ToastrService } from "ngx-toastr"
+import { StorageService } from "../../../../shared/services/storage.service"
 
 
 @Component({
@@ -11,42 +12,37 @@ import { ToastrService } from "ngx-toastr"
 	templateUrl: './page-login.component.html',
 	styleUrls: ['./page-login.component.scss']
 })
-export class PageLoginComponent implements OnInit {
-	auth: AuthService
-
+export class PageLoginComponent {
 	info: { color: AlertColorType, message: string }
 
 	email: string = "app@demo.com"
 	password: string = "app"
 
 	constructor(
-		private authService: AuthService,
-		private routeProvider: RouteProviderService,
-		private router: Router,
-		private toastr: ToastrService
+		public auth: AuthService,
+		private _routeProvider: RouteProviderService,
+		private _router: Router,
+		private _toastr: ToastrService,
+		private _storage: StorageService,
 	) {}
 
-	ngOnInit() {
-		this.auth = this.authService
-	}
-
-
 	login() {
-		this.toastr.info("Connexion..")
+		this._toastr.info("Connexion..")
 
 		this.auth.login(this.email, this.password).subscribe((user) => {
-			this.toastr.clear()
+			this._toastr.clear()
 			if (user) {
-				this.toastr.success(`Bienvenue ${user.firstname} ${user.lastname}`)
+				this._toastr.success(`Bienvenue ${user.firstname} ${user.lastname}`)
 
-				const redirectUrl = (this.auth.redirectUrl !== undefined)
-					? this.auth.redirectUrl
-					: this.routeProvider.get('app:home')
-				this.auth.redirectUrl = undefined
+				const urlList = this._storage.get<string[]>('url:list')
 
-				this.router.navigate([redirectUrl])
+				const redirectUrl = (urlList !== undefined)
+					? urlList.at(-2)
+					: this._routeProvider.get('app:home')
+
+				this._router.navigate([redirectUrl])
 			} else {
-				this.toastr.error("Connexion échoué. Des informations semble incorrect.")
+				this._toastr.error("Connexion échoué. Des informations semble incorrect.")
 				this.password = ""
 			}
 		})

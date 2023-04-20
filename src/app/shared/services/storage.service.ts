@@ -9,12 +9,19 @@ export class StorageService implements StorageInterface<Storage> {
 
 	constructor() { }
 
-	get(storeKey: string): object | null {
+	get<T = any>(storeKey: string): T | undefined;
+	get<T>(storeKey: string, defaultValue: T): T;
+	get<T>(storeKey: string, defaultValue?: T): T | undefined {
 		const item = this.getStorage().getItem(storeKey)
-		return (item !== null) ? JSON.parse(item) : null
+
+		if(item !== null) {
+			return JSON.parse(item)
+		}
+
+		return (defaultValue) ? (defaultValue as T) : undefined
 	}
 
-	save(storeKey: string, data: object): void {
+	save<T>(storeKey: string, data: T): void {
 		this.getStorage().setItem(storeKey, JSON.stringify(data))
 	}
 

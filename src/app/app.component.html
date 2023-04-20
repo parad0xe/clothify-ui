@@ -8,16 +8,20 @@
             <button mat-icon-button (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
                 <mat-icon>menu</mat-icon>
             </button>
+
             <span>{{ title }}</span>
+
             <span class="spacer"></span>
+
             <a mat-button class="app__user" [matMenuTriggerFor]="menu">
-                <mat-icon >person</mat-icon>
+                <mat-icon>person</mat-icon>
                 <span class="d-none d-lg-inline ps-lg-2" *ngIf="user">{{user.firstname | titlecase}} {{user.lastname | titlecase}}</span>
                 <span class="d-none d-lg-inline ps-lg-2" *ngIf="!user">Invité</span>
             </a>
+
             <mat-menu #menu="matMenu">
-                <button mat-menu-item *ngIf="authService.isLoggedIn" (click)="authService.logout()">Déconnexion</button>
-                <button mat-menu-item *ngIf="!authService.isLoggedIn" routerLink="{{routeProvider.get('auth:login')}}">Me connecter</button>
+                <button mat-menu-item *ngIf="auth.isLoggedIn" (click)="auth.logout()">Déconnexion</button>
+                <button mat-menu-item *ngIf="!auth.isLoggedIn" routerLink="{{routeProvider.get('auth:login')}}">Me connecter</button>
             </mat-menu>
         </mat-toolbar-row>
 
@@ -25,12 +29,15 @@
             <nav mat-tab-nav-bar [tabPanel]="tabPanel">
                 <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('app:home')}}">Accueil</a>
                 <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('shop:product:list')}}">Magasin</a>
+
                 <span class="spacer"></span>
+
                 <a mat-tab-link routerLinkActive="active" routerLink="{{routeProvider.get('cart:detail')}}" class="cart__bag">
                     <div>
                         <mat-icon>shopping_bag</mat-icon>
                         <span class="bag__counter">{{this.cartPayload.getTotalItemNumber()}}</span>
                     </div>
+
                     <span class="cart__total ps-2 me-1">{{this.cartPayload.getTotalPrice() | number: '1.2'}}</span> EUR
                 </a>
             </nav>

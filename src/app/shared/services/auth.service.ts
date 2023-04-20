@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of } from "rxjs"
+import { catchError, map, Observable, of } from "rxjs"
 import UserModel from "../../core/models/user.model"
-import { UserService } from "./user.service"
 import { HttpClient } from "@angular/common/http"
 import { ApiService } from "./api.service"
-import { StorageService } from "./storage.service"
 import { TokenStorageService, UserToken } from "./token-storage.service"
 
 export type LoginResponse = {
@@ -20,16 +18,14 @@ export type LoginResponse = {
 	providedIn: 'root'
 })
 export class AuthService {
-	redirectUrl?: string
-
 	constructor(
-		private http: HttpClient,
-		private api: ApiService,
-		private tokenStorage: TokenStorageService
+		private _http: HttpClient,
+		private _api: ApiService,
+		private _tokenStorage: TokenStorageService
 	) {}
 
 	login(email: string, password: string): Observable<UserModel | null> {
-		return this.http.post<LoginResponse>(this.api.getLoginUrl(), {
+		return this._http.post<LoginResponse>(this._api.getLoginUrl(), {
 			username: email,
 			password: password
 		}).pipe(
@@ -41,11 +37,11 @@ export class AuthService {
 						id: res.id,
 						email: email,
 						firstname: res.firstname,
-						lastname: res.lastname,
+						lastname: res.lastname
 					})
 				}
 
-				this.tokenStorage.setToken(userToken);
+				this._tokenStorage.setToken(userToken);
 				return userToken.user
 			}),
 			catchError((error, data) => {
@@ -55,14 +51,10 @@ export class AuthService {
 	}
 
 	logout() {
-		this.tokenStorage.removeToken()
+		this._tokenStorage.removeToken()
 	}
 
 	get isLoggedIn(): boolean {
-		return this.tokenStorage.isValid()
-	}
-
-	get isLoggedOut(): boolean {
-		return !this.isLoggedIn;
+		return this._tokenStorage.isValid()
 	}
 }

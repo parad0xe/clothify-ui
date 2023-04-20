@@ -6,13 +6,12 @@ import { TokenStorageService } from "../services/token-storage.service"
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
-	constructor(private tokenStorage: TokenStorageService) {}
+	constructor(private _tokenStorage: TokenStorageService) {}
 
 	intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		const token: string | null = this.tokenStorage.getToken();
+		const token: string | null = this._tokenStorage.getToken();
 
-		if (token) {
+		if (this._tokenStorage.isValid() && token) {
 			const cloned = request.clone({
 				headers: request.headers.set("Authorization",
 					"Bearer " + token)
@@ -20,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
 			return next.handle(cloned);
 		} else {
-			return next.handle(request);
+			return next.handle(request)
 		}
 	}
 }

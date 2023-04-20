@@ -15,10 +15,10 @@ export type UserToken = {
 	providedIn: 'root'
 })
 export class TokenStorageService extends StorageService {
-	private TOKEN_KEY = "storage:token"
+	private _TOKEN_KEY = "storage:token"
 
-	private userTokenSubject = new BehaviorSubject<UserToken | null>(null)
-	userToken$ = this.userTokenSubject.asObservable()
+	private _userTokenSubject = new BehaviorSubject<UserToken | null>(null)
+	userToken$ = this._userTokenSubject.asObservable()
 
 	constructor() {
 		super()
@@ -28,13 +28,13 @@ export class TokenStorageService extends StorageService {
 		}
 
 		const userToken = this.getUserToken()
-		this.userTokenSubject.next(userToken)
+		this._userTokenSubject.next(userToken)
 	}
 
 	setToken(userToken: UserToken): void {
-		this.remove(this.TOKEN_KEY)
-		this.save(this.TOKEN_KEY, userToken)
-		this.userTokenSubject.next(userToken)
+		this.remove(this._TOKEN_KEY)
+		this.save(this._TOKEN_KEY, userToken)
+		this._userTokenSubject.next(userToken)
 	}
 
 	getToken(): string | null {
@@ -64,16 +64,16 @@ export class TokenStorageService extends StorageService {
 
 		if (userToken) {
 			userToken.user = user.toLocalStorage()
-			this.save(this.TOKEN_KEY, userToken)
-			this.userTokenSubject.next(userToken)
+			this.save(this._TOKEN_KEY, userToken)
+			this._userTokenSubject.next(userToken)
 			return
 		}
 
-		this.userTokenSubject.next(null)
+		this._userTokenSubject.next(null)
 	}
 
 	isValid(): boolean {
-		const userToken: UserToken = (this.get(this.TOKEN_KEY) as UserToken);
+		const userToken = this.get<UserToken>(this._TOKEN_KEY);
 
 		if (userToken) {
 			return dayjs(dayjs()).isSameOrBefore(userToken.expiresAt)
@@ -83,12 +83,12 @@ export class TokenStorageService extends StorageService {
 	}
 
 	removeToken(): void {
-		this.remove(this.TOKEN_KEY)
-		this.userTokenSubject.next(null)
+		this.remove(this._TOKEN_KEY)
+		this._userTokenSubject.next(null)
 	}
 
 	private getUserToken(): UserToken | null {
-		const userToken: UserToken = (this.get(this.TOKEN_KEY) as UserToken);
+		const userToken = this.get<UserToken>(this._TOKEN_KEY);
 
 		if (userToken) {
 			userToken.user = (new UserModel()).load(userToken.user)

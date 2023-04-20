@@ -7,15 +7,15 @@ import ProductAttributModel from "../../core/models/productAttribut.model"
 
 @Injectable()
 export class ProductService {
-	products: Observable<ProductModel[]>
+	products$: Observable<ProductModel[]>
 
 	constructor(productResource: ProductResource) {
-		this.products = productResource.all()
+		this.products$ = productResource.all()
 	}
 
-	get(id: number): Observable<ProductModel> {
+	get(id: number): Observable<ProductModel | undefined> {
 		return new Observable((observer) => {
-			this.products.subscribe((products) => {
+			this.products$.subscribe((products) => {
 				observer.next(products.find(product => product.id === id))
 				observer.complete()
 			})

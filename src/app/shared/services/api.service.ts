@@ -6,7 +6,7 @@ import AbstractModel from "../../core/http/model.abstract"
 	providedIn: 'root'
 })
 export class ApiService {
-	private readonly base = {
+	private readonly _base = {
 		url: "https://localhost:8000",
 		login: "https://localhost:8000/api/login",
 		entrypoint: "/api"
@@ -21,23 +21,23 @@ export class ApiService {
 			.toLowerCase()
 			.slice(1)
 
-		const iri = `${this.base.entrypoint}/${entity}s`
+		const iri = `${this._base.entrypoint}/${entity}s`
 		return (id === undefined) ? iri : `${iri}/${id}`
 	}
 
 	getUrlOf(model: (typeof AbstractModel), id?: number): string {
-		return `${this.base.url}${this.getIriOf(model, id)}`
+		return `${this._base.url}${this.getIriOf(model, id)}`
 	}
 
 	getBaseUrl(): string {
-		return this.base.url
+		return this._base.url
 	}
 
 	getEntrypoint(): string {
-		return this.base.entrypoint
+		return this._base.entrypoint
 	}
 
 	getLoginUrl(): string {
-		return this.base.login
+		return this._base.login
 	}
 }

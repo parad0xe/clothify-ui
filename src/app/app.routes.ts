@@ -4,7 +4,6 @@ import { PageLoginComponent } from "./features/auth/pages/page-login/page-login.
 import { PageCartDetailComponent } from "./features/cart/pages/page-cart-detail/page-cart-detail.component"
 import { PageCheckoutComponent } from "./features/checkout/pages/page-checkout/page-checkout.component"
 import { PageShopProductListComponent } from "./features/shop/pages/page-shop-product-list/page-shop-product-list.component"
-import { AuthGuard } from "./shared/guards/auth.guard"
 import { PageShopProductDetailComponent } from "./features/shop/pages/page-shop-product-detail/page-shop-product-detail.component"
 
 export const AppRoutesWrapper = new class extends RoutesWrapperAbstract {

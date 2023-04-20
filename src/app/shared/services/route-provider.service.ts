@@ -9,22 +9,22 @@ type _RouteParams = { [key: string]: string | number }
 	providedIn: 'root'
 })
 export class RouteProviderService {
-	private routes: _Routes = {}
+	private _routes: _Routes = {}
 
 	constructor() { }
 
 	add(routesWrapper: AbstractRoutesWrapper): void {
 		Object.keys(routesWrapper.routes).map((routeName: string) => {
-			this.routes[routeName] = routesWrapper.routes[routeName].path
+			this._routes[routeName] = routesWrapper.routes[routeName].path
 		})
 	}
 
 	get(routeName: string, params: _RouteParams = {}): string {
-		if (!this.routes.hasOwnProperty(routeName)) {
+		if (!this._routes.hasOwnProperty(routeName)) {
 			return "/error-404"
 		}
 
-		let routePath = this.routes[routeName]
+		let routePath = this._routes[routeName]
 
 		Object.keys(params).map((paramName) => {
 			routePath = routePath.replace(`:${paramName}`, params[paramName].toString())

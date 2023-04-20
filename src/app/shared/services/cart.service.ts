@@ -18,68 +18,64 @@ export type CartPayload = {
 	getTotalItemPrice: (item: CartItemModel) => number
 }
 
+
 @Injectable({
 	providedIn: 'root'
 })
 export class CartService {
-	private STORAGE_KEY = "storage:cart"
+	private _STORAGE_KEY = "storage:cart"
 
-	private payload: CartPayload = {
+	private _payload: CartPayload = {
 		cart: new CartModel(),
-		findItemIndex: function(product: ProductModel): number | undefined {
+
+		findItemIndex: function (product: ProductModel): number | undefined {
 			const index = this.cart.items.findIndex(item => item.product.id === product.id)
 			return (index !== -1) ? index : undefined
 		},
 
-		getTotalPrice: function(): number {
+		getTotalPrice: function (): number {
 			return this.cart.items.reduce(
 				(a, item) => +(a + item.product.price * item.quantity).toFixed(2), 0
 			)
 		},
 
-		getTotalItemNumber: function(): number {
+		getTotalItemNumber: function (): number {
 			return this.cart.items.reduce(
 				(a, item) => a + item.quantity, 0
 			)
 		},
 
-		findItem: function(product: ProductModel): CartItemModel | undefined {
+		findItem: function (product: ProductModel): CartItemModel | undefined {
 			return this.cart.items.find(item => item.product.id === product.id)
 		},
 
-		getItemQuantity: function(product: ProductModel): number | undefined {
+		getItemQuantity: function (product: ProductModel): number | undefined {
 			const item = this.findItem(product)
 			return (item !== undefined) ? item.quantity : undefined
 		},
 
-		hasItemQuantity: function(product: ProductModel): boolean {
+		hasItemQuantity: function (product: ProductModel): boolean {
 			return (this.getItemQuantity(product) ?? 0) > 0
 		},
 
-		getTotalItemPrice: function(item: CartItemModel): number {
+		getTotalItemPrice: function (item: CartItemModel): number {
 			return +(item.product.price * item.quantity).toFixed(2)
 		}
 	}
 
-	private cartSubject: BehaviorSubject<CartPayload> = new BehaviorSubject<CartPayload>(this.payload)
-	cart$ = this.cartSubject.asObservable()
-
+	private _cartSubject: BehaviorSubject<CartPayload> = new BehaviorSubject<CartPayload>(this._payload)
+	cart$ = this._cartSubject.asObservable()
 
 	constructor(
-		private snackBar: MatSnackBar,
-		private storage: StorageService
+		private _snackBar: MatSnackBar,
+		private _storage: StorageService
 	) {
-		let cartData = this.storage.get(this.STORAGE_KEY)
-
-		this.payload.cart = (cartData !== null)
-			? (new CartModel()).load(cartData)
-			: new CartModel()
-
-		this.cartSubject.next(this.payload)
+		this._payload.cart = this._storage.get(this._STORAGE_KEY, new CartModel())
+		this._cartSubject.next(this._payload)
 	}
 
 	add(product: ProductModel, attributs: ProductAttributModel[]) {
-		const itemIndex = this.payload.findItemIndex(product)
+		const itemIndex = this._payload.findItemIndex(product)
 
 		if (itemIndex === undefined) {
 			const item = (new CartItemModel()).load({
@@ -87,14 +83,14 @@ export class CartService {
 				product: product,
 				productAttributs: attributs
 			})
-			this.payload.cart.items.push(item)
+			this._payload.cart.items.push(item)
 		} else {
-			this.payload.cart.items[itemIndex].quantity++
+			this._payload.cart.items[itemIndex].quantity++
 		}
 
 		this.save()
 
-		this.snackBar.open('Produit ajouté avec succès', 'OK', {
+		this._snackBar.open('Produit ajouté avec succès', 'OK', {
 			horizontalPosition: "center",
 			verticalPosition: "bottom",
 			duration: 5000
@@ -102,20 +98,20 @@ export class CartService {
 	}
 
 	decrease(product: ProductModel) {
-		const itemIndex = this.payload.findItemIndex(product)
+		const itemIndex = this._payload.findItemIndex(product)
 
 		if (itemIndex === undefined)
 			return
 
-		this.payload.cart.items[itemIndex].quantity--
+		this._payload.cart.items[itemIndex].quantity--
 
-		if (this.payload.cart.items[itemIndex].quantity <= 0) {
-			this.payload.cart.items = this.payload.cart.items.filter(item => item.product.id !== product.id)
+		if (this._payload.cart.items[itemIndex].quantity <= 0) {
+			this._payload.cart.items = this._payload.cart.items.filter(item => item.product.id !== product.id)
 		}
 
 		this.save()
 
-		this.snackBar.open('Produit mis à jour avec succès', 'OK', {
+		this._snackBar.open('Produit mis à jour avec succès', 'OK', {
 			horizontalPosition: "center",
 			verticalPosition: "bottom",
 			duration: 5000
@@ -123,16 +119,16 @@ export class CartService {
 	}
 
 	remove(product: ProductModel) {
-		const itemIndex = this.payload.findItemIndex(product)
+		const itemIndex = this._payload.findItemIndex(product)
 
 		if (itemIndex === undefined)
 			return
 
-		this.payload.cart.items = this.payload.cart.items.filter(item => item.product.id !== product.id)
+		this._payload.cart.items = this._payload.cart.items.filter(item => item.product.id !== product.id)
 
 		this.save()
 
-		this.snackBar.open('Produit retiré avec succès', 'OK', {
+		this._snackBar.open('Produit retiré avec succès', 'OK', {
 			horizontalPosition: "center",
 			verticalPosition: "bottom",
 			duration: 5000
@@ -140,12 +136,12 @@ export class CartService {
 	}
 
 	clear() {
-		this.payload.cart = new CartModel()
+		this._payload.cart = new CartModel()
 		this.save()
 	}
 
 	private save() {
-		this.cartSubject.next(this.payload)
-		this.storage.save(this.STORAGE_KEY, this.payload.cart)
+		this._cartSubject.next(this._payload)
+		this._storage.save(this._STORAGE_KEY, this._payload.cart)
 	}
 }
