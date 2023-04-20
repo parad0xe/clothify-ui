@@ -11,28 +11,22 @@ import { CartPayload, CartService } from "../../../../shared/services/cart.servi
 	styles: []
 })
 export class PageShopProductListComponent implements OnInit {
-	productService: ProductService
-	routeProvider: RouteProviderService
-
 	cartPayload: CartPayload
 
 	products: ProductModel[] = []
 
 	constructor(
-		private _productService: ProductService,
-		private _cartService: CartService,
-		private _routeProvider: RouteProviderService
+		public productService: ProductService,
+		public routeProvider: RouteProviderService,
+		private _cartService: CartService
 	) {
-		this.productService = _productService
-		this.routeProvider = _routeProvider
-
 		this._cartService.cart$.subscribe((payload) => {
 			this.cartPayload = payload
 		})
 	}
 
 	ngOnInit() {
-		this._productService.products.subscribe((products) => {
+		this.productService.products$.subscribe((products) => {
 			this.products = products
 		})
 	}

@@ -14,20 +14,16 @@ export class AddProductComponent {
 	@Input() product: ProductModel;
 	@Input() mode: ("card" | "page");
 
-	productService: ProductService
-
 	data = {
 		attrColorId: -1,
 		attrSizeId: -1
 	}
 
 	constructor(
+		public productService: ProductService,
 		private _snackBar: MatSnackBar,
-		private _cartService: CartService,
-		private _productService: ProductService
-	) {
-		this.productService = _productService
-	}
+		private _cartService: CartService
+	) {}
 
 
 	onSubmit(form: NgForm) {

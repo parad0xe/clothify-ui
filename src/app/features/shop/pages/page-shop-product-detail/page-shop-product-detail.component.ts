@@ -31,10 +31,10 @@ export class PageShopProductDetailComponent implements OnInit {
 			this.product = product
 
 			this.specificationsData = [
-				{ name: "Marque", value: product?.brand.name },
-				{ name: "Catégorie", value: product?.category.name },
-				{ name: "Collection", value: product?.collection.name },
-				{ name: "Poids", value: `${product?.weight} kg` }
+				{ name: "Marque", value: product.brand.name },
+				{ name: "Catégorie", value: product.category.name },
+				{ name: "Collection", value: product.collection.name },
+				{ name: "Poids", value: `${product.weight} kg` }
 			]
 		})
 	}
