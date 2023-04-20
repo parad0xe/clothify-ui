@@ -7,5 +7,5 @@ import { RouteProviderService } from "../../../../shared/services/route-provider
   styleUrls: ['./page-error-not-found.component.scss']
 })
 export class PageErrorNotFoundComponent {
-	constructor(protected routeProvider: RouteProviderService) {}
+	constructor(public routeProvider: RouteProviderService) {}
 }
