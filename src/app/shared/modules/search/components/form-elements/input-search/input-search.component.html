@@ -1,4 +1,4 @@
 <mat-form-field>
     <mat-label>{{label}}</mat-label>
-    <input matInput name="input-{{label | lowercase}}" (keyup)="onChange($event)">
+    <input matInput name="input-{{label | lowercase}}" (keyup)="onChange($event)" [value]="value">
 </mat-form-field>

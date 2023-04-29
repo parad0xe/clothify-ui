@@ -24,7 +24,9 @@ export class SearchComponent implements AfterViewInit {
 		private _router: Router,
 		private _activatedRoute: ActivatedRoute,
 		private _renderer: Renderer2
-	) {}
+	) {
+		this.terms = _searchService.get(this.context)
+	}
 
 	ngAfterViewInit() {
 		this._addDivider()
@@ -53,7 +55,6 @@ export class SearchComponent implements AfterViewInit {
 
 
 			if (index < this._filterRows.length - 1) {
-				console.log(row.nativeElement.nextSibling)
 				this._renderer.insertBefore(row.nativeElement.parentNode, divider, row.nativeElement.nextSibling)
 			}
 		})

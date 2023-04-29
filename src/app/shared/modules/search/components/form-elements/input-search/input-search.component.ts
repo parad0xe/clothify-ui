@@ -1,4 +1,4 @@
-import { Component, Host, Input } from '@angular/core';
+import { AfterContentInit, Component, Host, Input } from '@angular/core';
 import { SearchService } from "../../../services/search.service"
 import { SearchComponent } from "../../search/search.component"
 
@@ -8,14 +8,21 @@ import { SearchComponent } from "../../search/search.component"
 	templateUrl: './input-search.component.html',
 	styleUrls: ['./input-search.component.scss']
 })
-export class InputSearchComponent {
+export class InputSearchComponent implements AfterContentInit {
 	@Input() inputName: string
 	@Input() label: string
+
+	value: string
 
 	constructor(
 		@Host() private _search: SearchComponent,
 		private _searchService: SearchService
-	) {}
+	) {
+	}
+
+	ngAfterContentInit() {
+		this.value = this._search.terms.get<string>(this.inputName, '')
+	}
 
 	onChange(e: Event) {
 		const target: HTMLInputElement = e.target as HTMLInputElement

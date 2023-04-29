@@ -1,4 +1,4 @@
-import { Component, Host, Input } from '@angular/core'
+import { AfterContentInit, Component, Host, Input } from '@angular/core'
 import { SearchService } from "../../../services/search.service"
 import { SearchComponent } from "../../search/search.component"
 
@@ -8,7 +8,7 @@ import { SearchComponent } from "../../search/search.component"
 	templateUrl: './boolean-search.component.html',
 	styleUrls: ['./boolean-search.component.scss']
 })
-export class BooleanSearchComponent {
+export class BooleanSearchComponent implements AfterContentInit {
 	@Input() inputName: string
 	@Input() label: string
 
@@ -18,6 +18,10 @@ export class BooleanSearchComponent {
 		@Host() private _search: SearchComponent,
 		private _searchService: SearchService
 	) {}
+
+	ngAfterContentInit() {
+		this.checked = this._search.terms.has(this.inputName)
+	}
 
 	onChange() {
 		this._searchService.set(this._search.context, this.inputName, this.checked ? "1" : null)

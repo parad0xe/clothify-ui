@@ -16,9 +16,13 @@ export class SearchService {
 
 	constructor() { }
 
-	new(contextKey: string, defaultSearch: SearchTerms = new SearchTerms()): Observable<SearchTerms> {
+	new(contextKey: string, defaultSearch: SearchTerms | null = null): Observable<SearchTerms> {
 		if (this.hasContext(contextKey)) {
 			return this._searchByContextBehaviors[contextKey].asObservable()
+		}
+
+		if (defaultSearch === null) {
+			defaultSearch = SearchTerms.load(window.location.search.substring(1))
 		}
 
 		this._searchTermsByContext[contextKey] = defaultSearch
@@ -32,6 +36,10 @@ export class SearchService {
 		}
 
 		return this._searchByContextBehaviors[contextKey].asObservable().pipe(debounceTime(500))
+	}
+
+	get(contextKey: string): SearchTerms {
+		return this._searchTermsByContext[contextKey] ?? SearchTerms.load(window.location.search.substring(1))
 	}
 
 	set(contextKey: string, dataKey: string, value: SearchTermRecordValue) {

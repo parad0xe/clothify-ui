@@ -1,4 +1,4 @@
-import { Component, Host, Input } from '@angular/core';
+import { Component, Host, Input, OnChanges } from '@angular/core';
 import { SearchComponent } from "../../search/search.component"
 import { SearchService } from "../../../services/search.service"
 import { MatSelectChange } from "@angular/material/select"
@@ -13,7 +13,7 @@ export type ChoiceOption = { value: string, label: string }
 	templateUrl: './select-search.component.html',
 	styleUrls: ['./select-search.component.scss']
 })
-export class SelectSearchComponent {
+export class SelectSearchComponent implements OnChanges {
 	@Input() inputName: string
 	@Input() label: string
 	@Input() multiple: boolean
@@ -23,23 +23,27 @@ export class SelectSearchComponent {
 	selectedChoices: string[]
 
 	constructor(
-		@Host() private _search: SearchComponent,
+		@Host() public search: SearchComponent,
 		private _searchService: SearchService
-	) {
+	) {}
 
+	ngOnChanges() {
+		this.selectedChoices = this.choices.filter((choice) => {
+			return this.search.terms.has(this.inputName, choice.value)
+		}).map(choice => choice.value)
 	}
 
 	onSelection(change: MatCheckboxChange) {
-		if(change.checked) {
+		if (change.checked) {
 			this.selectedChoices = [change.source.value, ...new Set(this.selectedChoices)]
 		} else {
 			this.selectedChoices = this.selectedChoices.filter(choice => choice !== change.source.value)
 		}
 
-		this._searchService.set(this._search.context, this.inputName, this.selectedChoices)
+		this._searchService.set(this.search.context, this.inputName, this.selectedChoices)
 	}
 
 	onChange(change: MatSelectChange) {
-		this._searchService.set(this._search.context, this.inputName, change.value)
+		this._searchService.set(this.search.context, this.inputName, change.value)
 	}
 }

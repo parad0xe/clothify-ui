@@ -8,7 +8,7 @@
     <ng-container *ngIf="compact">
         <mat-form-field appearance="fill">
             <mat-label>{{label}}</mat-label>
-            <mat-select (selectionChange)="onChange($event)" [multiple]="multiple">
+            <mat-select (selectionChange)="onChange($event)" [multiple]="multiple" [(ngModel)]="selectedChoices">
                 <mat-option *ngFor="let choice of choices" [value]="choice.value">{{choice.label}}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -16,7 +16,7 @@
 
     <ng-container *ngIf="!compact">
         <div *ngFor="let choice of choices">
-            <mat-checkbox [value]="choice.value" (change)="onSelection($event)">
+            <mat-checkbox [value]="choice.value" [checked]="search.terms.has(this.inputName, choice.value)" (change)="onSelection($event)">
                 {{choice.label}}
             </mat-checkbox>
         </div>

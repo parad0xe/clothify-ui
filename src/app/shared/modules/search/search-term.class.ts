@@ -9,6 +9,30 @@ export class SearchTerms {
 		this._terms = defaultTerms
 	}
 
+	static load(urlParams: string): SearchTerms {
+		const terms = decodeURIComponent(urlParams).split('&').reduce((a: { [key: string]: string | string[] }, stringTerm) => {
+			const [key, value] = stringTerm.split('=')
+
+			if (value === undefined) {
+				return a
+			}
+
+			if (a.hasOwnProperty(key)) {
+				if (!Array.isArray(a[key])) {
+					a[key] = [a[key] as string]
+				}
+
+				(a[key] as Array<string>).push(value)
+			} else {
+				a[key] = value
+			}
+
+			return a
+		}, {})
+
+		return new SearchTerms(terms)
+	}
+
 	all(): SearchTermRecord {
 		return this._terms
 	}
@@ -26,12 +50,28 @@ export class SearchTerms {
 		delete this._terms[key]
 	}
 
-	has(key: string): boolean {
-		return this._terms.hasOwnProperty(key)
+	has(key: string, value: string | null = null): boolean {
+		if (!value) {
+			return this._terms.hasOwnProperty(key)
+		}
+
+		if (this._terms.hasOwnProperty(key)) {
+			return (typeof this._terms[key] === 'string')
+				? this._terms[key] === value
+				: (this._terms[key] as string[]).includes(value)
+		}
+
+		return false
 	}
 
-	get(key: string): SearchTermRecordValue {
-		return this._terms[key] ?? null
+	get<T = any>(key: string): SearchTermRecordValue;
+	get<T>(key: string, defaultValue: T): T;
+	get<T>(key: string, defaultValue?: T): SearchTermRecordValue | T {
+		if (this.has(key)) {
+			return this._terms[key]
+		}
+
+		return (defaultValue) ? defaultValue : null
 	}
 
 	buildUrlParams(): string {
