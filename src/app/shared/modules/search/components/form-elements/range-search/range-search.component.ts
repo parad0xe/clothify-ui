@@ -26,16 +26,19 @@ export class RangeSearchComponent implements AfterContentInit {
 	) {}
 
 	ngAfterContentInit() {
-		const range = this._search.terms.get(this.inputName)
+		this._search.changes.subscribe((terms) => {
+			const range = terms.get(this.inputName)
 
-		if (range) {
-			const [min, max] = (range as string).split('..')
+			if (range) {
+				const [min, max] = (range as string).split('..')
 
-			this.minValue = +min
-			this.maxValue = +max
-		} else {
-			this.maxValue = this.max
-		}
+				this.minValue = +min
+				this.maxValue = +max
+			} else {
+				this.minValue = this.min
+				this.maxValue = this.max
+			}
+		})
 	}
 
 	onChange() {

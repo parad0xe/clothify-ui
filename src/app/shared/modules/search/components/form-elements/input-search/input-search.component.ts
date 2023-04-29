@@ -12,7 +12,7 @@ export class InputSearchComponent implements AfterContentInit {
 	@Input() inputName: string
 	@Input() label: string
 
-	value: string
+	value: string = ""
 
 	constructor(
 		@Host() private _search: SearchComponent,
@@ -21,7 +21,9 @@ export class InputSearchComponent implements AfterContentInit {
 	}
 
 	ngAfterContentInit() {
-		this.value = this._search.terms.get<string>(this.inputName, '')
+		this._search.changes.subscribe((terms) => {
+			this.value = terms.get<string>(this.inputName, '')
+		})
 	}
 
 	onChange(e: Event) {

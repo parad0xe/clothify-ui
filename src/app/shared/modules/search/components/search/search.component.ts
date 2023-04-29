@@ -46,6 +46,10 @@ export class SearchComponent implements AfterViewInit {
 		)
 	}
 
+	clear() {
+		this._searchService.clear(this.context)
+	}
+
 	private _addDivider() {
 		this._filterRows.forEach((row, index) => {
 			const divider = this._renderer.createElement('mat-divider');

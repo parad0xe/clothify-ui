@@ -13,6 +13,7 @@ import { MatSelectModule } from "@angular/material/select"
 import { MatListModule } from "@angular/material/list"
 import { MatExpansionModule } from "@angular/material/expansion";
 import { SearchRowComponent } from './components/search-row/search-row.component'
+import { MatButtonModule } from "@angular/material/button"
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { SearchRowComponent } from './components/search-row/search-row.component
 		MatCheckboxModule,
 		MatSelectModule,
 		MatListModule,
-		MatExpansionModule
+		MatExpansionModule,
+		MatButtonModule
 	]
 })
 export class SearchModule {

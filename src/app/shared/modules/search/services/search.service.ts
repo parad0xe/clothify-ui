@@ -60,11 +60,16 @@ export class SearchService {
 		this.next(contextKey)
 	}
 
-	private next(contextKey: string): void {
+	hasContext(contextKey: string): boolean {
+		return this._searchTermsByContext.hasOwnProperty(contextKey)
+	}
+
+	clear(contextKey: string) {
+		this._searchTermsByContext[contextKey] = new SearchTerms()
 		this._searchByContextBehaviors[contextKey].next(this._searchTermsByContext[contextKey])
 	}
 
-	hasContext(contextKey: string): boolean {
-		return this._searchTermsByContext.hasOwnProperty(contextKey)
+	private next(contextKey: string): void {
+		this._searchByContextBehaviors[contextKey].next(this._searchTermsByContext[contextKey])
 	}
 }
