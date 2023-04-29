@@ -1,0 +1,31 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{label | uppercase}}
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="w-100 row">
+        <div class="col-md-12">
+            <mat-slider class="w-100" [min]="min" [max]="max" discrete step="1" [displayWith]="formatLabel.bind(this)">
+                <input [value]="min" matSliderStartThumb name="minValue-{{label | lowercase}}" [(ngModel)]="minValue" (valueChange)="onChange()">
+                <input [value]="max" matSliderEndThumb name="maxValue-{{label | lowercase}}" [(ngModel)]="maxValue" (valueChange)="onChange()">
+            </mat-slider>
+        </div>
+
+        <div class="col-md-12 mt-2">
+            <div class="row">
+                <mat-form-field class="col pe-0">
+                    <mat-label>Min</mat-label>
+                    <input matInput name="input-minValue-{{label | lowercase}}" [(ngModel)]="minValue" [value]="minValue.toString()"
+                           (keyup)="onChange()">
+                </mat-form-field>
+                <mat-form-field class="col pe-0">
+                    <mat-label>Max</mat-label>
+                    <input matInput name="input-maxValue-{{label | lowercase}}" [(ngModel)]="maxValue" [value]="maxValue.toString()"
+                           (keyup)="onChange()">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</mat-expansion-panel>
