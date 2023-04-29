@@ -1,0 +1,14 @@
+<mat-form-field appearance="fill">
+    <mat-label>Trier par</mat-label>
+    <mat-select [(value)]="orderConfig.selectedProperty" (selectionChange)="onSelectionChange()">
+        <mat-option *ngFor="let onProperty of orderConfig.on" value="{{onProperty.property.toString()}}">{{onProperty.label}}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>Ordre</mat-label>
+    <mat-select [(value)]="orderConfig.selectedOrder" (selectionChange)="onSelectionChange()">
+        <mat-option value="asc">Croissant</mat-option>
+        <mat-option value="desc">Descendant</mat-option>
+    </mat-select>
+</mat-form-field>
