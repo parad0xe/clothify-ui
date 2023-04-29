@@ -78,3 +78,10 @@ h1, h2, h3, h4, h5, h6 {
         box-shadow: none !important;
     }
 }
+
+
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none !important;
+    background: transparent;
+}

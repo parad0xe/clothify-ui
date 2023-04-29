@@ -1,5 +1,5 @@
 import { PageErrorNotFoundComponent } from "./features/errors/pages/page-error-not-found/page-error-not-found.component"
-import RoutesWrapperAbstract, { RoutesWrapperType } from "./core/http/routes-wrapper.abstract"
+import RoutesWrapperAbstract, { RoutesWrapperType } from "./core/routes-wrapper.abstract"
 import { PageLoginComponent } from "./features/auth/pages/page-login/page-login.component"
 import { PageCartDetailComponent } from "./features/cart/pages/page-cart-detail/page-cart-detail.component"
 import { PageCheckoutComponent } from "./features/checkout/pages/page-checkout/page-checkout.component"

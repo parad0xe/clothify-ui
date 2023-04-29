@@ -34,9 +34,7 @@ export class PageCheckoutComponent {
 		private _cartService: CartService
 	) {
 		this._userService.user$.subscribe((user) => {
-			if (user) {
-				this.user = user
-			}
+			this.user = (user) ? user : new UserModel()
 		})
 	}
 

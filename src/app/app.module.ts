@@ -52,6 +52,12 @@ import { BillingDataFormStepComponent } from './features/checkout/steps/billing-
 import { OrderSummaryStepComponent } from './features/checkout/steps/order-summary-step/order-summary-step.component';
 import { PaymentStepComponent } from './features/checkout/steps/payment-step/payment-step.component';
 import { OrderSuccessStepComponent } from './features/checkout/steps/order-success-step/order-success-step.component';
+import { SearchModule } from "./shared/modules/search/search.module"
+import { CacheInterceptor } from "./shared/interceptors/cache.interceptor"
+import { ProductAttributService } from "./shared/services/product-attribut.service"
+import { ProductAttributResource } from "./shared/resources/product-attribut.resource"
+import { MatExpansionModule } from "@angular/material/expansion";
+import { OrderComponent } from './shared/components/order/order.component'
 
 
 @NgModule({
@@ -73,7 +79,8 @@ import { OrderSuccessStepComponent } from './features/checkout/steps/order-succe
 		BillingDataFormStepComponent,
 		OrderSummaryStepComponent,
 		PaymentStepComponent,
-		OrderSuccessStepComponent
+		OrderSuccessStepComponent,
+  OrderComponent
 	],
 	imports: [
 		BrowserModule,
@@ -107,20 +114,25 @@ import { OrderSuccessStepComponent } from './features/checkout/steps/order-succe
 		MatBadgeModule,
 		MatSelectModule,
 		StarRatingModule.forRoot(),
-		MatMenuModule
+		MatMenuModule,
+		SearchModule,
+		MatExpansionModule
 	],
 	providers: [
 		RouteProviderService,
 		ApiService,
 		CartService,
 		ProductService,
+		ProductAttributService,
 		ProductResource,
+		ProductAttributResource,
 		OrderService,
 		StorageService,
 		TokenStorageService,
 		UserResource,
 		AuthGuardService,
-		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]
 })
