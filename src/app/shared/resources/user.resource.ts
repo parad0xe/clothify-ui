@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import AbstractResource from "../../core/http/resource.abstract"
+import AbstractResource from "../../core/resource.abstract"
 import UserModel from "../../core/models/user.model"
 
 

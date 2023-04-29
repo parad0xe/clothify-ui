@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import ProductModel from "../../core/models/product.model"
-import AbstractResource from "../../core/http/resource.abstract"
+import AbstractResource from "../../core/resource.abstract"
 
 
 @Injectable()

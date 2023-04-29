@@ -1,4 +1,4 @@
-import AbstractModel from "../http/model.abstract"
+import AbstractModel from "../model.abstract"
 
 
 export default class ProductBrandModel extends AbstractModel<ProductBrandModel> {

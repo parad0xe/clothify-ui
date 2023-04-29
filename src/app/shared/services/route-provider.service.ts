@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import AbstractRoutesWrapper from "../../core/http/routes-wrapper.abstract"
+import AbstractRoutesWrapper from "../../core/routes-wrapper.abstract"
 
 type _Routes = { [key: string]: string }
 type _RouteParams = { [key: string]: string | number }

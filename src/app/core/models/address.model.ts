@@ -1,4 +1,4 @@
-import AbstractModel from "../http/model.abstract"
+import AbstractModel from "../model.abstract"
 import { Expose } from "class-transformer"
 
 

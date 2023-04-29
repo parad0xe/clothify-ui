@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import AbstractResource from "../../core/http/resource.abstract"
+import AbstractResource from "../../core/resource.abstract"
 import OrderModel from "../../core/models/order.model"
 
 

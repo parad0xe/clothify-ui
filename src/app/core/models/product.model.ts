@@ -1,4 +1,4 @@
-import AbstractModel from "../http/model.abstract"
+import AbstractModel from "../model.abstract"
 import ProductBrandModel from "./productBrand.model"
 import ProductRatingModel from "./productRating.model"
 import ProductCategoryModel from "./productCategory.model"
@@ -51,4 +51,6 @@ export default class ProductModel extends AbstractModel<ProductModel> {
 	@Type(() => ProductRatingModel)
 	@Expose({ groups: ['get', 'post'] })
 	productRating: ProductRatingModel[]
+
+	averageRating: number
 }

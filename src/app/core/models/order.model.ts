@@ -1,4 +1,4 @@
-import AbstractModel from "../http/model.abstract"
+import AbstractModel from "../model.abstract"
 import UserModel from "./user.model"
 import { Expose, Type } from "class-transformer"
 import OrderItemModel from "./orderItem.model"
