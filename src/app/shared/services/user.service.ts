@@ -11,8 +11,8 @@ import { BehaviorSubject, Observable } from "rxjs"
 	providedIn: 'root'
 })
 export class UserService {
-	private _userSubject: BehaviorSubject<UserModel | null> = new BehaviorSubject<UserModel | null>(null)
-	user$: Observable<UserModel | null> = this._userSubject.asObservable()
+	private _userSubject$$: BehaviorSubject<UserModel | null> = new BehaviorSubject<UserModel | null>(null)
+	user$: Observable<UserModel | null> = this._userSubject$$.asObservable()
 
 	constructor(
 		private _userResource: UserResource,
@@ -23,8 +23,10 @@ export class UserService {
 		this._tokenStorage.userToken$.subscribe((userToken) => {
 			if (userToken) {
 				this._userResource.get(userToken.user.id).subscribe((user) => {
-					this._userSubject.next(user ?? null)
+					this._userSubject$$.next(user ?? null)
 				})
+			} else {
+				this._userSubject$$.next(null)
 			}
 		})
 	}
@@ -41,7 +43,7 @@ export class UserService {
 			this._userResource.patch(userToken.id, partialUser).subscribe((user) => {
 				if (user) {
 					this._tokenStorage.setUser(user)
-					this._userSubject.next(user)
+					this._userSubject$$.next(user)
 					this._toastr.success("Utilisateur mis à jour avec succès")
 				}
 			})

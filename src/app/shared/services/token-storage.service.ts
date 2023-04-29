@@ -17,8 +17,8 @@ export type UserToken = {
 export class TokenStorageService extends StorageService {
 	private _TOKEN_KEY = "storage:token"
 
-	private _userTokenSubject = new BehaviorSubject<UserToken | null>(null)
-	userToken$ = this._userTokenSubject.asObservable()
+	private _userTokenSubject$$ = new BehaviorSubject<UserToken | null>(null)
+	userToken$ = this._userTokenSubject$$.asObservable()
 
 	constructor() {
 		super()
@@ -28,13 +28,13 @@ export class TokenStorageService extends StorageService {
 		}
 
 		const userToken = this.getUserToken()
-		this._userTokenSubject.next(userToken)
+		this._userTokenSubject$$.next(userToken)
 	}
 
 	setToken(userToken: UserToken): void {
 		this.remove(this._TOKEN_KEY)
 		this.save(this._TOKEN_KEY, userToken)
-		this._userTokenSubject.next(userToken)
+		this._userTokenSubject$$.next(userToken)
 	}
 
 	getToken(): string | null {
@@ -65,11 +65,11 @@ export class TokenStorageService extends StorageService {
 		if (userToken) {
 			userToken.user = user.toLocalStorage()
 			this.save(this._TOKEN_KEY, userToken)
-			this._userTokenSubject.next(userToken)
+			this._userTokenSubject$$.next(userToken)
 			return
 		}
 
-		this._userTokenSubject.next(null)
+		this._userTokenSubject$$.next(null)
 	}
 
 	isValid(): boolean {
@@ -84,7 +84,7 @@ export class TokenStorageService extends StorageService {
 
 	removeToken(): void {
 		this.remove(this._TOKEN_KEY)
-		this._userTokenSubject.next(null)
+		this._userTokenSubject$$.next(null)
 	}
 
 	private getUserToken(): UserToken | null {

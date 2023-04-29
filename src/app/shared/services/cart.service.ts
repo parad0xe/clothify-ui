@@ -63,15 +63,15 @@ export class CartService {
 		}
 	}
 
-	private _cartSubject: BehaviorSubject<CartPayload> = new BehaviorSubject<CartPayload>(this._payload)
-	cart$ = this._cartSubject.asObservable()
+	private _cartSubject$$: BehaviorSubject<CartPayload> = new BehaviorSubject<CartPayload>(this._payload)
+	cart$ = this._cartSubject$$.asObservable()
 
 	constructor(
 		private _snackBar: MatSnackBar,
 		private _storage: StorageService
 	) {
 		this._payload.cart = this._storage.get(this._STORAGE_KEY, new CartModel())
-		this._cartSubject.next(this._payload)
+		this._cartSubject$$.next(this._payload)
 	}
 
 	add(product: ProductModel, attributs: ProductAttributModel[]) {
@@ -141,7 +141,7 @@ export class CartService {
 	}
 
 	private save() {
-		this._cartSubject.next(this._payload)
+		this._cartSubject$$.next(this._payload)
 		this._storage.save(this._STORAGE_KEY, this._payload.cart)
 	}
 }
