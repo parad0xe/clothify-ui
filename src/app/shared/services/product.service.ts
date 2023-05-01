@@ -5,6 +5,7 @@ import ProductModel from "../../core/models/product.model"
 import ProductAttributModel from "../../core/models/productAttribut.model"
 import { Order, OrderConfigType, OrderSortCallback } from "../components/order/types/order-config.type"
 import { SearchTerms } from "../modules/search/search-term.class"
+import ModelCollection from "../../core/model-collection.class"
 
 export const SEARCH_PRODUCT_CONTEXT_KEY = "search:product"
 
@@ -22,7 +23,7 @@ export class ProductService {
 		return this._productResource.get(id)
 	}
 
-	findBy(terms: SearchTerms): Observable<ProductModel[]> {
+	findBy(terms: SearchTerms): Observable<ModelCollection<ProductModel>> {
 		return this._productResource.findBy(terms)
 	}
 

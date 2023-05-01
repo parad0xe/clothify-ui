@@ -7,6 +7,7 @@ import { Injectable } from "@angular/core"
 import { ToastrService } from "ngx-toastr"
 import { instanceToPlain } from "class-transformer"
 import { SearchTerms } from "../shared/modules/search/search-term.class"
+import ModelCollection from "./model-collection.class"
 
 @Injectable()
 export default abstract class AbstractResource<T extends AbstractModel<any>> {
@@ -18,18 +19,18 @@ export default abstract class AbstractResource<T extends AbstractModel<any>> {
 		protected _http: HttpClient
 	) {}
 
-	all(): Observable<T[]> {
+	all(): Observable<ModelCollection<T>> {
 		return this._http.get<HydraListInterface<T>>(this._api.getUrlOf(this.model)).pipe(
-			map((response) => response['hydra:member'].map((data) => (new this['model']).load(data))),
-			catchError((error) => this.handleError(error, []))
+			map((response) => new ModelCollection<T>(this.model, response)),
+			catchError((error) => this.handleError(error, new ModelCollection<T>(this.model, null)))
 		)
 	}
 
-	findBy(terms: SearchTerms): Observable<T[]> {
+	findBy(terms: SearchTerms): Observable<ModelCollection<T>> {
 		const params = terms.buildUrlParams()
 		return this._http.get<HydraListInterface<T>>(this._api.getUrlOf(this.model) + `?${params}`).pipe(
-			map((response) => response['hydra:member'].map((data) => (new this['model']).load(data))),
-			catchError((error) => this.handleError(error, []))
+			map((response) => new ModelCollection<T>(this.model, response)),
+			catchError((error) => this.handleError(error, new ModelCollection<T>(this.model, null)))
 		)
 	}
 

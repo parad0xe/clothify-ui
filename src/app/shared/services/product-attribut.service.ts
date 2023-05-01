@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ProductAttributResource } from "../resources/product-attribut.resource"
-import { concatAll, groupBy, mergeMap, Observable, reduce, toArray } from "rxjs"
+import { concatAll, groupBy, map, mergeMap, Observable, reduce, toArray } from "rxjs"
 import ProductAttributModel from "../../core/models/productAttribut.model"
 
 export type ProductAttributsByCategoryNameType = { [key: string]: ProductAttributModel[] }
@@ -23,6 +23,7 @@ export class ProductAttributService {
 
 	allGroupByCategoryName(): Observable<ProductAttributsByCategoryNameType> {
 		return this._productAttributResource.all().pipe(
+			map((collection) => collection.items),
 			concatAll(),
 			groupBy((productAttribut) => productAttribut.productAttributCategory.name),
 			mergeMap(group => group.pipe(toArray())),
