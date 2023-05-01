@@ -37,7 +37,9 @@ export class SearchTerms {
 		return this._terms
 	}
 
-	set(key: string, value: SearchTermRecordValue) {
+	set(key: string, value: SearchTermRecordValue | number) {
+		value = (typeof value === 'number') ? value.toString() : value
+
 		if (value === null || value.length === 0) {
 			this.remove(key)
 			return
@@ -72,6 +74,18 @@ export class SearchTerms {
 		}
 
 		return (defaultValue) ? defaultValue : null
+	}
+
+	getInt(key: string, defaultValue: number): number {
+		if (this.has(key)) {
+			if(Array.isArray(this._terms[key])) {
+				throw new Error("Impossible de caster un entier provenant d'un tableau de chaîne.")
+			}
+
+			return parseInt(this._terms[key] as string)
+		}
+
+		return defaultValue
 	}
 
 	buildUrlParams(): string {
