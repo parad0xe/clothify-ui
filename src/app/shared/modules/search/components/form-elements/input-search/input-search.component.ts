@@ -21,7 +21,7 @@ export class InputSearchComponent implements AfterContentInit {
 	}
 
 	ngAfterContentInit() {
-		this._search.changes.subscribe((terms) => {
+		this._search.changes$.subscribe((terms) => {
 			this.value = terms.get<string>(this.inputName, '')
 		})
 	}

@@ -20,7 +20,7 @@ export class BooleanSearchComponent implements AfterContentInit {
 	) {}
 
 	ngAfterContentInit() {
-		this._search.changes.subscribe((terms) => {
+		this._search.changes$.subscribe((terms) => {
 			this.checked = terms.has(this.inputName)
 		})
 	}

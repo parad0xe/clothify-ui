@@ -26,7 +26,7 @@ export class RangeSearchComponent implements AfterContentInit {
 	) {}
 
 	ngAfterContentInit() {
-		this._search.changes.subscribe((terms) => {
+		this._search.changes$.subscribe((terms) => {
 			const range = terms.get(this.inputName)
 
 			if (range) {
