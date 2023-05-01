@@ -16,7 +16,7 @@
 
     <ng-container *ngIf="!compact">
         <div *ngFor="let choice of choices">
-            <mat-checkbox [value]="choice.value" [checked]="search.terms.has(this.inputName, choice.value)" (change)="onSelection($event)">
+            <mat-checkbox [value]="choice.value" [checked]="selectedChoices.includes(choice.value)" (change)="onSelection($event)">
                 {{choice.label}}
             </mat-checkbox>
         </div>
