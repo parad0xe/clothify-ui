@@ -38,11 +38,7 @@ export class SearchService {
 		return this._searchByContextBehaviors[contextKey].asObservable().pipe(debounceTime(500))
 	}
 
-	get(contextKey: string): SearchTerms {
-		return this._searchTermsByContext[contextKey] ?? SearchTerms.load(window.location.search.substring(1))
-	}
-
-	set(contextKey: string, dataKey: string, value: SearchTermRecordValue) {
+	set(contextKey: string, dataKey: string, value: SearchTermRecordValue | number) {
 		if (!this.hasContext(contextKey)) {
 			throw new Error("L'observable n'existe pas.")
 		}
@@ -60,13 +56,13 @@ export class SearchService {
 		this.next(contextKey)
 	}
 
-	hasContext(contextKey: string): boolean {
-		return this._searchTermsByContext.hasOwnProperty(contextKey)
-	}
-
 	clear(contextKey: string) {
 		this._searchTermsByContext[contextKey] = new SearchTerms()
-		this._searchByContextBehaviors[contextKey].next(this._searchTermsByContext[contextKey])
+		this.next(contextKey)
+	}
+
+	hasContext(contextKey: string): boolean {
+		return this._searchTermsByContext.hasOwnProperty(contextKey)
 	}
 
 	private next(contextKey: string): void {
