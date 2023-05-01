@@ -58,6 +58,7 @@ import { ProductAttributService } from "./shared/services/product-attribut.servi
 import { ProductAttributResource } from "./shared/resources/product-attribut.resource"
 import { MatExpansionModule } from "@angular/material/expansion";
 import { OrderComponent } from './shared/components/order/order.component'
+import { MatPaginatorModule } from "@angular/material/paginator"
 
 
 @NgModule({
@@ -116,7 +117,8 @@ import { OrderComponent } from './shared/components/order/order.component'
 		StarRatingModule.forRoot(),
 		MatMenuModule,
 		SearchModule,
-		MatExpansionModule
+		MatExpansionModule,
+		MatPaginatorModule
 	],
 	providers: [
 		RouteProviderService,

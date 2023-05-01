@@ -13,7 +13,9 @@ import { MatSelectModule } from "@angular/material/select"
 import { MatListModule } from "@angular/material/list"
 import { MatExpansionModule } from "@angular/material/expansion";
 import { SearchRowComponent } from './components/search-row/search-row.component'
-import { MatButtonModule } from "@angular/material/button"
+import { MatButtonModule } from "@angular/material/button";
+import { PaginationComponent } from './extras/pagination/pagination.component'
+import { MatPaginatorModule } from "@angular/material/paginator"
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { MatButtonModule } from "@angular/material/button"
 		RangeSearchComponent,
 		BooleanSearchComponent,
 		SelectSearchComponent,
-		SearchRowComponent
+		SearchRowComponent,
+		PaginationComponent
 	],
 	exports: [
 		SearchComponent,
@@ -31,7 +34,8 @@ import { MatButtonModule } from "@angular/material/button"
 		RangeSearchComponent,
 		BooleanSearchComponent,
 		SelectSearchComponent,
-		SearchRowComponent
+		SearchRowComponent,
+		PaginationComponent
 	],
 	imports: [
 		CommonModule,
@@ -42,7 +46,8 @@ import { MatButtonModule } from "@angular/material/button"
 		MatSelectModule,
 		MatListModule,
 		MatExpansionModule,
-		MatButtonModule
+		MatButtonModule,
+		MatPaginatorModule
 	]
 })
 export class SearchModule {
