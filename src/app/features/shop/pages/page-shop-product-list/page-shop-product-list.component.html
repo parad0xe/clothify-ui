@@ -32,8 +32,10 @@
             <app-order label="Trier par" [orderConfig]="orderConfig"></app-order>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4">
-            <div *ngFor="let product of products" class="col">
+        <search-pagination [context]="searchContext" [totalItems]="products.totalItems"></search-pagination>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4" *ngIf="products.items.length > 0 else noproducts">
+            <div *ngFor="let product of products.items" class="col">
                 <div [matBadgeHidden]="!cartPayload.hasItemQuantity(product)"
                      class="--card"
                      matBadge="{{cartPayload.getItemQuantity(product)}}"
@@ -69,79 +71,11 @@
                 </div>
             </div>
         </div>
+
+        <search-pagination [context]="searchContext" [totalItems]="products.totalItems"></search-pagination>
     </div>
 
-    <!--    <div class="col-md-6">-->
-    <!--        <app-search #search [context]="searchContext">-->
-    <!--            <app-input-search inputName="name" label="Nom du produit"></app-input-search>-->
-    <!--            <app-range-search inputName="price" label="Prix" charLabel="&euro;" [min]="0" [max]="100"></app-range-search>-->
-    <!--            <app-range-search inputName="rating" label="Avis" charLabel="&#9734;" [min]="0" [max]="5"></app-range-search>-->
-    <!--            <app-boolean-search inputName="new" label="Nouveauté"></app-boolean-search>-->
-    <!--            <app-select-search inputName="attrSize" label="Aucune taille sélectionné" [choices]="filterSizeChoices"-->
-    <!--                               [multiple]="true"></app-select-search>-->
-    <!--            <app-select-search inputName="attrColor" label="Aucune couleur sélectionné" [choices]="filterColorChoices"-->
-    <!--                               [multiple]="true"></app-select-search>-->
-    <!--        </app-search>-->
-    <!--    </div>-->
-
-    <!--    <div class="col-md-6">-->
-    <!--        <mat-form-field appearance="fill">-->
-    <!--            <mat-label>Trier par</mat-label>-->
-    <!--            <mat-select [(value)]="orderConfig.selectedProperty" (selectionChange)="orderConfig.sort()">-->
-    <!--                <mat-option *ngFor="let onProperty of orderConfig.on" value="{{onProperty.property}}">{{onProperty.label}}</mat-option>-->
-    <!--            </mat-select>-->
-    <!--        </mat-form-field>-->
-
-    <!--        <mat-form-field appearance="fill">-->
-    <!--            <mat-label>Ordre</mat-label>-->
-    <!--            <mat-select [(value)]="orderConfig.selectedOrder" (selectionChange)="orderConfig.sort()">-->
-    <!--                <mat-option value="asc">Croissant</mat-option>-->
-    <!--                <mat-option value="desc">Descendant</mat-option>-->
-    <!--            </mat-select>-->
-    <!--        </mat-form-field>-->
-    <!--    </div>-->
+    <ng-template #noproducts>
+        <c-alert color="warning" message="Aucun produit trouvé"></c-alert>
+    </ng-template>
 </div>
-
-<!--<div class="p-4">-->
-<!--    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4" *ngIf="products.length > 0 else noproducts">-->
-<!--        <div *ngFor="let product of products" class="col">-->
-<!--            <div [matBadgeHidden]="!cartPayload.hasItemQuantity(product)"-->
-<!--                 class="&#45;&#45;card"-->
-<!--                 matBadge="{{cartPayload.getItemQuantity(product)}}"-->
-<!--                 matBadgeColor="accent"-->
-<!--                 matBadgePosition="above after"-->
-<!--                 matBadgeSize="medium">-->
-
-<!--                <a [routerLink]="routeProvider.get('shop:product:detail', {id: product.id})" class="card-header"-->
-<!--                   [attr.data-text]="product.brand.name">-->
-<!--                    <img [src]="product.imageUrl" alt="">-->
-<!--                    <span *ngIf="product.isNew" class="tag">NEW</span>-->
-<!--                </a>-->
-
-<!--                <div class="card-body">-->
-<!--                    <div class="branding d-flex align-items-center justify-content-between">-->
-<!--                        <div>-->
-<!--                            <div class="">{{product.brand.name}}</div>-->
-<!--                            <div class="fs-text-small text-grey fw-500" *ngIf="product.collection">{{product.collection.name}}</div>-->
-<!--                        </div>-->
-
-<!--                        <div class="me-3 d-flex flex-column align-items-end">-->
-<!--                            <div class="text-tertiary">{{product.price.toFixed(2)}} EUR</div>-->
-<!--                            <div class="d-flex align-items-center">-->
-<!--                                <star-rating class="d-inline-block" [showHalfStars]="true" [step]="0.5"-->
-<!--                                             [rating]="productService.getMeanRating(product)" [readOnly]="true"></star-rating>-->
-<!--                                <span class="d-inline-block">({{product.productRating.length}})</span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <app-add-product [product]="product" mode="card"></app-add-product>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    <ng-template #noproducts>-->
-<!--        <c-alert color="warning" message="Aucun produit trouvé"></c-alert>-->
-<!--    </ng-template>-->
-<!--</div>-->

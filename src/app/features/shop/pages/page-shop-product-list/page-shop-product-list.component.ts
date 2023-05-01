@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import ProductModel from "../../../../core/models/product.model"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import { ProductService, SEARCH_PRODUCT_CONTEXT_KEY } from "../../../../shared/services/product.service"
@@ -8,6 +8,7 @@ import { Order, OrderConfigType } from "../../../../shared/components/order/type
 import { ProductAttributCategoryNames, ProductAttributService } from "../../../../shared/services/product-attribut.service"
 import { ChoiceOption } from "../../../../shared/modules/search/components/form-elements/select-search/select-search.component"
 import { SearchTerms } from "../../../../shared/modules/search/search-term.class"
+import ModelCollection from "../../../../core/model-collection.class"
 
 
 @Component({
@@ -15,13 +16,13 @@ import { SearchTerms } from "../../../../shared/modules/search/search-term.class
 	templateUrl: './page-shop-product-list.component.html',
 	styles: []
 })
-export class PageShopProductListComponent implements OnInit, AfterViewInit {
-	@ViewChild('search') search: SearchComponent;
+export class PageShopProductListComponent implements AfterViewInit {
+	@ViewChild('search') private _search: SearchComponent;
 	searchContext = SEARCH_PRODUCT_CONTEXT_KEY
 
 	cartPayload: CartPayload
 
-	products: ProductModel[] = []
+	products: ModelCollection<ProductModel> = new ModelCollection<ProductModel>(ProductModel, null)
 
 	orderConfig: OrderConfigType<ProductModel>
 
@@ -34,6 +35,14 @@ export class PageShopProductListComponent implements OnInit, AfterViewInit {
 		private _cartService: CartService,
 		private _productAttributService: ProductAttributService
 	) {
+		this.orderConfig = productService.getOrderConfig(() => {
+			this.products.items = this.products.items.sort((a: any, b: any) => {
+				return (this.orderConfig.selectedOrder.toLowerCase() === Order.ASC)
+					? a[this.orderConfig.selectedProperty] - b[this.orderConfig.selectedProperty]
+					: b[this.orderConfig.selectedProperty] - a[this.orderConfig.selectedProperty]
+			})
+		})
+
 		this._productAttributService.allGroupByCategoryName().subscribe((attrsByCatergoryName) => {
 			this.filterSizeChoices = attrsByCatergoryName[ProductAttributCategoryNames.Size].map((productAttribut): ChoiceOption => {
 				return { value: productAttribut.name, label: productAttribut.name }
@@ -41,14 +50,7 @@ export class PageShopProductListComponent implements OnInit, AfterViewInit {
 			this.filterColorChoices = attrsByCatergoryName[ProductAttributCategoryNames.Color].map((productAttribut): ChoiceOption => {
 				return { value: productAttribut.name, label: productAttribut.name }
 			})
-		})
 
-		this.orderConfig = productService.getOrderConfig(() => {
-			this.products = this.products.sort((a: any, b: any) => {
-				return (this.orderConfig.selectedOrder.toLowerCase() === Order.ASC)
-					? a[this.orderConfig.selectedProperty] - b[this.orderConfig.selectedProperty]
-					: b[this.orderConfig.selectedProperty] - a[this.orderConfig.selectedProperty]
-			})
 		})
 
 		this._cartService.cart$.subscribe((payload) => {
@@ -56,14 +58,8 @@ export class PageShopProductListComponent implements OnInit, AfterViewInit {
 		})
 	}
 
-	ngOnInit() {
-		this.productService.products$.subscribe((products) => {
-			this.products = products
-		})
-	}
-
 	ngAfterViewInit() {
-		this.search.changes.subscribe((terms: SearchTerms) => {
+		this._search.changes$.subscribe((terms: SearchTerms) => {
 			const sizeTerms = terms.get('attrSize')
 			const colorTerms = terms.get('attrColor')
 
@@ -71,16 +67,17 @@ export class PageShopProductListComponent implements OnInit, AfterViewInit {
 				this.products = products
 
 				if (sizeTerms) {
-					this.products = this.products.filter((product) => {
+					this.products.items = this.products.items.filter((product) => {
 						return product.productAttributs.some((attr) => sizeTerms.includes(attr.name))
 					})
 				}
 
 				if (colorTerms) {
-					this.products = this.products.filter((product) => {
+					this.products.items = this.products.items.filter((product) => {
 						return product.productAttributs.some((attr) => colorTerms.includes(attr.name))
 					})
 				}
+
 				this.orderConfig.sort()
 			})
 		})
