@@ -17,25 +17,20 @@ export class SearchComponent implements AfterViewInit {
 	@ContentChildren(SearchRowComponent)
 	private _filterRows: QueryList<SearchRowComponent>
 
-	terms: SearchTerms
-
 	constructor(
 		private _searchService: SearchService,
 		private _router: Router,
 		private _activatedRoute: ActivatedRoute,
 		private _renderer: Renderer2
-	) {
-		this.terms = _searchService.get(this.context)
-	}
+	) {}
 
 	ngAfterViewInit() {
 		this._addDivider()
 	}
 
-	get changes(): Observable<SearchTerms> {
+	get changes$(): Observable<SearchTerms> {
 		return this._searchService.observe(this.context).pipe(
 			tap((terms) => {
-				this.terms = terms
 				this._router.navigate(
 					[],
 					{
