@@ -65,28 +65,14 @@
         </mat-step>
 
         <mat-step label="payment" #paymentStep [editable]="true">
-            <ng-template matStepLabel>Paiement</ng-template>
+                <ng-template matStepLabel>Paiement</ng-template>
 
-            <app-payment-step
-                    [label]="paymentStep.label"
-                    [activeLabel]="activeLabel"
-                    [user]="user"
-                    (orderComplete)="onOrderComplete($event)">
-            </app-payment-step>
-        </mat-step>
-
-        <mat-step label="orderComplete" #orderCompmleteStep>
-            <ng-template matStepLabel>Done</ng-template>
-
-            <app-order-success-step
-                    [label]="orderCompmleteStep.label"
-                    [activeLabel]="activeLabel"
-                    [order]="order">
-            </app-order-success-step>
-
-            <div>
-                <button mat-button (click)="onShop()">go Shop</button>
-            </div>
-        </mat-step>
+                <app-payment-step
+                        [label]="paymentStep.label"
+                        [activeLabel]="activeLabel"
+                        [user]="user"
+                        (orderComplete)="onOrderComplete($event)">
+                </app-payment-step>
+            </mat-step>
     </mat-stepper>
 </div>

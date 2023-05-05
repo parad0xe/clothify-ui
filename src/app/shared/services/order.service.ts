@@ -20,6 +20,10 @@ export class OrderService {
 		private _api: ApiService
 	) { }
 
+	get(reference: string): Observable<OrderModel | undefined> {
+		return this._orderResource.get(reference)
+	}
+
 	createOrder(user: UserModel, payload: CartPayload, reference: string): Observable<OrderModel | undefined> {
 		const order = (new OrderModel()).load({
 			totalCost: payload.getTotalPrice(),
