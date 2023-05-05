@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import UserModel from "../../../../core/models/user.model"
 import { NgForm } from "@angular/forms"
 import { map, Observable, of, startWith } from "rxjs"
+import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
 
 
 @Component({
@@ -9,7 +10,7 @@ import { map, Observable, of, startWith } from "rxjs"
 	templateUrl: './billing-data-form-step.component.html',
 	styleUrls: ['./billing-data-form-step.component.scss']
 })
-export class BillingDataFormStepComponent implements OnInit, AfterViewInit {
+export class BillingDataFormStepComponent implements OnInit, AfterViewInit, OnDestroy {
 	@Input() user: UserModel
 	@Output() userChange = new EventEmitter<any>()
 
@@ -26,14 +27,18 @@ export class BillingDataFormStepComponent implements OnInit, AfterViewInit {
 	]
 	deliveryCountryOptions: Observable<string[]>
 
+	private _subscriptions: SubscriptionHelper = new SubscriptionHelper()
+
 	ngOnInit() {
 		this.deliveryCountryOptions = of(this.countries)
 	}
 
 	ngAfterViewInit() {
-		this.form.valueChanges?.subscribe((data) => {
-			this.valid.emit(this.form.valid ?? false)
-		})
+		if(this.form.valueChanges) {
+			this._subscriptions.add = this.form.valueChanges.subscribe((data) => {
+				this.valid.emit(this.form.valid ?? false)
+			})
+		}
 	}
 
 	onChange(e: Event) {
@@ -42,6 +47,10 @@ export class BillingDataFormStepComponent implements OnInit, AfterViewInit {
 			startWith(''),
 			map(country => (country ? this._filterCountry(country) : this.countries.slice()))
 		)
+	}
+
+	ngOnDestroy() {
+		this._subscriptions.unsubscribeAll()
 	}
 
 	private _filterCountry(value: string): string[] {

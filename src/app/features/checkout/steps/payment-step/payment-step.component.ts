@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { ICreateOrderRequest, IOnApproveCallbackActions, IPayPalConfig, ITransactionItem } from "ngx-paypal"
 import { CartService } from "../../../../shared/services/cart.service"
 import UserModel from "../../../../core/models/user.model"
@@ -7,13 +7,14 @@ import { ToastrService } from "ngx-toastr"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import OrderModel from "../../../../core/models/order.model"
+import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
 
 @Component({
   selector: 'app-payment-step',
   templateUrl: './payment-step.component.html',
   styleUrls: ['./payment-step.component.scss']
 })
-export class PaymentStepComponent implements OnChanges {
+export class PaymentStepComponent implements OnChanges, OnDestroy {
 	@Input() activeLabel: string
 	@Input() label: string
 	@Input() user: UserModel
@@ -22,6 +23,8 @@ export class PaymentStepComponent implements OnChanges {
 
 	loading = false
 	paypalConfig: IPayPalConfig
+
+	private _subscriptions: SubscriptionHelper = new SubscriptionHelper()
 
 	constructor(
 		private _cartService: CartService,
@@ -39,9 +42,13 @@ export class PaymentStepComponent implements OnChanges {
 		}
 	}
 
+	ngOnDestroy() {
+		this._subscriptions.unsubscribeAll()
+	}
+
 	private async initPaypalConfig() {
 		this.loading = true
-		this._cartService.cart$.subscribe((payload) => {
+		this._subscriptions.add = this._cartService.cart$.subscribe((payload) => {
 			this.paypalConfig = {
 				currency: 'EUR',
 				clientId: 'AdnQjiEWKZggflLqQ6gTeRew2DlHpzFS7QNKgC4Qlxgj6YrS6NvtzVDM85h7CFbi76vIZUlX4bNi7R0_',
@@ -92,23 +99,13 @@ export class PaymentStepComponent implements OnChanges {
 				},
 				onApprove: (data, actions: IOnApproveCallbackActions) => {},
 				onClientAuthorization: (data) => {
-					this._orderService.createOrder(this.user, payload, data.id).subscribe((order) => {
+					this._subscriptions.add = this._orderService.createOrder(this.user, payload, data.id).subscribe((order) => {
 						this.orderComplete.emit(order)
 					})
 				},
-				onCancel: (data, actions) => {
-					console.log('OnCancel', data, actions);
-					// this.showCancel = true;
-
-				},
-				onError: err => {
-					console.log('OnError', err);
-					// this.showError = true;
-				},
-				onClick: (data, actions) => {
-					console.log('onClick', data, actions);
-					// this.resetStatus();
-				}
+				onCancel: (data, actions) => {},
+				onError: err => {},
+				onClick: (data, actions) => {}
 			}
 			this.loading = false
 		})

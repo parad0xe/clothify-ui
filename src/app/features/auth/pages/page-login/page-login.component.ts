@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from "../../../../shared/services/auth.service"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import { AlertColorType } from "../../../../shared/components/alert/alert.component"
 import { ToastrService } from "ngx-toastr"
 import { StorageService } from "../../../../shared/services/storage.service"
+import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
 
 
 @Component({
@@ -12,24 +13,26 @@ import { StorageService } from "../../../../shared/services/storage.service"
 	templateUrl: './page-login.component.html',
 	styleUrls: ['./page-login.component.scss']
 })
-export class PageLoginComponent {
+export class PageLoginComponent implements OnDestroy {
 	info: { color: AlertColorType, message: string }
 
 	email: string = "app@demo.com"
 	password: string = "app"
+
+	private _subscriptions: SubscriptionHelper = new SubscriptionHelper()
 
 	constructor(
 		public auth: AuthService,
 		private _routeProvider: RouteProviderService,
 		private _router: Router,
 		private _toastr: ToastrService,
-		private _storage: StorageService,
+		private _storage: StorageService
 	) {}
 
 	login() {
 		this._toastr.info("Connexion..")
 
-		this.auth.login(this.email, this.password).subscribe((user) => {
+		this._subscriptions.add = this.auth.login(this.email, this.password).subscribe((user) => {
 			this._toastr.clear()
 			if (user) {
 				this._toastr.success(`Bienvenue ${user.firstname} ${user.lastname}`)
@@ -55,5 +58,9 @@ export class PageLoginComponent {
 			color: "success",
 			message: "Déconnexion réussi"
 		}
+	}
+
+	ngOnDestroy() {
+		this._subscriptions.unsubscribeAll()
 	}
 }

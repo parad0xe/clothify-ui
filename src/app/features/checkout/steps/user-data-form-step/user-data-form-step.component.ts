@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import UserModel from "../../../../core/models/user.model"
 import { NgForm } from "@angular/forms"
+import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
 
 
 @Component({
@@ -8,7 +9,7 @@ import { NgForm } from "@angular/forms"
 	templateUrl: './user-data-form-step.component.html',
 	styleUrls: ['./user-data-form-step.component.scss']
 })
-export class UserDataFormStepComponent implements AfterViewInit {
+export class UserDataFormStepComponent implements AfterViewInit, OnDestroy {
 	@Input() title: string
 
 	@Input() user: UserModel
@@ -18,9 +19,17 @@ export class UserDataFormStepComponent implements AfterViewInit {
 
 	@ViewChild("form") form: NgForm
 
+	private _subscriptions: SubscriptionHelper = new SubscriptionHelper()
+
 	ngAfterViewInit() {
-		this.form.valueChanges?.subscribe((data) => {
-			this.valid.emit(this.form.valid ?? false)
-		})
+		if (this.form.valueChanges) {
+			this._subscriptions.add = this.form.valueChanges.subscribe((data) => {
+				this.valid.emit(this.form.valid ?? false)
+			})
+		}
+	}
+
+	ngOnDestroy() {
+		this._subscriptions.unsubscribeAll()
 	}
 }
