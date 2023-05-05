@@ -14,8 +14,8 @@ import { MatListModule } from "@angular/material/list"
 import { MatExpansionModule } from "@angular/material/expansion";
 import { SearchRowComponent } from './components/search-row/search-row.component'
 import { MatButtonModule } from "@angular/material/button";
-import { PaginationComponent } from './extras/pagination/pagination.component'
-import { MatPaginatorModule } from "@angular/material/paginator"
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { OrderSearchComponent } from './components/form-elements/order-search/order-search.component'
 
 
 @NgModule({
@@ -26,7 +26,7 @@ import { MatPaginatorModule } from "@angular/material/paginator"
 		BooleanSearchComponent,
 		SelectSearchComponent,
 		SearchRowComponent,
-		PaginationComponent
+		OrderSearchComponent
 	],
 	exports: [
 		SearchComponent,
@@ -35,7 +35,7 @@ import { MatPaginatorModule } from "@angular/material/paginator"
 		BooleanSearchComponent,
 		SelectSearchComponent,
 		SearchRowComponent,
-		PaginationComponent
+		OrderSearchComponent
 	],
 	imports: [
 		CommonModule,

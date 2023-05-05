@@ -1,0 +1,14 @@
+<mat-form-field appearance="fill">
+    <mat-label>Trier par</mat-label>
+    <mat-select [(value)]="property" (selectionChange)="onSelectionChange()">
+        <mat-option *ngFor="let onProperty of properties" value="{{onProperty.value}}">{{onProperty.label}}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>Ordre</mat-label>
+    <mat-select [(value)]="order" (selectionChange)="onSelectionChange()">
+        <mat-option value="asc">Croissant</mat-option>
+        <mat-option value="desc">Descendant</mat-option>
+    </mat-select>
+</mat-form-field>

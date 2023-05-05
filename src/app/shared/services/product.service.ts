@@ -3,7 +3,6 @@ import { ProductResource } from "../resources/product.resource"
 import { BehaviorSubject, Observable } from "rxjs"
 import ProductModel from "../../core/models/product.model"
 import ProductAttributModel from "../../core/models/productAttribut.model"
-import { Order, OrderConfigType, OrderSortCallback } from "../components/order/types/order-config.type"
 import { SearchTerms } from "../modules/search/search-term.class"
 import ModelCollection from "../../core/model-collection.class"
 
@@ -25,19 +24,6 @@ export class ProductService {
 
 	findBy(terms: SearchTerms): Observable<ModelCollection<ProductModel>> {
 		return this._productResource.findBy(terms)
-	}
-
-	getOrderConfig(sortCallback: OrderSortCallback): OrderConfigType<ProductModel> {
-		return {
-			on: [
-				{ property: 'price', label: 'Prix' },
-				{ property: 'averageRating', label: 'Avis' }
-
-			],
-			selectedProperty: 'price',
-			selectedOrder: Order.ASC,
-			sort: sortCallback
-		}
 	}
 
 	getProductAttrsByCategoryName(product: ProductModel, name: string): ProductAttributModel[] {

@@ -21,7 +21,7 @@ export class ProductAttributService {
 		private _productAttributResource: ProductAttributResource
 	) { }
 
-	allGroupByCategoryName(): Observable<ProductAttributsByCategoryNameType> {
+	get getAllGroupedByCategoryName$(): Observable<ProductAttributsByCategoryNameType> {
 		return this._productAttributResource.all().pipe(
 			map((collection) => collection.items),
 			concatAll(),

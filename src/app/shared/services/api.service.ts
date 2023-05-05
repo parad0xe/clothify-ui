@@ -14,7 +14,7 @@ export class ApiService {
 
 	constructor() { }
 
-	getIriOf(model: (typeof AbstractModel), id?: number): string {
+	getIriOf(model: (typeof AbstractModel), identifier?: number | string): string {
 		const entity = model.name
 			.split('Model')[0]
 			.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
@@ -22,11 +22,11 @@ export class ApiService {
 			.slice(1)
 
 		const iri = `${this._base.entrypoint}/${entity}s`
-		return (id === undefined) ? iri : `${iri}/${id}`
+		return (identifier === undefined) ? iri : `${iri}/${identifier}`
 	}
 
-	getUrlOf(model: (typeof AbstractModel), id?: number): string {
-		return `${this._base.url}${this.getIriOf(model, id)}`
+	getUrlOf(model: (typeof AbstractModel), identifier?: number | string): string {
+		return `${this._base.url}${this.getIriOf(model, identifier)}`
 	}
 
 	getBaseUrl(): string {

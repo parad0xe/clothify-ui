@@ -34,8 +34,22 @@ export default abstract class AbstractResource<T extends AbstractModel<any>> {
 		)
 	}
 
-	get(id: number): Observable<T | undefined> {
-		return this._http.get<T>(this._api.getUrlOf(this.model, id)).pipe(
+	findOneBy(terms: SearchTerms): Observable<T | undefined> {
+		const params = terms.buildUrlParams()
+		return this._http.get<T | HydraListInterface<T>>(this._api.getUrlOf(this.model) + `?${params}`).pipe(
+			map((response) => {
+				if('hydra:member' in response) {
+					return (new this['model']).load(response['hydra:member'][0] ?? {})
+				}
+
+				return (new this['model']).load(response)
+			}),
+			catchError((error) => this.handleError(error, undefined))
+		)
+	}
+
+	get(identifier: number | string): Observable<T | undefined> {
+		return this._http.get<T>(this._api.getUrlOf(this.model, identifier)).pipe(
 			map((data) => (new this['model']).load(data)),
 			catchError((error) => this.handleError(error, undefined))
 		)

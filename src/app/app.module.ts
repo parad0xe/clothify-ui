@@ -51,14 +51,14 @@ import { DeliveryDataFormStepComponent } from './features/checkout/steps/deliver
 import { BillingDataFormStepComponent } from './features/checkout/steps/billing-data-form-step/billing-data-form-step.component';
 import { OrderSummaryStepComponent } from './features/checkout/steps/order-summary-step/order-summary-step.component';
 import { PaymentStepComponent } from './features/checkout/steps/payment-step/payment-step.component';
-import { OrderSuccessStepComponent } from './features/checkout/steps/order-success-step/order-success-step.component';
 import { SearchModule } from "./shared/modules/search/search.module"
 import { CacheInterceptor } from "./shared/interceptors/cache.interceptor"
 import { ProductAttributService } from "./shared/services/product-attribut.service"
 import { ProductAttributResource } from "./shared/resources/product-attribut.resource"
 import { MatExpansionModule } from "@angular/material/expansion";
-import { OrderComponent } from './shared/components/order/order.component'
 import { MatPaginatorModule } from "@angular/material/paginator"
+import { CartHasItemService } from "./shared/guards/cart-has-item.guard";
+import { PageOrderCompleteComponent } from './features/checkout/pages/page-order-complete/page-order-complete.component'
 
 
 @NgModule({
@@ -80,8 +80,7 @@ import { MatPaginatorModule } from "@angular/material/paginator"
 		BillingDataFormStepComponent,
 		OrderSummaryStepComponent,
 		PaymentStepComponent,
-		OrderSuccessStepComponent,
-  OrderComponent
+		PageOrderCompleteComponent
 	],
 	imports: [
 		BrowserModule,
@@ -133,6 +132,7 @@ import { MatPaginatorModule } from "@angular/material/paginator"
 		TokenStorageService,
 		UserResource,
 		AuthGuardService,
+		CartHasItemService,
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
 	],

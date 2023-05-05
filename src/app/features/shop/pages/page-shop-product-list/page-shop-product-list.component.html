@@ -2,6 +2,10 @@
     <div class="col-md-3">
         <search #search [context]="searchContext" class="sticky-top">
             <search-row>
+                <order-search inputName="order" [properties]="orderProperties"></order-search>
+            </search-row>
+
+            <search-row>
                 <input-search inputName="name" label="Nom du produit"></input-search>
             </search-row>
 
@@ -27,13 +31,7 @@
         </search>
     </div>
 
-    <div class="col-md-9 my-4">
-        <div class="row">
-            <app-order label="Trier par" [orderConfig]="orderConfig"></app-order>
-        </div>
-
-        <search-pagination [context]="searchContext" [totalItems]="products.totalItems"></search-pagination>
-
+    <div class="col-md-9 my-4" style="position: relative">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4" *ngIf="products.items.length > 0 else noproducts">
             <div *ngFor="let product of products.items" class="col">
                 <div [matBadgeHidden]="!cartPayload.hasItemQuantity(product)"
@@ -71,11 +69,9 @@
                 </div>
             </div>
         </div>
-
-        <search-pagination [context]="searchContext" [totalItems]="products.totalItems"></search-pagination>
     </div>
 
     <ng-template #noproducts>
-        <c-alert color="warning" message="Aucun produit trouvé"></c-alert>
+        <alert color="warning" message="Aucun produit trouvé"></alert>
     </ng-template>
 </div>
