@@ -4,7 +4,7 @@ export type AlertColorType = ('success' | 'error' | 'warning' | 'info')
 
 
 @Component({
-	selector: 'c-alert',
+	selector: 'alert',
 	templateUrl: './alert.component.html',
 	styleUrls: ['./alert.component.scss']
 })
