@@ -59,6 +59,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatPaginatorModule } from "@angular/material/paginator"
 import { CartHasItemService } from "./shared/guards/cart-has-item.guard";
 import { PageOrderCompleteComponent } from './features/checkout/pages/page-order-complete/page-order-complete.component'
+import { MatProgressBarModule } from "@angular/material/progress-bar"
 
 
 @NgModule({
@@ -117,7 +118,8 @@ import { PageOrderCompleteComponent } from './features/checkout/pages/page-order
 		MatMenuModule,
 		SearchModule,
 		MatExpansionModule,
-		MatPaginatorModule
+		MatPaginatorModule,
+		MatProgressBarModule
 	],
 	providers: [
 		RouteProviderService,

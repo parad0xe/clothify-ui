@@ -2,14 +2,15 @@ type SearchTermRecord = Record<string, string | string[] | null>
 export type SearchTermRecordValue = string | string[] | null
 
 
-export class SearchTerms {
-	private readonly _terms: SearchTermRecord = {}
+export class SearchContainer {
+	private _terms: SearchTermRecord = {}
+	private _previousTerms: SearchTermRecord = {}
 
 	constructor(defaultTerms = {}) {
 		this._terms = defaultTerms
 	}
 
-	static load(urlParams: string): SearchTerms {
+	static load(urlParams: string): SearchContainer {
 		const terms = decodeURIComponent(urlParams).split('&').reduce((a: { [key: string]: string | string[] }, stringTerm) => {
 			const [key, value] = stringTerm.split('=')
 
@@ -30,11 +31,15 @@ export class SearchTerms {
 			return a
 		}, {})
 
-		return new SearchTerms(terms)
+		return new SearchContainer(terms)
 	}
 
 	all(): SearchTermRecord {
 		return this._terms
+	}
+
+	get previous(): SearchContainer {
+		return new SearchContainer(this._previousTerms)
 	}
 
 	set(key: string, value: SearchTermRecordValue | number) {
@@ -45,6 +50,7 @@ export class SearchTerms {
 			return
 		}
 
+		this._previousTerms = {...this._terms}
 		this._terms[key] = value
 	}
 
@@ -76,7 +82,9 @@ export class SearchTerms {
 		return (defaultValue) ? defaultValue : null
 	}
 
-	getInt(key: string, defaultValue: number): number {
+	getInt(key: string): number | null;
+	getInt(key: string, defaultValue: number): number;
+	getInt(key: string, defaultValue?: number): number | null {
 		if (this.has(key)) {
 			if(Array.isArray(this._terms[key])) {
 				throw new Error("Impossible de caster un entier provenant d'un tableau de chaîne.")
@@ -85,7 +93,12 @@ export class SearchTerms {
 			return parseInt(this._terms[key] as string)
 		}
 
-		return defaultValue
+		return defaultValue ?? null
+	}
+
+	clear() {
+		this._previousTerms = {...this._terms}
+		this._terms = {}
 	}
 
 	buildUrlParams(): string {

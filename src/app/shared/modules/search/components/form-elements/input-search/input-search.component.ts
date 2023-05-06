@@ -1,6 +1,5 @@
-import { AfterContentInit, Component, Host, Input } from '@angular/core';
+import { AfterContentInit, Component, Input } from '@angular/core';
 import { SearchService } from "../../../services/search.service"
-import { SearchComponent } from "../../search/search.component"
 
 
 @Component({
@@ -14,20 +13,16 @@ export class InputSearchComponent implements AfterContentInit {
 
 	value: string = ""
 
-	constructor(
-		@Host() private _search: SearchComponent,
-		private _searchService: SearchService
-	) {
-	}
+	constructor(private _searchService: SearchService) {}
 
 	ngAfterContentInit() {
-		this._search.changes$.subscribe((terms) => {
+		this._searchService.terms$.subscribe((terms) => {
 			this.value = terms.get<string>(this.inputName, '')
 		})
 	}
 
 	onChange(e: Event) {
 		const target: HTMLInputElement = e.target as HTMLInputElement
-		this._searchService.set(this._search.context, this.inputName, target.value)
+		this._searchService.set(this.inputName, target.value)
 	}
 }

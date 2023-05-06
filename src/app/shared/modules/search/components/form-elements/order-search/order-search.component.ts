@@ -1,7 +1,7 @@
-import { Component, Host, Input, OnInit } from '@angular/core';
-import { SearchComponent } from "../../search/search.component"
+import { Component, Input, OnInit } from '@angular/core';
 import { SearchService } from "../../../services/search.service"
 import { OrderProperties } from "./order.type"
+
 
 @Component({
 	selector: 'order-search',
@@ -19,10 +19,7 @@ export class OrderSearchComponent implements OnInit {
 	private _property: string
 	order: string = "asc"
 
-	constructor(
-		@Host() private _search: SearchComponent,
-		private _searchService: SearchService
-	) {}
+	constructor(private _searchService: SearchService) {}
 
 	get property() {
 		return this._property
@@ -37,15 +34,15 @@ export class OrderSearchComponent implements OnInit {
 		this.property = this.properties.filter((prop) => prop.default)[0]?.value ?? ""
 		this.order = this.defaultOrder ?? "asc"
 
-		this._search.changes$.subscribe((terms) => {
+		this._searchService.terms$.subscribe((terms) => {
 			const hasOrderParameter = Object.keys(terms.all()).reduce((a, termKey) => {
-				if(termKey.startsWith('order')) {
+				if (/order\[(.+)]/.test(termKey)) {
 					const match = termKey.match(/order\[(.+)]/) ?? []
 					const property = match[1] ?? ""
 
-					if(this.properties.map(prop => prop.value).includes(property)) {
+					if (this.properties.map(prop => prop.value).includes(property)) {
 						this.property = property
-
+						this.order = terms.get(termKey) as ('asc' | 'desc')
 						return a || true
 					}
 				}
@@ -53,7 +50,7 @@ export class OrderSearchComponent implements OnInit {
 				return a || false
 			}, false)
 
-			if(!hasOrderParameter) {
+			if (!hasOrderParameter) {
 				this.property = this.properties.filter((prop) => prop.default)[0]?.value ?? ""
 				this.order = this.defaultOrder ?? "asc"
 			}
@@ -61,7 +58,10 @@ export class OrderSearchComponent implements OnInit {
 	}
 
 	onSelectionChange() {
-		this._searchService.remove(this._search.context, `${this.inputName}[${this._lastProperty}]`)
-		this._searchService.set(this._search.context, `${this.inputName}[${this.property}]`, this.order)
+		this._searchService.replace(
+			`${this.inputName}[${this._lastProperty}]`,
+			`${this.inputName}[${this.property}]`,
+			this.order
+		)
 	}
 }

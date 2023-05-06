@@ -6,8 +6,8 @@ import { ApiService } from "../shared/services/api.service"
 import { Injectable } from "@angular/core"
 import { ToastrService } from "ngx-toastr"
 import { instanceToPlain } from "class-transformer"
-import { SearchTerms } from "../shared/modules/search/search-term.class"
 import ModelCollection from "./model-collection.class"
+import { SearchContainer } from "../shared/modules/search/search-container.class"
 
 @Injectable()
 export default abstract class AbstractResource<T extends AbstractModel<any>> {
@@ -26,7 +26,7 @@ export default abstract class AbstractResource<T extends AbstractModel<any>> {
 		)
 	}
 
-	findBy(terms: SearchTerms): Observable<ModelCollection<T>> {
+	findBy(terms: SearchContainer): Observable<ModelCollection<T>> {
 		const params = terms.buildUrlParams()
 		return this._http.get<HydraListInterface<T>>(this._api.getUrlOf(this.model) + `?${params}`).pipe(
 			map((response) => new ModelCollection<T>(this.model, response)),
@@ -34,11 +34,11 @@ export default abstract class AbstractResource<T extends AbstractModel<any>> {
 		)
 	}
 
-	findOneBy(terms: SearchTerms): Observable<T | undefined> {
+	findOneBy(terms: SearchContainer): Observable<T | undefined> {
 		const params = terms.buildUrlParams()
 		return this._http.get<T | HydraListInterface<T>>(this._api.getUrlOf(this.model) + `?${params}`).pipe(
 			map((response) => {
-				if('hydra:member' in response) {
+				if ('hydra:member' in response) {
 					return (new this['model']).load(response['hydra:member'][0] ?? {})
 				}
 

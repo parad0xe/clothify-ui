@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-3">
-        <search #search [context]="searchContext" class="sticky-top">
+        <search #search class="sticky-top">
             <search-row>
                 <order-search inputName="order" [properties]="orderProperties"></order-search>
             </search-row>
@@ -32,6 +32,8 @@
     </div>
 
     <div class="col-md-9 my-4" style="position: relative">
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4" *ngIf="products.items.length > 0 else noproducts">
             <div *ngFor="let product of products.items" class="col">
                 <div [matBadgeHidden]="!cartPayload.hasItemQuantity(product)"
@@ -58,7 +60,7 @@
                                 <div class="text-tertiary">{{product.price.toFixed(2)}} EUR</div>
                                 <div class="d-flex align-items-center">
                                     <star-rating class="d-inline-block" [showHalfStars]="true" [step]="0.5"
-                                                 [rating]="productService.getMeanRating(product)" [readOnly]="true"></star-rating>
+                                                 [rating]="product.averageRating" [readOnly]="true"></star-rating>
                                     <span class="d-inline-block">({{product.productRating.length}})</span>
                                 </div>
                             </div>
@@ -72,6 +74,6 @@
     </div>
 
     <ng-template #noproducts>
-        <alert color="warning" message="Aucun produit trouvé"></alert>
+        <alert *ngIf="!loading && isLastPage" color="warning" message="Aucun produit trouvé"></alert>
     </ng-template>
 </div>

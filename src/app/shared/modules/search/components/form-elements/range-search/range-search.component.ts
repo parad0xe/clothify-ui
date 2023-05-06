@@ -1,6 +1,5 @@
-import { AfterContentInit, Component, Host, Input } from '@angular/core';
+import { AfterContentInit, Component, Input } from '@angular/core';
 import { SearchService } from "../../../services/search.service"
-import { SearchComponent } from "../../search/search.component"
 
 
 @Component({
@@ -20,13 +19,10 @@ export class RangeSearchComponent implements AfterContentInit {
 	minValue: number = 0
 	maxValue: number = 100
 
-	constructor(
-		@Host() private _search: SearchComponent,
-		private _searchService: SearchService
-	) {}
+	constructor(private _searchService: SearchService) {}
 
 	ngAfterContentInit() {
-		this._search.changes$.subscribe((terms) => {
+		this._searchService.terms$.subscribe((terms) => {
 			const range = terms.get(this.inputName)
 
 			if (range) {
@@ -44,7 +40,7 @@ export class RangeSearchComponent implements AfterContentInit {
 	onChange() {
 		this.minValue = (this.minValue < this.min) ? this.min : this.minValue
 		this.maxValue = (this.maxValue > this.max) ? this.max : this.maxValue
-		this._searchService.set(this._search.context, `${this.inputName}`, `${this.minValue}..${this.maxValue}`)
+		this._searchService.set(`${this.inputName}`, `${this.minValue}..${this.maxValue}`)
 	}
 
 	formatLabel(value: number): string {

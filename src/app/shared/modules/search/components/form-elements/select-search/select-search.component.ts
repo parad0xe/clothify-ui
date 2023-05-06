@@ -1,5 +1,4 @@
-import { Component, Host, Input, OnChanges } from '@angular/core';
-import { SearchComponent } from "../../search/search.component"
+import { Component, Input, OnChanges } from '@angular/core';
 import { SearchService } from "../../../services/search.service"
 import { MatSelectChange } from "@angular/material/select"
 import { MatCheckboxChange } from "@angular/material/checkbox"
@@ -25,17 +24,14 @@ export class SelectSearchComponent implements OnChanges {
 
 	selectedChoices: string[] = []
 
-	constructor(
-		@Host() private _search: SearchComponent,
-		private _searchService: SearchService
-	) {}
+	constructor(private _searchService: SearchService) {}
 
 	ngOnChanges() {
-		if(this._searchChangesSubscription) {
+		if (this._searchChangesSubscription) {
 			this._searchChangesSubscription.unsubscribe()
 		}
 
-		this._searchChangesSubscription = this._search.changes$.subscribe((terms) => {
+		this._searchChangesSubscription = this._searchService.terms$.subscribe((terms) => {
 			this.selectedChoices = this.choices.filter((choice) => {
 				return terms.has(this.inputName, choice.value)
 			}).map(choice => choice.value)
@@ -49,10 +45,10 @@ export class SelectSearchComponent implements OnChanges {
 			this.selectedChoices = this.selectedChoices.filter(choice => choice !== change.source.value)
 		}
 
-		this._searchService.set(this._search.context, this.inputName, this.selectedChoices)
+		this._searchService.set(this.inputName, this.selectedChoices)
 	}
 
 	onChange(change: MatSelectChange) {
-		this._searchService.set(this._search.context, this.inputName, change.value)
+		this._searchService.set(this.inputName, change.value)
 	}
 }
