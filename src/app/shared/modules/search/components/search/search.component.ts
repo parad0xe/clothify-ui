@@ -4,7 +4,7 @@ import { ReplaySubject } from "rxjs"
 import { ActivatedRoute, Router } from "@angular/router"
 import { SearchRowComponent } from "../search-row/search-row.component"
 import { SearchContainer } from "../../search-container.class"
-import { SubscriptionHelper } from "../../../../../core/subscription-helper.class"
+import { SubscriptionHelper } from "../../../../../core/helpers/subscription-helper.class"
 
 
 @Component({

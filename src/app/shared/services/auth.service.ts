@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from "rxjs"
 import UserModel from "../../core/models/user.model"
 import { HttpClient } from "@angular/common/http"
-import { ApiService } from "./api.service"
+import { ApiService } from "./api/api.service"
 import { TokenStorageService, UserToken } from "./token-storage.service"
 
 export type LoginResponse = {

@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import CartItemModel from "../../../../core/models/cartItem.model"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import { MatTable } from "@angular/material/table"
-import { CartPayload, CartService } from "../../../../shared/services/cart.service"
-import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
+import { CartPayload, CartService } from "../../../../shared/services/api/cart.service"
+import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 
 
 @Component({

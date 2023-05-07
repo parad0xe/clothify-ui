@@ -1,3 +1,5 @@
+import { UrlHelper } from "../../../core/helpers/url-helper.class"
+
 type SearchTermRecord = Record<string, string | string[] | null>
 export type SearchTermRecordValue = string | string[] | null
 
@@ -11,26 +13,7 @@ export class SearchContainer {
 	}
 
 	static load(urlParams: string): SearchContainer {
-		const terms = decodeURIComponent(urlParams).split('&').reduce((a: { [key: string]: string | string[] }, stringTerm) => {
-			const [key, value] = stringTerm.split('=')
-
-			if (value === undefined) {
-				return a
-			}
-
-			if (a.hasOwnProperty(key)) {
-				if (!Array.isArray(a[key])) {
-					a[key] = [a[key] as string]
-				}
-
-				(a[key] as Array<string>).push(value)
-			} else {
-				a[key] = value
-			}
-
-			return a
-		}, {})
-
+		const terms = (new UrlHelper(urlParams)).getQueryParams()
 		return new SearchContainer(terms)
 	}
 

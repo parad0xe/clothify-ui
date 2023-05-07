@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import UserModel from "../../../../core/models/user.model"
 import { AuthService } from "../../../../shared/services/auth.service"
-import { UserService } from "../../../../shared/services/user.service"
+import { UserService } from "../../../../shared/services/api/user.service"
 
 
 @Component({

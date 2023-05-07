@@ -1,14 +1,14 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CartService } from "../../../../shared/services/cart.service"
+import { CartService } from "../../../../shared/services/api/cart.service"
 import { ToastrService } from "ngx-toastr"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
-import { UserService } from "../../../../shared/services/user.service"
+import { UserService } from "../../../../shared/services/api/user.service"
 import UserModel from "../../../../core/models/user.model"
 import { MatStepper } from "@angular/material/stepper"
 import { StepperSelectionEvent } from "@angular/cdk/stepper"
 import OrderModel from "../../../../core/models/order.model"
-import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
+import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 
 
 @Component({

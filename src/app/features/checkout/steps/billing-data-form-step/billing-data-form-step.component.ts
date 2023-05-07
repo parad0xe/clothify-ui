@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Outpu
 import UserModel from "../../../../core/models/user.model"
 import { NgForm } from "@angular/forms"
 import { map, Observable, of, startWith } from "rxjs"
-import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
+import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 
 
 @Component({

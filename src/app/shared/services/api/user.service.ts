@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import UserModel from "../../core/models/user.model"
-import { UserResource } from "../resources/user.resource"
-import { AuthService } from "./auth.service"
+import UserModel from "../../../core/models/user.model"
+import { UserResource } from "../../resources/user.resource"
+import { AuthService } from "../auth.service"
 import { ToastrService } from "ngx-toastr"
-import { TokenStorageService } from "./token-storage.service"
+import { TokenStorageService } from "../token-storage.service"
 import { BehaviorSubject, Observable } from "rxjs"
 
 

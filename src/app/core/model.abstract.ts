@@ -1,5 +1,4 @@
-import { Expose, instanceToPlain, plainToClassFromExist } from "class-transformer"
-import UserModel from "./models/user.model"
+import { Expose, instanceToInstance, plainToClassFromExist } from "class-transformer"
 
 export default abstract class AbstractModel<T> {
 	@Expose({ groups: ['store'] })
@@ -9,13 +8,13 @@ export default abstract class AbstractModel<T> {
 		return plainToClassFromExist(this, data, { ignoreDecorators: true })
 	}
 
-	toLocalStorage(): UserModel {
-		return (new UserModel()).load(instanceToPlain(this, {
+	toLocalStorage(): this {
+		return instanceToInstance(this, {
 			groups: ['store'],
 			strategy: "excludeAll",
 			exposeUnsetFields: false,
 			excludeExtraneousValues: true,
 			exposeDefaultValues: false
-		}))
+		})
 	}
 }

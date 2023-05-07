@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ProductAttributResource } from "../resources/product-attribut.resource"
+import { ProductAttributResource } from "../../resources/product-attribut.resource"
 import { concatAll, groupBy, map, mergeMap, Observable, reduce, toArray } from "rxjs"
-import ProductAttributModel from "../../core/models/productAttribut.model"
+import ProductAttributModel from "../../../core/models/productAttribut.model"
 
 export enum ProductAttributCategoryNames {
 	Size = 'taille',

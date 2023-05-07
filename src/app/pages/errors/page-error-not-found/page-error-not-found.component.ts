@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouteProviderService } from "../../../../shared/services/route-provider.service"
+import { RouteProviderService } from "../../../shared/services/route-provider.service"
 
 @Component({
   selector: 'app-page-error-not-found',

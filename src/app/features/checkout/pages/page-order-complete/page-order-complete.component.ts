@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import OrderModel from "../../../../core/models/order.model"
 import { ActivatedRoute, Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
-import { OrderService } from "../../../../shared/services/order.service"
-import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
+import { OrderService } from "../../../../shared/services/api/order.service"
+import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 
 
 @Component({

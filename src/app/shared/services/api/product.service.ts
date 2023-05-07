@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ProductResource } from "../resources/product.resource"
+import { ProductResource } from "../../resources/product.resource"
 import { Observable } from "rxjs"
-import ProductModel from "../../core/models/product.model"
-import ProductAttributModel from "../../core/models/productAttribut.model"
-import ModelCollection from "../../core/model-collection.class"
-import { SearchContainer } from "../modules/search/search-container.class"
+import ProductModel from "../../../core/models/product.model"
+import ProductAttributModel from "../../../core/models/productAttribut.model"
+import ModelCollection from "../../../core/model-collection.class"
+import { SearchContainer } from "../../modules/search/search-container.class"
 
 
 @Injectable()

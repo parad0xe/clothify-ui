@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { ICreateOrderRequest, IOnApproveCallbackActions, IPayPalConfig, ITransactionItem } from "ngx-paypal"
-import { CartService } from "../../../../shared/services/cart.service"
+import { CartService } from "../../../../shared/services/api/cart.service"
 import UserModel from "../../../../core/models/user.model"
-import { OrderService } from "../../../../shared/services/order.service"
+import { OrderService } from "../../../../shared/services/api/order.service"
 import { ToastrService } from "ngx-toastr"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import OrderModel from "../../../../core/models/order.model"
-import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
+import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 
 @Component({
   selector: 'app-payment-step',

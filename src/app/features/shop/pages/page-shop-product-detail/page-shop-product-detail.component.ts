@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router"
 import ProductModel from "../../../../core/models/product.model"
-import { ProductService } from "../../../../shared/services/product.service"
-import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
+import { ProductService } from "../../../../shared/services/api/product.service"
+import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 
 
 @Component({

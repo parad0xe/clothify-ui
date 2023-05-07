@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import UserModel from "../../../../core/models/user.model"
 import { NgForm } from "@angular/forms"
-import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
+import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 
 
 @Component({

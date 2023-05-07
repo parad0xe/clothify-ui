@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import ProductModel from "../../../../core/models/product.model"
 import { MatSnackBar } from "@angular/material/snack-bar"
 import { NgForm } from "@angular/forms"
-import { ProductService } from "../../../../shared/services/product.service"
-import { CartService } from "../../../../shared/services/cart.service"
+import { ProductService } from "../../../../shared/services/api/product.service"
+import { CartService } from "../../../../shared/services/api/cart.service"
 
 
 @Component({

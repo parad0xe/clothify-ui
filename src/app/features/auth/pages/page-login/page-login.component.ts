@@ -1,11 +1,12 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core'
 import { AuthService } from "../../../../shared/services/auth.service"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
-import { AlertColorType } from "../../../../shared/components/alert/alert.component"
 import { ToastrService } from "ngx-toastr"
 import { StorageService } from "../../../../shared/services/storage.service"
-import { SubscriptionHelper } from "../../../../core/subscription-helper.class"
+import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
+import { AlertColorType } from "../../../../shared/modules/alert/alert/alert.component"
+import { UrlHelper } from "../../../../core/helpers/url-helper.class"
 
 
 @Component({
@@ -39,11 +40,12 @@ export class PageLoginComponent implements OnDestroy {
 
 				const urlList = this._storage.get<string[]>('url:list')
 
-				const redirectUrl = (urlList !== undefined)
-					? urlList.at(-2)
+				const redirectUrl: string = (urlList !== undefined)
+					? urlList.at(-2) as string
 					: this._routeProvider.get('app:home')
 
-				this._router.navigate([redirectUrl])
+				const url = new UrlHelper(redirectUrl)
+				this._router.navigate([url.url.pathname], { queryParams: url.getQueryParams() })
 			} else {
 				this._toastr.error("Connexion échoué. Des informations semble incorrect.")
 				this.password = ""
