@@ -4,7 +4,7 @@ export default abstract class AbstractModel<T> {
 	@Expose({ groups: ['store'] })
 	id: number
 
-	load(data: Partial<{ [K in keyof T]: T[K]; }>): this {
+	load(data: Partial<{ [K in keyof T]: T[K] | Partial<T[K]>; }>): this {
 		return plainToClassFromExist(this, data, { ignoreDecorators: true })
 	}
 

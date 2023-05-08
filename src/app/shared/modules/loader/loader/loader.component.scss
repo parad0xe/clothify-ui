@@ -6,11 +6,18 @@
     bottom: 0;
     height: 100%;
     width: 100%;
-    background: var(--grey-extralight-plus);
+    background: rgb(0 0 0 / 78%);
+    color: white;
     z-index: 10000;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    .loader__message {
+        font-size: 1.7em;
+        margin-bottom: 10px;
+    }
 
     .lds-ellipsis {
         display: inline-block;

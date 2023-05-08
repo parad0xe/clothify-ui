@@ -7,6 +7,8 @@ import { AuthService } from "./shared/services/auth.service"
 import { NavigationEnd, Router } from "@angular/router"
 import { StorageService } from "./shared/services/storage.service"
 import { Location } from "@angular/common"
+import { LoginDialogComponent } from "./shared/components/dialogs/login-dialog/login-dialog.component"
+import { MatDialog } from "@angular/material/dialog"
 
 
 @Component({
@@ -27,7 +29,8 @@ export class AppComponent implements OnInit {
 		private _tokenStorage: TokenStorageService,
 		private _router: Router,
 		private _storage: StorageService,
-		private _location: Location
+		private _location: Location,
+		private _dialog: MatDialog
 	) {
 		this._tokenStorage.userToken$.subscribe((userToken) => {
 			this.user = (userToken) ? userToken.user : null
@@ -45,6 +48,10 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit() {}
+
+	openLoginDialog() {
+		const dialogRef = this._dialog.open(LoginDialogComponent)
+	}
 
 	private saveLastUrl() {
 		const urlList = this._storage.get<string[]>("url:list", [])

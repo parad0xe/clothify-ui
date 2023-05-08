@@ -44,3 +44,5 @@
 </mat-card>
 
 <button mat-raised-button color="primary" *ngIf="auth.isLoggedIn" (click)="updateUserInfo()">Sauvegarder les informations ?</button>
+<button mat-raised-button color="warn" *ngIf="!auth.isLoggedIn" (click)="openCreateAccountDialog()">Créer mon compte à partir des informations renseigné</button>
+<button mat-raised-button color="warn" *ngIf="!auth.isLoggedIn" (click)="openLoginDialog()">Me connecter</button>

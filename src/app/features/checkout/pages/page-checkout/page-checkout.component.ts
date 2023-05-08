@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CartService } from "../../../../shared/services/api/cart.service"
 import { ToastrService } from "ngx-toastr"
 import { Router } from "@angular/router"
@@ -9,6 +9,7 @@ import { MatStepper } from "@angular/material/stepper"
 import { StepperSelectionEvent } from "@angular/cdk/stepper"
 import OrderModel from "../../../../core/models/order.model"
 import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
+import { TokenStorageService } from "../../../../shared/services/token-storage.service"
 
 
 @Component({
@@ -28,16 +29,48 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
 	private _subscriptions: SubscriptionHelper = new SubscriptionHelper()
 
 	constructor(
-		private _userService: UserService,
 		private _toastr: ToastrService,
 		private _router: Router,
 		private _routerProvider: RouteProviderService,
-		private _cartService: CartService
+		private _cartService: CartService,
+		private _tokenStorage: TokenStorageService,
+		private _userService: UserService,
+		private _cdr: ChangeDetectorRef
 	) {}
 
 	ngOnInit() {
 		this._subscriptions.add = this._userService.user$.subscribe((user) => {
-			this.user = (user) ? user : new UserModel()
+			if (!user) {
+				this.user = new UserModel()
+				this.stepsValidity = {}
+
+				if (this.stepper) {
+					this.stepper.selectedIndex = 0
+				}
+
+				return
+			}
+
+			this.user = user
+		})
+
+		this.user = this.user.load({
+			firstname: 'Jane',
+			lastname: 'Doe',
+			email: "jane.d@demo.com",
+			phone: '0044887766',
+			deliveryAddress: {
+				address: "19 rue tarou du q",
+				postalCode: "10000",
+				city: 'Poitiers',
+				country: 'France'
+			},
+			billingAddress: {
+				address: "19 rue tarou du q",
+				postalCode: "10000",
+				city: 'Poitiers',
+				country: 'France'
+			}
 		})
 	}
 
@@ -47,15 +80,12 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
 
 	onValidateStep(label: string, isValid: boolean) {
 		this.stepsValidity[label] = isValid
+		this._cdr.detectChanges()
 	}
 
 	onOrderComplete(order: OrderModel) {
 		this._cartService.clear()
-		this._router.navigate([this._routerProvider.get('checkout:complete', {reference: order.reference})])
-	}
-
-	onShop() {
-		this._router.navigate([this._routerProvider.get('app:home')])
+		this._router.navigate([this._routerProvider.get('checkout:complete', { reference: order.reference })])
 	}
 
 	ngOnDestroy() {

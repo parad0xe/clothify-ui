@@ -5,16 +5,16 @@
         <h1>Connexion</h1>
 
         <div class="row mt-4">
-            <form action="" class="text-center" #loginForm="ngForm" (ngSubmit)="login()">
+            <form action="" class="text-center" [formGroup]="form" (ngSubmit)="login()">
                 <mat-form-field appearance="fill">
                     <mat-label>email</mat-label>
-                    <input matInput [(ngModel)]="email" name="email">
+                    <input matInput formControlName="email">
                     <mat-icon matPrefix>alternate_email</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
                     <mat-label>Mot de passe</mat-label>
-                    <input type="password" matInput [(ngModel)]="password" name="password">
+                    <input #password type="password" matInput formControlName="password">
                     <mat-icon matPrefix>lock</mat-icon>
                 </mat-form-field>
 
@@ -25,3 +25,5 @@
         </div>
     </section>
 </div>
+
+<app-loader *ngIf="loading" message="Connexion en cours"></app-loader>

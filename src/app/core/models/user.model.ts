@@ -4,23 +4,29 @@ import { Expose, Type } from "class-transformer"
 
 
 export default class UserModel extends AbstractModel<UserModel> {
-	@Expose({ groups: ['patch', 'store'] })
+	@Expose({ groups: ['post', 'patch', 'store'] })
+	username: string
+
+	@Expose({ groups: ['post', 'patch', 'store'] })
 	firstname: string
 
-	@Expose({ groups: ['patch', 'store'] })
+	@Expose({ groups: ['post', 'patch', 'store'] })
 	lastname: string
 
-	@Expose({ groups: ['patch', 'store'] })
+	@Expose({ groups: ['post', 'patch', 'store'] })
 	email: string
 
-	@Expose({ groups: ['patch'] })
+	@Expose({ groups: ['post', 'patch'] })
 	phone: string
 
-	@Expose({ groups: ['patch'] })
+	@Expose({ groups: ['post'] })
+	password: string
+
+	@Expose({ groups: ['post', 'patch'] })
 	@Type(() => AddressModel)
 	deliveryAddress: AddressModel = new AddressModel()
 
-	@Expose({ groups: ['patch'] })
+	@Expose({ groups: ['post', 'patch'] })
 	@Type(() => AddressModel)
 	billingAddress: AddressModel = new AddressModel()
 }

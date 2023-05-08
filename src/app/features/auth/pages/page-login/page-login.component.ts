@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core'
 import { AuthService } from "../../../../shared/services/auth.service"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
@@ -7,6 +7,8 @@ import { StorageService } from "../../../../shared/services/storage.service"
 import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 import { AlertColorType } from "../../../../shared/modules/alert/alert/alert.component"
 import { UrlHelper } from "../../../../core/helpers/url-helper.class"
+import { TokenStorageService } from "../../../../shared/services/token-storage.service"
+import { FormControl, FormGroup, Validators } from "@angular/forms"
 
 
 @Component({
@@ -15,10 +17,16 @@ import { UrlHelper } from "../../../../core/helpers/url-helper.class"
 	styleUrls: ['./page-login.component.scss']
 })
 export class PageLoginComponent implements OnDestroy {
+	@ViewChild('password') passwordElement: ElementRef
+
 	info: { color: AlertColorType, message: string }
 
-	email: string = "app@demo.com"
-	password: string = "app"
+	form: FormGroup = new FormGroup({
+		'email': new FormControl('app@demo.com', [Validators.required]),
+		'password': new FormControl('app', [Validators.required])
+	})
+
+	loading = false
 
 	private _subscriptions: SubscriptionHelper = new SubscriptionHelper()
 
@@ -27,16 +35,34 @@ export class PageLoginComponent implements OnDestroy {
 		private _routeProvider: RouteProviderService,
 		private _router: Router,
 		private _toastr: ToastrService,
-		private _storage: StorageService
+		private _storage: StorageService,
+		private _tokenStorage: TokenStorageService
 	) {}
 
-	login() {
-		this._toastr.info("Connexion..")
+	get email() {
+		return this.form.controls['email']
+	}
 
-		this._subscriptions.add = this.auth.login(this.email, this.password).subscribe((user) => {
-			this._toastr.clear()
-			if (user) {
-				this._toastr.success(`Bienvenue ${user.firstname} ${user.lastname}`)
+	get password() {
+		return this.form.controls['password']
+	}
+
+	login() {
+		if (!this.loading && this.form.valid) {
+			this.loading = true
+
+			this._subscriptions.add = this.auth.login(this.email.value, this.password.value).subscribe((isConnected) => {
+				this._toastr.clear()
+				const user = this._tokenStorage.getUser()
+
+				if (!isConnected || !user) {
+					this._toastr.error("Connexion échoué. Des informations semblent incorrectes.")
+					this.password.patchValue("")
+					this.password.markAsPending()
+					this.passwordElement.nativeElement.focus()
+					this.loading = false
+					return
+				}
 
 				const urlList = this._storage.get<string[]>('url:list')
 
@@ -46,11 +72,8 @@ export class PageLoginComponent implements OnDestroy {
 
 				const url = new UrlHelper(redirectUrl)
 				this._router.navigate([url.url.pathname], { queryParams: url.getQueryParams() })
-			} else {
-				this._toastr.error("Connexion échoué. Des informations semble incorrect.")
-				this.password = ""
-			}
-		})
+			})
+		}
 	}
 
 	logout() {

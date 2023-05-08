@@ -5,7 +5,7 @@ import { RoutesWrapper } from "./routes"
 import { RouterModule } from "@angular/router"
 import { PageLoginComponent } from "./pages/page-login/page-login.component"
 import { MatInputModule } from "@angular/material/input"
-import { FormsModule } from "@angular/forms"
+import { FormsModule, ReactiveFormsModule } from "@angular/forms"
 import { MatIconModule } from "@angular/material/icon"
 import { MatButtonModule } from "@angular/material/button"
 import { AlertModule } from "../../shared/modules/alert/alert.module"
@@ -13,6 +13,7 @@ import { AuthService } from "../../shared/services/auth.service"
 import { HTTP_INTERCEPTORS } from "@angular/common/http"
 import { AuthInterceptor } from "../../shared/interceptors/auth.interceptor"
 import { AuthGuardService } from "../../shared/guards/auth.guard"
+import { LoaderModule } from "../../shared/modules/loader/loader.module"
 
 
 @NgModule({
@@ -26,7 +27,9 @@ import { AuthGuardService } from "../../shared/guards/auth.guard"
 		FormsModule,
 		MatIconModule,
 		MatButtonModule,
-		AlertModule
+		AlertModule,
+		ReactiveFormsModule,
+		LoaderModule
 	],
 	providers: [
 		AuthService,

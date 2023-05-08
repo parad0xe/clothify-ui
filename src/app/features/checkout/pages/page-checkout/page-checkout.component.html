@@ -1,6 +1,6 @@
 <div class="container-fluid h-100">
     <mat-stepper (selectionChange)="onStepChanged($event)" orientation="vertical" linear #stepper class="h-100">
-        <mat-step label="userData" [editable]="true" #userDataStep>
+        <mat-step label="userData" [editable]="true" #userDataStep [completed]="stepsValidity[userDataStep.label]">
             <ng-template matStepLabel>Information personnel</ng-template>
 
             <app-user-data-form-step
@@ -18,7 +18,7 @@
             </div>
         </mat-step>
 
-        <mat-step label="deliveryData" #deliveryDataStep [editable]="true">
+        <mat-step label="deliveryData" #deliveryDataStep [editable]="stepsValidity[userDataStep.label]" [completed]="stepsValidity[deliveryDataStep.label]">
             <ng-template matStepLabel>Information de livraison</ng-template>
 
             <app-delivery-data-form-step
@@ -36,7 +36,7 @@
             </div>
         </mat-step>
 
-        <mat-step label="billingData" #billingDataStep [editable]="true">
+        <mat-step label="billingData" #billingDataStep [editable]="stepsValidity[deliveryDataStep.label]" [completed]="stepsValidity[billingDataStep.label]">
             <ng-template matStepLabel>Information de facturation</ng-template>
 
             <app-billing-data-form-step
@@ -54,17 +54,17 @@
             </div>
         </mat-step>
 
-        <mat-step label="orderSummary" [editable]="true">
+        <mat-step label="orderSummary" #orderSummary [editable]="stepsValidity[billingDataStep.label]" [completed]="stepsValidity[orderSummary.label]">
             <ng-template matStepLabel>Récapitulatif</ng-template>
 
-            <app-order-summary-step [user]="user"></app-order-summary-step>
+            <app-order-summary-step (valid)="onValidateStep(orderSummary.label, $event)" [user]="user"></app-order-summary-step>
 
             <div>
-                <button mat-button matStepperNext>Next</button>
+                <button mat-button matStepperNext [disabled]="!stepsValidity[orderSummary.label]">Next</button>
             </div>
         </mat-step>
 
-        <mat-step label="payment" #paymentStep [editable]="true">
+        <mat-step label="payment" #paymentStep [editable]="stepsValidity[orderSummary.label]" [completed]="false">
                 <ng-template matStepLabel>Paiement</ng-template>
 
                 <app-payment-step

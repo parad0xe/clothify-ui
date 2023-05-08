@@ -4,7 +4,7 @@ import { UserResource } from "../../resources/user.resource"
 import { AuthService } from "../auth.service"
 import { ToastrService } from "ngx-toastr"
 import { TokenStorageService } from "../token-storage.service"
-import { BehaviorSubject, Observable } from "rxjs"
+import { BehaviorSubject, Observable, of } from "rxjs"
 
 
 @Injectable({
@@ -23,7 +23,13 @@ export class UserService {
 		this._tokenStorage.userToken$.subscribe((userToken) => {
 			if (userToken) {
 				this._userResource.get(userToken.user.id).subscribe((user) => {
-					this._userSubject$$.next(user ?? null)
+					if (!user) {
+						this._tokenStorage.removeToken()
+						this._userSubject$$.next(null)
+						return
+					}
+
+					this._userSubject$$.next(user)
 				})
 			} else {
 				this._userSubject$$.next(null)
@@ -48,5 +54,14 @@ export class UserService {
 				}
 			})
 		}
+	}
+
+	createUser(user: UserModel): Observable<UserModel | undefined> {
+		if (this._auth.isLoggedIn) {
+			this._toastr.error("Opération invalide.")
+			return of(undefined)
+		}
+
+		return this._userResource.post(user)
 	}
 }

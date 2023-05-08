@@ -31,32 +31,39 @@ import { ProductAttributService } from "./shared/services/api/product-attribut.s
 import { ProductService } from "./shared/services/api/product.service"
 import { RouteProviderService } from "./shared/services/route-provider.service"
 import { StorageService } from "./shared/services/storage.service"
-import { TokenStorageService } from "./shared/services/token-storage.service"
+import { TokenStorageService } from "./shared/services/token-storage.service";
+import { CreateAccountDialogComponent } from './shared/components/dialogs/create-account-dialog/create-account-dialog.component'
+import { MatDialogModule } from "@angular/material/dialog"
+import { MatInputModule } from "@angular/material/input"
+import { LoaderModule } from "./shared/modules/loader/loader.module";
+import { LoginDialogComponent } from './shared/components/dialogs/login-dialog/login-dialog.component'
 
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		PageErrorNotFoundComponent,
-		PageHomeComponent
+		PageHomeComponent,
+		CreateAccountDialogComponent,
+  LoginDialogComponent
 	],
 	imports: [
 		BrowserModule,
 		FormsModule,
 		HttpClientModule,
+		ReactiveFormsModule,
 		AuthModule,
 		CartModule,
 		CheckoutModule,
 		ShopModule,
 		AppRoutingModule,
-		ReactiveFormsModule,
 		BrowserAnimationsModule,
 		ToastrModule.forRoot({
 			closeButton: false,
 			newestOnTop: true,
-			positionClass: "toast-top-full-width",
+			// positionClass: "toast-top-full-width",
 			preventDuplicates: true,
-			timeOut: 2000,
+			timeOut: 4000,
 			extendedTimeOut: 5000,
 			easeTime: 0
 		}),
@@ -66,7 +73,10 @@ import { TokenStorageService } from "./shared/services/token-storage.service"
 		MatButtonModule,
 		MatMenuModule,
 		MatTabsModule,
-		MatIconModule
+		MatIconModule,
+		MatDialogModule,
+		MatInputModule,
+		LoaderModule
 	],
 	providers: [
 		RouteProviderService,

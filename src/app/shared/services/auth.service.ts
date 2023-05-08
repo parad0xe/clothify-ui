@@ -4,6 +4,7 @@ import UserModel from "../../core/models/user.model"
 import { HttpClient } from "@angular/common/http"
 import { ApiService } from "./api/api.service"
 import { TokenStorageService, UserToken } from "./token-storage.service"
+import { ToastrService } from "ngx-toastr"
 
 export type LoginResponse = {
 	firstname: string,
@@ -21,10 +22,11 @@ export class AuthService {
 	constructor(
 		private _http: HttpClient,
 		private _api: ApiService,
-		private _tokenStorage: TokenStorageService
+		private _tokenStorage: TokenStorageService,
+		private _toastr: ToastrService
 	) {}
 
-	login(email: string, password: string): Observable<UserModel | null> {
+	login(email: string, password: string): Observable<boolean> {
 		return this._http.post<LoginResponse>(this._api.getLoginUrl(), {
 			username: email,
 			password: password
@@ -41,17 +43,19 @@ export class AuthService {
 					})
 				}
 
-				this._tokenStorage.setToken(userToken);
-				return userToken.user
+				this._tokenStorage.setToken(userToken)
+				this._toastr.success(`Bienvenue ${res.firstname}`)
+				return true
 			}),
 			catchError((error, data) => {
-				return of(null)
+				return of(false)
 			})
 		)
 	}
 
 	logout() {
 		this._tokenStorage.removeToken()
+		this._toastr.success("Vous avez été déconnecté.")
 	}
 
 	get isLoggedIn(): boolean {

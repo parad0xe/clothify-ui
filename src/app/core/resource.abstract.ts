@@ -82,9 +82,7 @@ export default abstract class AbstractResource<T extends AbstractModel<any>> {
 	}
 
 	protected handleError<X>(error: HttpErrorResponse, errorValue: X): Observable<X> {
-		console.error(error)
-
-		this._toastr.error(error.error.message, error.status.toString(), {
+		this._toastr.error(error.error?.['hydra:description'], error.status.toString() + ' ' + error.error?.['hydra:title'], {
 			timeOut: 0,
 			extendedTimeOut: 0
 		})

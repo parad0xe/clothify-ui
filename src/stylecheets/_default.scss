@@ -57,21 +57,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .toast-container .ngx-toastr {
-    width: 100% !important;
-    border-radius: 0 !important;
+    //width: 100% !important;
+    right: 10px;
+    //border-radius: 0 !important;
     box-shadow: none !important;
 
     &.toast-warning {
-        background: var(--warning);
+        background: #bd8439;
     }
     &.toast-info {
-        background: var(--info);
+        background: #1b397a;
     }
     &.toast-error {
-        background: var(--error);
+        background: #bd3939;
     }
     &.toast-success {
-        background: var(--success);
+        background: #257513;
     }
 
     &:hover {

@@ -23,10 +23,6 @@ export class TokenStorageService extends StorageService {
 	constructor() {
 		super()
 
-		if (!this.isValid()) {
-			this.removeToken()
-		}
-
 		const userToken = this.getUserToken()
 		this._userTokenSubject$$.next(userToken)
 	}
@@ -53,8 +49,6 @@ export class TokenStorageService extends StorageService {
 		if (userToken) {
 			return userToken.user
 		}
-
-		console.error("User token not exists")
 
 		return null
 	}
@@ -91,6 +85,11 @@ export class TokenStorageService extends StorageService {
 		const userToken = this.get<UserToken>(this._TOKEN_KEY);
 
 		if (userToken) {
+			if(!this.isValid()) {
+				this.removeToken()
+				return null
+			}
+
 			userToken.user = (new UserModel()).load(userToken.user)
 			return userToken
 		}
