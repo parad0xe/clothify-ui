@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-4">
+    <div class="d-flex justify-content-center mt-4" *ngIf="canAddProduct()">
         <button type="submit" mat-raised-button color="primary">Ajouter au panier</button>
     </div>
 </form>

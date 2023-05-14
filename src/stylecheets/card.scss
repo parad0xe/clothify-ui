@@ -2,8 +2,8 @@
 
 .--card{
     position: relative;
-    height: 520px;
     background: #fff;
+    padding-bottom: 20px;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 0 2px #bebebe;
@@ -41,8 +41,9 @@
 
         img{
             width: 100%;
+            height: 230px;
             object-fit: contain;
-            max-width: 300px;
+            //max-width: 300px;
             z-index: 100;
             transition: transform 0.2s;
         }

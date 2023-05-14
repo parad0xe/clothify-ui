@@ -71,7 +71,7 @@ export default abstract class AbstractResource<T extends AbstractModel<any>> {
 		)
 	}
 
-	patch(id: number, model: T): Observable<T | undefined> {
+	patch(id: string | number, model: T): Observable<T | undefined> {
 		const data = instanceToPlain(model, { groups: ['patch'], strategy: "excludeAll" })
 		return this._http.patch<T>(this._api.getUrlOf(this.model, id), data, {
 			headers: { "Content-Type": 'application/merge-patch+json' }
@@ -80,6 +80,22 @@ export default abstract class AbstractResource<T extends AbstractModel<any>> {
 			catchError((error) => this.handleError(error, undefined))
 		)
 	}
+
+	call<R = null>(iri: string): Observable<R | null> {
+		iri = iri.replace(/^\/+/g, "")
+		return this._http.get<R>(this._api.getUrlOf(this.model) + `/${iri}`).pipe(
+			catchError((error) => this.handleError(error, null))
+		)
+	}
+
+	postCall<R = null>(iri: string, model: T): Observable<R | null> {
+		iri = iri.replace(/^\/+/g, "")
+		const data = instanceToPlain(model, { groups: ['post'], strategy: "excludeAll" })
+		return this._http.post<R>(this._api.getUrlOf(this.model) + `/${iri}`, data).pipe(
+			catchError((error) => this.handleError(error, null))
+		)
+	}
+
 
 	protected handleError<X>(error: HttpErrorResponse, errorValue: X): Observable<X> {
 		this._toastr.error(error.error?.['hydra:description'], error.status.toString() + ' ' + error.error?.['hydra:title'], {

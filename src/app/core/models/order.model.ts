@@ -18,7 +18,10 @@ export default class OrderModel extends AbstractModel<OrderModel> {
 	@Expose({ groups: ['get', 'post'] })
 	paymentMethod: ("PAYPAL" | "CB")
 
-	@Expose({ groups: ['get', 'post'] })
+	@Expose({ groups: ['get'] })
+	state: ("PENDING" | "COMPLETED")
+
+	@Expose({ groups: ['get', 'post', 'patch'] })
 	@Type(() => OrderItemModel)
 	orderItems: OrderItemModel[]
 

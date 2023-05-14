@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router'
 import { Observable } from 'rxjs'
-import { CartService } from "../services/api/cart.service"
+import { CartService } from "../services/cart.service"
 import { RouteProviderService } from "../services/route-provider.service"
 
 

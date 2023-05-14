@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CartService } from "../../../../shared/services/api/cart.service"
+import { CartService } from "../../../../shared/services/cart.service"
 import { ToastrService } from "ngx-toastr"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
@@ -7,7 +7,6 @@ import { UserService } from "../../../../shared/services/api/user.service"
 import UserModel from "../../../../core/models/user.model"
 import { MatStepper } from "@angular/material/stepper"
 import { StepperSelectionEvent } from "@angular/cdk/stepper"
-import OrderModel from "../../../../core/models/order.model"
 import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
 import { TokenStorageService } from "../../../../shared/services/token-storage.service"
 
@@ -53,25 +52,6 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
 
 			this.user = user
 		})
-
-		this.user = this.user.load({
-			firstname: 'Jane',
-			lastname: 'Doe',
-			email: "jane.d@demo.com",
-			phone: '0044887766',
-			deliveryAddress: {
-				address: "19 rue tarou du q",
-				postalCode: "10000",
-				city: 'Poitiers',
-				country: 'France'
-			},
-			billingAddress: {
-				address: "19 rue tarou du q",
-				postalCode: "10000",
-				city: 'Poitiers',
-				country: 'France'
-			}
-		})
 	}
 
 	onStepChanged(event: StepperSelectionEvent) {
@@ -83,9 +63,9 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
 		this._cdr.detectChanges()
 	}
 
-	onOrderComplete(order: OrderModel) {
+	onOrderComplete(reference: string) {
 		this._cartService.clear()
-		this._router.navigate([this._routerProvider.get('checkout:complete', { reference: order.reference })])
+		this._router.navigate([this._routerProvider.get('checkout:complete', { reference: reference })])
 	}
 
 	ngOnDestroy() {

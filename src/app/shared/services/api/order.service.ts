@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OrderResource } from "../../resources/order.resource"
 import OrderModel from "../../../core/models/order.model"
-import { CartPayload } from "./cart.service"
-import UserModel from "../../../core/models/user.model"
+import { CartPayload } from "../cart.service"
 import { ApiService } from "./api.service"
 import OrderItemModel from "../../../core/models/orderItem.model"
 import { Observable } from "rxjs"
@@ -24,13 +23,8 @@ export class OrderService {
 		return this._orderResource.get(reference)
 	}
 
-	createOrder(user: UserModel, payload: CartPayload, reference: string): Observable<OrderModel | undefined> {
-		const order = (new OrderModel()).load({
-			totalCost: payload.getTotalPrice(),
-			paymentMethod: 'PAYPAL',
-			shippingAddress: user.deliveryAddress,
-			user: this._api.getIriOf(UserModel, user.id),
-			reference: reference,
+	authorizeOrder<R = any>(orderId: string, payload: CartPayload): Observable<R | null> {
+		return this._orderResource.postCall<R>(`checkout/paypal/authorize/${orderId}`, (new OrderModel()).load({
 			orderItems: payload.cart.items.map((item) => {
 				return (new OrderItemModel()).load({
 					totalCost: payload.getTotalItemPrice(item),
@@ -41,8 +35,6 @@ export class OrderService {
 					})
 				})
 			})
-		})
-
-		return this._orderResource.post(order)
+		}))
 	}
 }

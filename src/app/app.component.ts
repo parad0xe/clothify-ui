@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteProviderService } from "./shared/services/route-provider.service"
-import { CartPayload, CartService } from "./shared/services/api/cart.service"
+import { CartPayload, CartService } from "./shared/services/cart.service"
 import { TokenStorageService } from "./shared/services/token-storage.service"
 import UserModel from "./core/models/user.model"
 import { AuthService } from "./shared/services/auth.service"

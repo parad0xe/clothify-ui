@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from "rxjs"
 import { MatSnackBar } from "@angular/material/snack-bar"
-import CartModel from "../../../core/models/cart.model"
-import { StorageService } from "../storage.service"
-import ProductAttributModel from "../../../core/models/productAttribut.model"
-import CartItemModel from "../../../core/models/cartItem.model"
-import ProductModel from "../../../core/models/product.model"
+import CartModel from "../../core/models/cart.model"
+import { StorageService } from "./storage.service"
+import ProductAttributModel from "../../core/models/productAttribut.model"
+import CartItemModel from "../../core/models/cartItem.model"
+import ProductModel from "../../core/models/product.model"
 
 export type CartPayload = {
 	cart: CartModel,
@@ -35,7 +35,7 @@ export class CartService {
 
 		getTotalPrice: function (): number {
 			return this.cart.items.reduce(
-				(a, item) => +(a + item.product.price * item.quantity).toFixed(2), 0
+				(a, item) => +((a + this.getTotalItemPrice(item)).toFixed(2)), 0.0
 			)
 		},
 

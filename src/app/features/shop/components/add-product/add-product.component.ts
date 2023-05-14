@@ -3,7 +3,7 @@ import ProductModel from "../../../../core/models/product.model"
 import { MatSnackBar } from "@angular/material/snack-bar"
 import { NgForm } from "@angular/forms"
 import { ProductService } from "../../../../shared/services/api/product.service"
-import { CartService } from "../../../../shared/services/api/cart.service"
+import { CartService } from "../../../../shared/services/cart.service"
 
 
 @Component({
@@ -42,5 +42,10 @@ export class AddProductComponent {
 
 		this._cartService.add(this.product, [attrColor, attrSize])
 		form.resetForm()
+	}
+
+	canAddProduct() {
+		return true
+		// return this.data.attrColorId !== -1 && this.data.attrSizeId !== -1
 	}
 }

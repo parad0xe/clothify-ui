@@ -25,7 +25,7 @@ import { ProductAttributResource } from "./shared/resources/product-attribut.res
 import { ProductResource } from "./shared/resources/product.resource"
 import { UserResource } from "./shared/resources/user.resource"
 import { ApiService } from "./shared/services/api/api.service"
-import { CartService } from "./shared/services/api/cart.service"
+import { CartService } from "./shared/services/cart.service"
 import { OrderService } from "./shared/services/api/order.service"
 import { ProductAttributService } from "./shared/services/api/product-attribut.service"
 import { ProductService } from "./shared/services/api/product.service"

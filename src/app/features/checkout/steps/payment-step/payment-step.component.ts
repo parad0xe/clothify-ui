@@ -1,25 +1,29 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
-import { ICreateOrderRequest, IOnApproveCallbackActions, IPayPalConfig, ITransactionItem } from "ngx-paypal"
-import { CartService } from "../../../../shared/services/api/cart.service"
+import { ICreateOrderRequest, IPayPalConfig, ITransactionItem } from "ngx-paypal"
+import { CartService } from "../../../../shared/services/cart.service"
 import UserModel from "../../../../core/models/user.model"
 import { OrderService } from "../../../../shared/services/api/order.service"
 import { ToastrService } from "ngx-toastr"
 import { Router } from "@angular/router"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
-import OrderModel from "../../../../core/models/order.model"
 import { SubscriptionHelper } from "../../../../core/helpers/subscription-helper.class"
+import { lastValueFrom, tap } from "rxjs"
+
+
+type AuthorizationOrderResponse = { isAuthorized: boolean, message: string, reference: string | null }
+
 
 @Component({
-  selector: 'app-payment-step',
-  templateUrl: './payment-step.component.html',
-  styleUrls: ['./payment-step.component.scss']
+	selector: 'app-payment-step',
+	templateUrl: './payment-step.component.html',
+	styleUrls: ['./payment-step.component.scss']
 })
 export class PaymentStepComponent implements OnChanges, OnDestroy {
 	@Input() activeLabel: string
 	@Input() label: string
 	@Input() user: UserModel
 
-	@Output() orderComplete = new EventEmitter<OrderModel>()
+	@Output() orderComplete = new EventEmitter<string>()
 
 	loading = false
 	paypalConfig: IPayPalConfig
@@ -31,7 +35,7 @@ export class PaymentStepComponent implements OnChanges, OnDestroy {
 		private _orderService: OrderService,
 		private _toastr: ToastrService,
 		private _router: Router,
-		private _routerProvider: RouteProviderService,
+		private _routerProvider: RouteProviderService
 	) {}
 
 	ngOnChanges(changes: SimpleChanges) {
@@ -53,7 +57,7 @@ export class PaymentStepComponent implements OnChanges, OnDestroy {
 				currency: 'EUR',
 				clientId: 'AdnQjiEWKZggflLqQ6gTeRew2DlHpzFS7QNKgC4Qlxgj6YrS6NvtzVDM85h7CFbi76vIZUlX4bNi7R0_',
 				createOrderOnClient: (data) => <ICreateOrderRequest>{
-					intent: 'CAPTURE',
+					intent: 'AUTHORIZE',
 					purchase_units: [{
 						description: "Commande Clothify",
 						amount: {
@@ -62,7 +66,7 @@ export class PaymentStepComponent implements OnChanges, OnDestroy {
 							breakdown: {
 								item_total: {
 									currency_code: 'EUR',
-									value:payload.getTotalPrice().toString()
+									value: payload.getTotalPrice().toString()
 								}
 							}
 						},
@@ -90,18 +94,34 @@ export class PaymentStepComponent implements OnChanges, OnDestroy {
 						})
 					}]
 				},
+				authorizeOnServer: (data) => {
+					return lastValueFrom(this._orderService.authorizeOrder<AuthorizationOrderResponse>(data.orderID, payload).pipe(
+						tap((response) => {
+							if(response) {
+								if (response.isAuthorized && response.reference) {
+									this._toastr.success(response.message)
+									this.orderComplete.emit(response.reference)
+								} else {
+									this._toastr.error(response.message)
+								}
+
+								return
+							}
+
+							this._toastr.error("Une erreur c'est produite.")
+						})
+					))
+				},
 				advanced: {
-					commit: 'true'
+					commit: 'true',
+					extraQueryParams: [{
+						name: 'intent',
+						value: 'authorize'
+					}]
 				},
 				style: {
 					label: 'paypal',
 					layout: 'vertical'
-				},
-				onApprove: (data, actions: IOnApproveCallbackActions) => {},
-				onClientAuthorization: (data) => {
-					this._subscriptions.add = this._orderService.createOrder(this.user, payload, data.id).subscribe((order) => {
-						this.orderComplete.emit(order)
-					})
 				},
 				onCancel: (data, actions) => {},
 				onError: err => {},

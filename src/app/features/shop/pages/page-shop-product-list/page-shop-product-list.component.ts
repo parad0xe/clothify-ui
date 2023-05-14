@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChi
 import ProductModel from "../../../../core/models/product.model"
 import { RouteProviderService } from "../../../../shared/services/route-provider.service"
 import { ProductService } from "../../../../shared/services/api/product.service"
-import { CartPayload, CartService } from "../../../../shared/services/api/cart.service"
+import { CartPayload, CartService } from "../../../../shared/services/cart.service"
 import { SearchComponent } from "../../../../shared/modules/search/components/search/search.component"
 import { ProductAttributCategoryNames, ProductAttributService } from "../../../../shared/services/api/product-attribut.service"
 import { ChoiceOption } from "../../../../shared/modules/search/components/form-elements/select-search/select-search.component"
