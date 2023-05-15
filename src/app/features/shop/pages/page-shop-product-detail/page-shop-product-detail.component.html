@@ -1,0 +1,64 @@
+<div class="container-fluid g-0" *ngIf="product else noproduct">
+    <div class="row">
+        <div class="col-md-6 d-flex justify-content-center">
+            <img id="image" class="img-fluid" [src]="product.imageUrl" alt="">
+        </div>
+
+        <div class="col-md-6 px-5 mt-4">
+            <div class="d-flex flex-column gap-0 mt-4 align-items-center align-items-md-start">
+                <div class="text-grey">Marque: {{ product.brand.name }}</div>
+                <h3 class="fw-500">{{ product.name }}</h3>
+            </div>
+
+            <div class="divider my-5"></div>
+
+            <div class="d-flex align-items-center justify-content-between fw-bold">
+                <div class="text-tertiary fs-text-large">{{ product.price }} EUR</div>
+                <div class="fs-text-small text-success" *ngIf="product.isAvailable else unavailable">En stock</div>
+                <ng-template #unavailable>
+                    <div class="text-small text-error">Hors stock</div>
+                </ng-template>
+            </div>
+
+            <app-add-product [product]="product" mode="page"></app-add-product>
+        </div>
+    </div>
+
+    <div class="row bg-grey-extralight p-5 gap-5">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="text-uppercase text-center text-md-end pe-2 fw-bold text-large">Description</div>
+                </div>
+                <div class="col-md-9 px-4 mt-4 mt-md-0">
+                    {{ product.description }}
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="text-uppercase text-center text-md-end pe-2 fw-bold text-large">Spécifications
+                    </div>
+                </div>
+                <div class="col-md-9 px-4 mt-4 mt-md-0">
+                    <table mat-table [dataSource]="specificationsData" class="mat-elevation-z8 w-100">
+                        <ng-container matColumnDef="specificationName">
+                            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="specificationValue">
+                            <td mat-cell *matCellDef="let element">{{element.value}}</td>
+                        </ng-container>
+
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #noproduct>
+    <app-loader></app-loader>
+</ng-template>

@@ -1,0 +1,29 @@
+<div class="container-fluid d-flex flex-column align-items-center p-0">
+    <alert *ngIf="info" [color]="info.color" message="{{info.message}}"></alert>
+
+     <section>
+        <h1>Connexion</h1>
+
+        <div class="row mt-4">
+            <form action="" class="text-center" [formGroup]="form" (ngSubmit)="login()">
+                <mat-form-field appearance="fill">
+                    <mat-label>email</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-icon matPrefix>alternate_email</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Mot de passe</mat-label>
+                    <input #password type="password" matInput formControlName="password">
+                    <mat-icon matPrefix>lock</mat-icon>
+                </mat-form-field>
+
+                <button type="submit" mat-raised-button color="primary" *ngIf="!auth.isLoggedIn">Se connecter</button>
+                <button (click)="logout()" mat-raised-button color="primary" *ngIf="auth.isLoggedIn">Se déconnecter</button>
+            </form>
+
+        </div>
+    </section>
+</div>
+
+<app-loader *ngIf="loading" message="Connexion en cours"></app-loader>

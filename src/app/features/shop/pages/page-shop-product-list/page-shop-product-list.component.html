@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-md-3">
+        <search #search class="sticky-top">
+            <search-row>
+                <order-search inputName="order" [properties]="orderProperties"></order-search>
+            </search-row>
+
+            <search-row>
+                <input-search inputName="name" label="Nom du produit"></input-search>
+            </search-row>
+
+            <search-row>
+                <range-search inputName="price[between]" label="Prix" charLabel="&euro;" [min]="0" [max]="100"></range-search>
+            </search-row>
+
+            <search-row>
+                <range-search inputName="rating[between]" label="Avis" charLabel="&#9734;" [min]="0" [max]="5"></range-search>
+            </search-row>
+
+            <search-row>
+                <select-search inputName="attrSize" label="Taille" [choices]="filterSizeChoices" [multiple]="true"></select-search>
+            </search-row>
+
+            <search-row>
+                <select-search inputName="attrColor" label="Couleur" [choices]="filterColorChoices" [multiple]="true"></select-search>
+            </search-row>
+
+            <search-row>
+                <boolean-search inputName="new" label="Nouveauté"></boolean-search>
+            </search-row>
+        </search>
+    </div>
+
+    <div class="col-md-9 my-4" style="position: relative">
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4" *ngIf="products.items.length > 0 else noproducts">
+            <div *ngFor="let product of products.items" class="col">
+                <div [matBadgeHidden]="!cartPayload.hasItemQuantity(product)"
+                     class="--card"
+                     matBadge="{{cartPayload.getItemQuantity(product)}}"
+                     matBadgeColor="accent"
+                     matBadgePosition="above after"
+                     matBadgeSize="medium">
+
+                    <a [routerLink]="routeProvider.get('shop:product:detail', {id: product.id})" class="card-header"
+                       [attr.data-text]="product.brand.name">
+                        <img [src]="product.imageUrl" alt="">
+                        <span *ngIf="product.isNew" class="tag">NEW</span>
+                    </a>
+
+                    <div class="card-body">
+                        <div class="branding d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="">{{product.brand.name}}</div>
+                                <div class="fs-text-small text-grey fw-500" *ngIf="product.collection">{{product.collection.name}}</div>
+                            </div>
+
+                            <div class="me-3 d-flex flex-column align-items-end">
+                                <div class="text-tertiary">{{product.price.toFixed(2)}} EUR</div>
+                                <div class="d-flex align-items-center">
+                                    <star-rating class="d-inline-block" [showHalfStars]="true" [step]="0.5"
+                                                 [rating]="product.averageRating" [readOnly]="true"></star-rating>
+                                    <span class="d-inline-block">({{product.productRating.length}})</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <app-add-product [product]="product" mode="card"></app-add-product>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noproducts>
+        <alert *ngIf="!loading && isLastPage" color="warning" message="Aucun produit trouvé"></alert>
+    </ng-template>
+</div>

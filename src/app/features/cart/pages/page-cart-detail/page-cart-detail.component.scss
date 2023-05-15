@@ -1,0 +1,14 @@
+td {
+    padding: 10px;
+}
+
+.mat-column-image {
+    position: relative;
+    height: 120px;
+
+    img {
+        height: 120px;
+        width: 120px;
+        object-fit: contain;
+    }
+}

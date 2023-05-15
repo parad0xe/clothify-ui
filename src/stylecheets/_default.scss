@@ -1,0 +1,88 @@
+.select-wrapper {
+    * {
+        color: var(--dark) !important;
+    }
+
+    .select-dropdown {
+        border-bottom: 1px solid var(--dark)
+    }
+}
+
+.table {
+    border: 1px solid var(--grey-light);
+
+    tr td {
+        padding: 15px 0;
+    }
+    &.striped tr:nth-child(odd) {
+        background-color: var(--grey-light) !important;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+@for $i from 1 through 6 {
+    h#{$i} {
+        font-size: var(--fz-#{$i});
+    }
+}
+
+.mat-drawer-content {
+    overflow-x: hidden !important;
+}
+.drawer {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    min-width: 300px;
+}
+
+.mdc-data-table__table {
+    min-width: 0 !important;
+}
+
+.sticky-lg-top {
+    position: sticky !important;
+}
+
+.top-20 {
+    top: 20px;
+}
+
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+.toast-container .ngx-toastr {
+    //width: 100% !important;
+    right: 10px;
+    //border-radius: 0 !important;
+    box-shadow: none !important;
+
+    &.toast-warning {
+        background: #bd8439;
+    }
+    &.toast-info {
+        background: #1b397a;
+    }
+    &.toast-error {
+        background: #bd3939;
+    }
+    &.toast-success {
+        background: #257513;
+    }
+
+    &:hover {
+        box-shadow: none !important;
+    }
+}
+
+
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none !important;
+    background: transparent;
+}

@@ -1,0 +1,24 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{label | uppercase}}
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <ng-container *ngIf="compact">
+        <mat-form-field appearance="fill">
+            <mat-label>{{label}}</mat-label>
+            <mat-select (selectionChange)="onChange($event)" [multiple]="multiple" [(ngModel)]="selectedChoices">
+                <mat-option *ngFor="let choice of choices" [value]="choice.value">{{choice.label}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="!compact">
+        <div *ngFor="let choice of choices">
+            <mat-checkbox [value]="choice.value" [checked]="selectedChoices.includes(choice.value)" (change)="onSelection($event)">
+                {{choice.label}}
+            </mat-checkbox>
+        </div>
+    </ng-container>
+</mat-expansion-panel>

@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { RouteProviderService } from "./shared/services/route-provider.service"
+import { AppRoutesWrapper } from "./app.routes"
 
-const routes: Routes = [];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(AppRoutesWrapper.toRoutes())],
+	exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+	constructor(private routeProvider: RouteProviderService) {
+		this.routeProvider.add(AppRoutesWrapper)
+	}
+}

@@ -1,0 +1,93 @@
+@import "variables";
+
+@mixin btn($pad-y: 15) {
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: #{$pad-y}px 20px;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 400;
+    transition: transform 0.2s;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+
+    &:focus {
+        background: var(--black);
+    }
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    }
+    &:active {
+        transform: translateY(1px);
+        box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    }
+}
+@mixin btn-circle($size: 60) {
+    @include btn;
+    padding: 10px;
+    width: #{$size}px;
+    height: #{$size}px;
+    border-radius: #{$size}px;
+}
+
+.--btn {
+    @include btn;
+
+    &-small {
+        @include btn(10);
+    }
+}
+.--btn-circle {
+    @include btn-circle;
+
+    &-small {
+        @include btn-circle(50);
+    }
+}
+
+
+@each $color in $color-vars {
+    .--btn-#{$color} {
+        background: var(--#{$color});
+
+        &.--btn-bordered {
+            border: 1px solid var(--#{$color});
+            color: var(--#{$color});
+            background: transparent;
+            transition: color 0.2s;
+
+            &:before {
+                content: '';
+                width: 0;
+                height: 500%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -webkit-transform: translate(-50%, -50%) rotate(45deg);
+                -ms-transform: translate(-50%, -50%) rotate(45deg);
+                transform: translate(-50%, -50%) rotate(45deg);
+                background: var(--black);
+                -webkit-transition: .5s ease;
+                transition: .3s ease;
+                display: block;
+                z-index: -1;
+            }
+
+            &:hover:before {
+                width: 105%;
+            }
+
+            &:hover {
+                color: white;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+    }
+}

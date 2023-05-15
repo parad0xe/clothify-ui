@@ -1,0 +1,51 @@
+@import "variables";
+
+@each $color in $color-vars {
+    .text-#{$color} {
+        color: var(--#{$color}) !important;
+
+        & > * {
+            color: var(--#{$color});
+        }
+    }
+
+    .bg-#{$color} {
+        background: var(--#{$color});
+    }
+}
+
+
+.fs {
+    @for $i from 1 through 6 {
+        &-#{$i} {
+            font-size: var(--fz-#{$i}) !important;
+        }
+    }
+
+    &-text-large {
+        font-size: var(--fz-text-large) !important;
+    }
+
+    &-text-medium {
+        font-size: var(--fz-text-medium) !important;
+    }
+
+    &-text-small {
+        font-size: var(--fz-text-small) !important;
+    }
+}
+
+@each $weight in (400, 500, 600, 700, 900) {
+    .fw-#{$weight} {
+        font-weight: $weight;
+    }
+}
+
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

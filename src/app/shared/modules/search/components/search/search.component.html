@@ -1,0 +1,17 @@
+<div class="filters">
+    <div class="row d-flex align-items-center">
+        <div class="col">
+            <h6>FILTRES</h6>
+        </div>
+
+        <div class="col text-end">
+            <button mat-button mat-raised-button color="primary" (click)="clear()">clear</button>
+        </div>
+    </div>
+
+    <mat-divider class="my-3"></mat-divider>
+
+    <mat-accordion>
+        <ng-content></ng-content>
+    </mat-accordion>
+</div>

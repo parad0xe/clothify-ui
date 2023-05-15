@@ -1,0 +1,59 @@
+<form action="" class="--form mt-4" #easyAddProductForm="ngForm" (ngSubmit)="onSubmit(easyAddProductForm)" *ngIf="mode === 'card'">
+    <div>
+        <div class="fs-text-medium fw-bold">Taille</div>
+        <div class="d-flex --radio-group">
+            <label for="{{product.id}}-{{attr.name}}" *ngFor="let attr of productService.getProductAttrsByCategoryName(product, 'Taille')">
+                <input [(ngModel)]="data.attrSizeId"
+                       required
+                       type="radio"
+                       name="attrSize"
+                       id="{{product.id}}-{{attr.name}}"
+                       value="{{attr.id}}" />
+                <span>{{attr.name}}</span>
+            </label>
+        </div>
+    </div>
+
+    <div>
+        <div class="fs-text-medium fw-bold">Couleur</div>
+        <div class="d-flex --radio-group --radio-color">
+            <label for="{{product.id}}-{{attr.name}}" *ngFor="let attr of productService.getProductAttrsByCategoryName(product, 'Couleur')">
+                <input [(ngModel)]="data.attrColorId"
+                       required
+                       type="radio"
+                       name="attrColor"
+                       id="{{product.id}}-{{attr.name}}"
+                       value="{{attr.id}}" />
+                <span [style.background]="attr.value"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4" *ngIf="canAddProduct()">
+        <button type="submit" mat-raised-button color="primary">Ajouter au panier</button>
+    </div>
+</form>
+
+<form action="" class="d-flex flex-column mt-4 gap-2 py-4" #addProductForm="ngForm" (ngSubmit)="onSubmit(addProductForm)" *ngIf="mode === 'page'">
+    <mat-form-field appearance="fill">
+        <mat-label>Sélectionnez la taille</mat-label>
+        <mat-select name="food" [(ngModel)]="data.attrSizeId">
+            <mat-option *ngFor="let attr of productService.getProductAttrsByCategoryName(product, 'Taille')" [value]="attr.id">
+                {{attr.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Sélectionnez la couleur</mat-label>
+        <mat-select name="food" [(ngModel)]="data.attrColorId">
+            <mat-option *ngFor="let attr of productService.getProductAttrsByCategoryName(product, 'Couleur')" [value]="attr.id">
+                {{attr.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="d-flex justify-content-center">
+        <button type="submit" mat-raised-button color="primary">Ajouter au panier</button>
+    </div>
+</form>

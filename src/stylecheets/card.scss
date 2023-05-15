@@ -1,0 +1,110 @@
+@import "variables";
+
+.--card{
+    position: relative;
+    background: #fff;
+    padding-bottom: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 2px #bebebe;
+    transition: all 0.2s;
+
+    &:hover {
+        box-shadow: 0 4px 2px #bebebe;
+
+        img {
+            transform: scale(1.05);
+        }
+    }
+
+    .card-header{
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width:100%;
+        height: 48%;
+        background-image: var(--white);
+        overflow: hidden;
+
+        &:after{
+            content: attr(data-text);
+            position: absolute;
+            font-size: 5.5em;
+            font-weight: 800;
+            font-style: italic;
+            transform: rotate(-30deg) scale(2);
+            top: 60px;
+            background: linear-gradient(-90deg, rgba(84, 171, 243, 0.06) 0%, rgba(34, 111, 159, 0.06) 100%);
+            background-clip: text;
+            color: transparent;
+        }
+
+        img{
+            width: 100%;
+            height: 230px;
+            object-fit: contain;
+            //max-width: 300px;
+            z-index: 100;
+            transition: transform 0.2s;
+        }
+
+        .tag{
+            position: absolute;
+            right: 4%;
+            top: 20px;
+            font-size: var(--fz-text-small);
+            background: $card-tag-background-color;
+            color: #fff;
+            border-radius: 4px;
+            padding: 4px 10px 2px;
+        }
+    }
+
+    .card-body{
+        position: relative;
+        height: fit-content;
+        padding-top: 18px;
+        padding-left: 20px;
+
+        .attr {
+            h6 {
+                font-size: var(--fz-text-small);
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            span {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 26px;
+                height: 26px;
+                padding: 5px;
+                text-align: center;
+                line-height: 28px;
+                font-size: 12px;
+                font-weight: 600;
+                border-radius: 50%;
+                margin: 2px 5px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            &.attr-small span {
+                width: 20px;
+                height: 20px;
+                margin-top: 6px;
+            }
+
+            &.attr-hover {
+                &.hover-scale span:hover{
+                    transform: scale(1.2, 1.2);
+                }
+
+                &.hover-background span:hover {
+                    background: $card-size-hover-color;
+                }
+            }
+        }
+    }
+}
