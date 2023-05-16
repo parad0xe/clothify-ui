@@ -1,27 +1,59 @@
-# ClothifyUi
+# Clothify UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
+Ceci est le fichier README pour le projet [**Clothify**](https://github.com/parad0xe/clothify-ui). Ce projet est un site e-commerce développé avec Angular, qui permet aux utilisateurs de
+parcourir et d'acheter des vêtements en ligne.
 
-## Development server
+## Fonctionnalités
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Parcourir les produits : Les utilisateurs peuvent explorer les différentes catégories de vêtements, afficher les détails des produits et ajouter des
+  articles à leur panier.
+- Recherche de produits : Un moteur de recherche permet aux utilisateurs de rechercher des produits spécifiques en fonction de leur nom, de la
+  catégorie, de la taille, etc.
+- Panier d'achat : Les utilisateurs peuvent ajouter des articles à leur panier, les gérer (modifier les quantités, supprimer des articles) et passer à
+  la caisse pour finaliser leur commande.
+- Authentification des utilisateurs : Les utilisateurs peuvent créer un compte et se connecter.
+- Gestion des commandes : Les utilisateurs peuvent consulter l'historique de leurs commandes.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1 - Clonez le dépôt :
 
-## Build
+```bash
+git clone https://github.com/parad0xe/clothify-ui
+cd clothify-ui
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2 - Installez les dépendances :
 
-## Running unit tests
+```bash
+npm install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Exécuter l'application
 
-## Running end-to-end tests
+1 - Démarrez le serveur de développement :
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+ng serve
+```
 
-## Further help
+2 - Accédez à l'application dans votre navigateur à l'adresse: `http://localhost:4200`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Technologies utilisées
+
+- Angular
+- HTML
+- SCSS
+- TypeScript
+
+## Contribuer
+
+Les contributions à ce projet sont les bienvenues ! Si vous souhaitez apporter des améliorations, des corrections de bugs ou ajouter de nouvelles
+fonctionnalités, veuillez suivre les étapes suivantes :
+
+1. Forkez ce dépôt
+2. Créez une branche pour votre fonctionnalité : `git checkout -b ma-nouvelle-fonctionnalité`
+3. Effectuez les modifications nécessaires
+4. Validez vos changements : `git commit -am 'Ajout d'une nouvelle fonctionnalité'`
+5. Poussez vos modifications vers votre dépôt forké : `git push origin ma-nouvelle-fonctionnalité`
+6. Soumettez une pull request en décrivant en détail les changements apportés
